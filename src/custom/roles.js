@@ -8,6 +8,19 @@ const roles = {
   SUPERADMIN: "SUPERADMIN",
 };
 
+const permissions = {
+  all: "all",
+  student: "student",
+  teacher: "teacher",
+  user: "user",
+  event: "event",
+  participation: "participation",
+  project: "project",
+  technologie: "technologie",
+  cv: "cv",
+  saison: "saison",
+};
+
 const isAll = () => {
   return true;
 };
@@ -42,8 +55,16 @@ const isRole = {
   isSUPERADMIN,
 };
 
-const have_access = (user, access) => {
-  return access.indexOf(user.role) > -1;
+const have_access = (user, route_roles, route_perm) => {
+  // user role exist in the array of roles
+  if (route_roles.indexOf(user?.role) > -1) {
+    // user role is ADMIN
+    if (user?.role === roles.ADMIN) {
+      // so we have to check permission
+      return user?.role?.permessions?.indexOf(route_perm) > -1;
+    }
+  }
+  return route_roles.indexOf(user?.role) > -1;
 };
 
-export default { roles, isRole, have_access };
+export { roles, permissions, isRole, have_access };

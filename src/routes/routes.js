@@ -14,10 +14,7 @@ import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import SchoolIcon from "@mui/icons-material/School";
 import CoPresentIcon from "@mui/icons-material/CoPresent";
 // ------------------------- ROLES --------------------------------
-import Roles from "../custom/roles";
-
-const { ADMIN, ALL, ALUMINIE, RESPONSIBLE, STUDENT, SUPERADMIN, TEACHER } =
-  Roles.roles;
+import { roles, permissions } from "../custom/roles";
 
 const not_logged = {
   routes: [
@@ -38,32 +35,32 @@ const dashboard = {
       path: "/profile",
       Component: Profile,
       icon: <AccountBoxIcon />,
-      role: [ALL],
+      role: [roles.ALL],
+      perm_name: permissions.all,
     },
     {
       path: "/logout",
       Component: Logout,
       icon: <MeetingRoomIcon />,
-      role: [ALL],
+      role: [roles.ALL],
+      perm_name: permissions.all,
     },
     {
       path: "/gest_students",
       Component: ManageStudents,
       icon: <SchoolIcon />,
-      role: [ADMIN, SUPERADMIN, TEACHER, RESPONSIBLE],
+      role: [roles.ADMIN, roles.SUPERADMIN, roles.TEACHER, roles.RESPONSIBLE],
+      perm_name: permissions.student,
     },
     {
       path: "/ManageTeachers",
       Component: ManageTeachers,
       icon: <CoPresentIcon />,
-      role: [ADMIN, SUPERADMIN],
+      role: [roles.ADMIN, roles.SUPERADMIN],
+      perm_name: permissions.teacher,
     },
   ],
   default: "/profile",
 };
 
-export default {
-  not_logged,
-  logged,
-  dashboard,
-};
+export { not_logged, logged, dashboard };
