@@ -32,6 +32,7 @@ const logged = {
 const dashboard = {
   routes: [
     {
+      main: "/dash",
       path: "/profile",
       Component: Profile,
       icon: <AccountBoxIcon />,
@@ -39,6 +40,7 @@ const dashboard = {
       perm_name: permissions.all,
     },
     {
+      main: "/dash",
       path: "/logout",
       Component: Logout,
       icon: <MeetingRoomIcon />,
@@ -46,6 +48,7 @@ const dashboard = {
       perm_name: permissions.all,
     },
     {
+      main: "/dash",
       path: "/gest_students",
       Component: ManageStudents,
       icon: <SchoolIcon />,
@@ -53,6 +56,7 @@ const dashboard = {
       perm_name: permissions.student,
     },
     {
+      main: "/dash",
       path: "/ManageTeachers",
       Component: ManageTeachers,
       icon: <CoPresentIcon />,

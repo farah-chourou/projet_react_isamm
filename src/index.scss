@@ -7,11 +7,39 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
-
 * {
   box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+  // height: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #2f4858;
+  // border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0b182f00;
+}
+
+:root {
+  --bg: #f5f5f5;
+
+  --main: #2f4858;
+  --secondary: #2f4858;
+
+  --red: #ea5455;
+  --blue: #00cfe8;
+  --green: #28c76f;
+  --orange: #ffa248;
+  --purple: #7367f0;
+
+  --red-bg: #fceaea;
+  --blue-bg: #e0f9fc;
+  --green-bg: #e5f8ed;
+  --orange-bg: #fff3e8;
+  --purple-bg: #eeedfd;
 }
