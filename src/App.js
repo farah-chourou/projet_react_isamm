@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
-import Theme from "./theme/Theme";
+import MaterialTheme from "./theme/Theme";
 import "./App.scss";
 import { logged, not_logged } from "./routes/routes";
+import Toast from "./custom/CustomToaster";
+import Loading from "./components/Loading/Loading";
+import AuthServ from "./services/Auth.service";
+
+import { UserContext } from "./store/Contexts";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -11,8 +16,16 @@ function App() {
 
   useEffect(() => {
     // here you have to call the api to get user by token
-    setUser({ firstName: "flen", lastName: "flouani" });
-    setLoading(false);
+    // setUser({ firstName: "flen", lastName: "flouani" });
+    AuthServ.GetUserByToken(
+      (data) => {
+        setUser(data);
+        setLoading(false);
+      },
+      () => {
+        setLoading(false);
+      }
+    );
   }, []);
 
   useEffect(() => {
@@ -24,27 +37,24 @@ function App() {
   }, [user]);
 
   return (
-    <Theme>
-      {loading ? (
-        <h1>Loading ...</h1>
-      ) : (
-        <BrowserRouter>
-          <Routes>
-            {routes.routes.map((route, key) => {
-              const { path, Component } = route;
-              return (
-                <Route
-                  key={key}
-                  path={path}
-                  element={<Component user={user} />}
-                />
-              );
-            })}
-            <Route path="/*" element={<Navigate to={routes.default} />} />
-          </Routes>
-        </BrowserRouter>
-      )}
-    </Theme>
+    <MaterialTheme>
+      <Toast />
+      <UserContext.Provider value={{ user, setUser }}>
+        {loading ? (
+          <Loading />
+        ) : (
+          <BrowserRouter>
+            <Routes>
+              {routes.routes.map((route, key) => {
+                const { path, Component } = route;
+                return <Route key={key} path={path} element={<Component />} />;
+              })}
+              <Route path="/*" element={<Navigate to={routes.default} />} />
+            </Routes>
+          </BrowserRouter>
+        )}
+      </UserContext.Provider>
+    </MaterialTheme>
   );
 }
 

@@ -1,3 +1,5 @@
+import { have } from "../functions/Arrays.functions";
+
 const roles = {
   ALL: "ALL",
   STUDENT: "STUDENT",
@@ -41,11 +43,27 @@ const isADMIN = (user) => {
   return user?.role === roles.ADMIN;
 };
 const isSUPERADMIN = (user) => {
-  // here we have to check their access
   return user?.role === roles.SUPERADMIN;
 };
 
-const isRole = {
+const have_access = (user, route_roles, route_perm) => {
+  // user role exist in the array of roles
+  if (have(route_roles, user?.role) || have(route_roles, roles.ALL)) {
+    // user role is ADMIN
+    if (user?.role === roles.ADMIN) {
+      // so we have to check permission
+      return (
+        have(user?.permessions, route_perm) || route_perm === permissions.all
+      );
+    }
+  }
+  return route_roles.indexOf(user?.role) > -1;
+};
+
+export {
+  roles,
+  permissions,
+  have_access,
   isAll,
   isSTUDENT,
   isALUMINIE,
@@ -54,17 +72,3 @@ const isRole = {
   isADMIN,
   isSUPERADMIN,
 };
-
-const have_access = (user, route_roles, route_perm) => {
-  // user role exist in the array of roles
-  if (route_roles.indexOf(user?.role) > -1) {
-    // user role is ADMIN
-    if (user?.role === roles.ADMIN) {
-      // so we have to check permission
-      return user?.role?.permessions?.indexOf(route_perm) > -1;
-    }
-  }
-  return route_roles.indexOf(user?.role) > -1;
-};
-
-export { roles, permissions, isRole, have_access };

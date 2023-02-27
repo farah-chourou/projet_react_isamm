@@ -1,7 +1,9 @@
-import React from "react";
-import styles from "./styles.scss";
+import React, { useContext } from "react";
+import styles from "./styles.module.scss";
+import { UserContext } from "../../store/Contexts";
 
-function Dashboard({ user }) {
+function Dashboard() {
+  const { user } = useContext(UserContext);
   return (
     <div>
       {user.firstName} {user.lastName}

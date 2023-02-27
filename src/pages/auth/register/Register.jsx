@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./styles.scss";
+import styles from "./styles.module.scss";
 
 function Register() {
   return <div>Register</div>;
