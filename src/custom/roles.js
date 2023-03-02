@@ -56,8 +56,9 @@ const have_access = (user, route_roles, route_perm) => {
         have(user?.permessions, route_perm) || route_perm === permissions.all
       );
     }
+    return true;
   }
-  return route_roles.indexOf(user?.role) > -1;
+  return false;
 };
 
 export {
