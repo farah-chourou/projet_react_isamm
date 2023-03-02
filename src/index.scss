@@ -11,11 +11,11 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f5f5f5;
+  background-color: var(--bg);
 }
 * {
   box-sizing: border-box;
-  font-family: "Montserrat";
+  // font-family: "Montserrat";
 }
 
 // ::-webkit-scrollbar {
@@ -33,10 +33,10 @@ body {
 // }
 
 :root {
-  --bg: #f5f5f5;
+  --bg: #fafafa;
 
-  --main: #2f4858;
-  --secondary: #2f4858;
+  --main: #00349f;
+  --secondary: #4580f0;
 
   --red: #ea5455;
   --blue: #00cfe8;
