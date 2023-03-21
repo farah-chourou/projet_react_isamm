@@ -27,8 +27,8 @@ const not_logged = {
 };
 
 const logged = {
-  routes: [{ path: "/dash", Component: Dashboard }],
-  default: "/dash",
+  routes: [{ path: "/dash/*", Component: Dashboard }],
+  default: "/dash/main",
 };
 
 const dashboard = {
@@ -41,6 +41,7 @@ const dashboard = {
       Icon: DashboardIcon,
       role: [roles.ALL],
       perm_name: permissions.all,
+      in_nav: true,
     },
     {
       main: "/dash",
@@ -50,6 +51,7 @@ const dashboard = {
       Icon: AccountBoxIcon,
       role: [roles.ALL],
       perm_name: permissions.all,
+      in_nav: false,
     },
     {
       main: "/dash",
@@ -58,8 +60,8 @@ const dashboard = {
       title: "Manage Students",
       Icon: SchoolIcon,
       role: [roles.ADMIN, roles.SUPERADMIN, roles.TEACHER, roles.RESPONSIBLE],
-      // role: [roles.ALL],
       perm_name: permissions.student,
+      in_nav: true,
     },
     {
       main: "/dash",
@@ -68,8 +70,8 @@ const dashboard = {
       title: "Manage Teachers",
       Icon: CoPresentIcon,
       role: [roles.ADMIN, roles.SUPERADMIN],
-      // role: [roles.ALL],
       perm_name: permissions.teacher,
+      in_nav: true,
     },
     {
       main: "/dash",
@@ -79,6 +81,7 @@ const dashboard = {
       Icon: MeetingRoomIcon,
       role: [roles.ALL],
       perm_name: permissions.all,
+      in_nav: false,
     },
   ],
   default: "/dash/main",

@@ -15,7 +15,7 @@ function SideBar({ reduced, handle_reduce }) {
   useEffect(() => {
     console.log(user);
     let allowed_routes = dashboard.routes.filter((route) => {
-      return have_access(user, route.role, route.perm_name);
+      return have_access(user, route.role, route.perm_name) && route.in_nav;
     });
     setRoutes(allowed_routes);
   }, [user, dashboard]);

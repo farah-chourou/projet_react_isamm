@@ -23,8 +23,8 @@ const Login = (data, succ, fail) => {
       succ(user);
     })
     .catch((error) => {
-      toast.error(error.message);
-      console.log(error);
+      toast.error(error.response.data.Message);
+      console.log(error.response);
       fail(error);
     });
 };
