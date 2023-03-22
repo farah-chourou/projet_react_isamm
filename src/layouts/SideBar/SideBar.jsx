@@ -13,7 +13,6 @@ function SideBar({ reduced, handle_reduce }) {
   const [routes, setRoutes] = useState([]);
 
   useEffect(() => {
-    console.log(user);
     let allowed_routes = dashboard.routes.filter((route) => {
       return have_access(user, route.role, route.perm_name) && route.in_nav;
     });

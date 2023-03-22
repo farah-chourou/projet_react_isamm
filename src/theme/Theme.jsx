@@ -9,7 +9,23 @@ const darkMode = createTheme({
       contrastText: "#ffffff",
     },
     secondary: {
-      main: "#EA5455",
+      main: "#7267F1",
+      contrastText: "#ffffff",
+    },
+    warning: {
+      main: "#FF9E42",
+      contrastText: "#ffffff",
+    },
+    info: {
+      main: "#00CFE8",
+      contrastText: "#ffffff",
+    },
+    success: {
+      main: "#28C66E",
+      contrastText: "#ffffff",
+    },
+    error: {
+      main: "#EB5454",
       contrastText: "#ffffff",
     },
   },

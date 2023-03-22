@@ -43,16 +43,21 @@ function NavBar() {
       </div>
 
       <div className={styles.notifications}>
-        <Badge badgeContent={2} color="secondary">
+        {/* ----------------- NOTIFICATIONS  ----------------- */}
+        <Badge badgeContent={2} color="error">
           <CalendarMonthIcon className={styles.icon} />
         </Badge>
-        <Badge badgeContent={4} color="secondary">
+
+        <Badge badgeContent={4} color="error">
           <MailIcon className={styles.icon} />
         </Badge>
-        <Badge badgeContent={6} color="secondary">
+
+        <Badge badgeContent={6} color="error">
           <NotificationsIcon className={styles.icon} />
         </Badge>
+
         <MoreVertIcon className={styles.icon} onClick={handle_open} />
+        {/* ----------------- MORE ICON  ----------------- */}
         <MenuItems target={target} handleClose={handle_close} pos={-7}>
           <NavLink to="/dash/profile" className={styles.link}>
             <MenuItem onClick={handle_close}>

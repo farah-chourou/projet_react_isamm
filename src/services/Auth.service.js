@@ -9,7 +9,9 @@ const GetUserByToken = (succ, fail) => {
       toast.success(Message);
       succ(data);
     })
-    .catch(fail);
+    .catch((error) => {
+      fail(error);
+    });
 };
 
 const Login = (data, succ, fail) => {
