@@ -22,12 +22,12 @@ function SideBar({ reduced, handle_reduce }) {
   return (
     <div className={`${styles.main} ${reduced ? styles.reduced : ""}`}>
       <div className={styles.reduce_btn}>
-        <span> ISAMM MANAGE</span>
+        <span> ISAMM Gest</span>
         <ArrowBackIosNewIcon className={styles.icon} onClick={handle_reduce} />
       </div>
 
       <div className={styles.links}>
-        <h3>Main Content</h3>
+        <h3>Contenu principal</h3>
 
         {routes.map(({ Icon, main, path, title }, key) => {
           return (

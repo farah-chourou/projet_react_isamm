@@ -62,30 +62,36 @@ function NavBar() {
         <MenuItems target={target} handleClose={handle_close} pos={-7}>
           <NavLink to="/dash/profile" className={styles.link}>
             <MenuItem onClick={handle_close}>
-              <MUIAvatar /> Profile
+              <MUIAvatar /> Profil
             </MenuItem>
           </NavLink>
+
           <Divider />
-          <MenuItem onClick={handle_close}>
-            <ListItemIcon>
-              <Settings fontSize="small" />
-            </ListItemIcon>
-            Settings
-          </MenuItem>
+
+          <NavLink to="/dash/settings" className={styles.link}>
+            <MenuItem onClick={handle_close}>
+              <ListItemIcon>
+                <Settings fontSize="small" />
+              </ListItemIcon>
+              Paramètres
+            </MenuItem>
+          </NavLink>
+
           <NavLink to="/dash/profile" className={styles.link}>
             <MenuItem onClick={handle_close}>
               <ListItemIcon>
                 <LockIcon fontSize="small" />
               </ListItemIcon>
-              Change Password
+              Changer M-D-P
             </MenuItem>
           </NavLink>
+
           <NavLink to="/dash/logout" className={styles.link}>
             <MenuItem onClick={handle_close}>
               <ListItemIcon>
                 <Logout fontSize="small" />
               </ListItemIcon>
-              Logout
+              Se Déconnecter
             </MenuItem>
           </NavLink>
         </MenuItems>

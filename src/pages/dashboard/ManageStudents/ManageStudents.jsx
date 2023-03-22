@@ -21,6 +21,11 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
+import AddStudent from "./AddStudent";
+import UpdateStudent from "./UpdateStudent";
+import DeleteStudent from "./DeleteStudent";
+import ShowStudent from "./ShowStudent";
+
 const init_student = {
   birthDate: new Date(),
   classe: "",
@@ -38,6 +43,7 @@ const init_student = {
   role: "",
   sex: "",
   userName: "",
+  _id: "",
 };
 
 const concact_class = (item) => {
@@ -52,9 +58,9 @@ const concact_class = (item) => {
 const isDiplomated = (item) => {
   const { diplome } = item;
   return diplome.length > 0 ? (
-    <Chip label="diplomated" color="primary" className={styles.chip} />
+    <Chip label="Diplômé " color="primary" className={styles.chip} />
   ) : (
-    <Chip label="not diplomated" color="error" className={styles.chip} />
+    <Chip label="non Diplômé " color="error" className={styles.chip} />
   );
 };
 
@@ -63,12 +69,38 @@ const isAluminie = (item) => {
   return isALUMINIE(item) > 0 ? (
     <Chip label="Aluminie" color="success" className={styles.chip} />
   ) : (
-    <Chip label="Student" color="primary" className={styles.chip} />
+    <Chip label="Etudiant" color="primary" className={styles.chip} />
   );
 };
 
 function ManageStudents() {
   const [students, setStudents] = useState([]);
+
+  const [popup, setPopup] = useState({
+    open: false,
+    type: "",
+    value: init_student,
+  });
+
+  const openAdd = () => {
+    setPopup({ open: true, type: "add", value: init_student });
+  };
+
+  const openUpdate = (row) => {
+    setPopup({ open: true, type: "update", value: row });
+  };
+
+  const openShow = (row) => {
+    setPopup({ open: true, type: "show", value: row });
+  };
+
+  const openDelete = (row) => {
+    setPopup({ open: true, type: "delete", value: row });
+  };
+
+  const handleClose = () => {
+    setPopup({ open: false, type: "", value: init_student });
+  };
 
   useEffect(() => {
     StudentServ.GetAllPublicStudents(
@@ -85,9 +117,13 @@ function ManageStudents() {
   return (
     <div>
       <div className={styles.head}>
-        <H1>Manage Students</H1>
-        <Button startIcon={<PersonAddAlt1Icon />} variant="contained">
-          Add Student
+        <H1>Gestion Des Etudiants</H1>
+        <Button
+          onClick={openAdd}
+          startIcon={<PersonAddAlt1Icon />}
+          variant="contained"
+        >
+          Ajouter Etudiant
         </Button>
       </div>
       <div className={styles.filter}>
@@ -116,12 +152,12 @@ function ManageStudents() {
         <Table sx={{ minWidth: 1000 }}>
           <TableHead>
             <TableRow>
-              <TableCell>Student</TableCell>
-              <TableCell>Full name</TableCell>
-              <TableCell>Email</TableCell>
+              <TableCell>Etudiant</TableCell>
+              <TableCell>Nom</TableCell>
+              <TableCell>Prenom</TableCell>
               <TableCell>Class</TableCell>
-              <TableCell>Deplomated</TableCell>
-              <TableCell>Is Aluminie</TableCell>
+              <TableCell>Diplômé</TableCell>
+              <TableCell>Est Aluminie</TableCell>
               <TableCell align="center">Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -139,15 +175,36 @@ function ManageStudents() {
                 <TableCell>{isDiplomated(row)}</TableCell>
                 <TableCell>{isAluminie(row)}</TableCell>
                 <TableCell align="center">
-                  <VisibilityIcon className={styles.action_icon} />
-                  <EditIcon className={styles.action_icon} />
-                  <DeleteIcon className={styles.action_icon} />
+                  <VisibilityIcon
+                    className={styles.action_icon}
+                    onClick={() => openShow(row)}
+                  />
+                  <EditIcon
+                    className={styles.action_icon}
+                    onClick={() => openUpdate(row)}
+                  />
+                  <DeleteIcon
+                    className={styles.action_icon}
+                    onClick={() => openDelete(row)}
+                  />
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </div>
+      {popup.type === "add" && (
+        <AddStudent popup={popup} handleClose={handleClose} />
+      )}
+      {popup.type === "update" && (
+        <UpdateStudent popup={popup} handleClose={handleClose} />
+      )}
+      {popup.type === "show" && (
+        <ShowStudent popup={popup} handleClose={handleClose} />
+      )}
+      {popup.type === "delete" && (
+        <DeleteStudent popup={popup} handleClose={handleClose} />
+      )}
     </div>
   );
 }

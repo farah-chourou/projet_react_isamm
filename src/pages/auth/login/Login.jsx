@@ -89,7 +89,7 @@ function Login() {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign In To IsaMan
+              Se connecter à IsaMan
             </Typography>
             <Box
               component="form"
@@ -111,13 +111,13 @@ function Login() {
                 required
                 fullWidth
                 name="password"
-                label="Password"
+                label="Mot De Passe"
                 type="password"
                 onChange={handle_change}
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
+                label="Restez Connectés"
               />
               <Button
                 type="submit"
@@ -125,17 +125,17 @@ function Login() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
+                Se connecter
               </Button>
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2">
-                    Forgot password?
+                    Mot de passe oublié ?
                   </Link>
                 </Grid>
                 <Grid item>
                   <Link href="#" variant="body2">
-                    New Aluminie ? Sign Up
+                    Nouvelle Aluminie ? S'inscrire
                   </Link>
                 </Grid>
               </Grid>
