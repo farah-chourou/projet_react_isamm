@@ -113,7 +113,7 @@ function ManageStudents() {
         />
       </div>
       <div className={styles.body}>
-        <Table>
+        <Table sx={{ minWidth: 1000 }}>
           <TableHead>
             <TableRow>
               <TableCell>Student</TableCell>

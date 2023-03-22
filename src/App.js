@@ -15,8 +15,6 @@ function App() {
   const [routes, setRoutes] = useState({ routes: [], default: "" });
 
   useEffect(() => {
-    // here you have to call the api to get user by token
-    // setUser({ firstName: "flen", lastName: "flouani" });
     AuthServ.GetUserByToken(
       (data) => {
         setUser(data);

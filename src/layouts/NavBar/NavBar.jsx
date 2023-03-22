@@ -19,6 +19,7 @@ import Settings from "@mui/icons-material/Settings";
 import MailIcon from "@mui/icons-material/Mail";
 import Logout from "@mui/icons-material/Logout";
 import MenuItem from "@mui/material/MenuItem";
+import LockIcon from "@mui/icons-material/Lock";
 
 function NavBar() {
   const { user } = useContext(UserContext);
@@ -71,6 +72,14 @@ function NavBar() {
             </ListItemIcon>
             Settings
           </MenuItem>
+          <NavLink to="/dash/profile" className={styles.link}>
+            <MenuItem onClick={handle_close}>
+              <ListItemIcon>
+                <LockIcon fontSize="small" />
+              </ListItemIcon>
+              Change Password
+            </MenuItem>
+          </NavLink>
           <NavLink to="/dash/logout" className={styles.link}>
             <MenuItem onClick={handle_close}>
               <ListItemIcon>
