@@ -7,10 +7,12 @@ const GetUserByToken = (succ, fail) => {
     .then((res) => {
       const { data, Message } = res.data;
       toast.success(Message);
+      console.log(res);
       succ(data);
     })
     .catch((error) => {
       fail(error);
+      console.log(error);
     });
 };
 
