@@ -51,12 +51,15 @@ export default function CustomizedDialogs({
   handleClose,
   title,
   children,
+  width = "sm",
 }) {
   return (
     <BootstrapDialog
       onClose={handleClose}
       aria-labelledby="customized-dialog-title"
       open={open}
+      fullWidth={true}
+      maxWidth={width}
     >
       <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
         {title}

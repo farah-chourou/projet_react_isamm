@@ -142,7 +142,7 @@ function Login() {
               <Copyright sx={{ mt: 5 }} />
               <p className={styles.passwords}>
                 Passwords : <br />
-                ST(58217529) ; AL(58217530) ; AD(27893540) ; TE(99800937) ;
+                ST(58217529) ; AL(58217530) ; AD(27893540) ; TE(50635155) ;
                 SA(58217520) ; RF(00000000)
               </p>
             </Box>
