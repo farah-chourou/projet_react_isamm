@@ -22,6 +22,8 @@ const Login = (data, succ, fail) => {
     .then((res) => {
       toast.success(res.data.Message);
       const { user, token, refreshToken } = res.data.data;
+      console.log(token);
+      console.log(refreshToken);
       localStorage.setItem("isamm_token", token);
       localStorage.setItem("isamm_ref_token", refreshToken);
       succ(user);

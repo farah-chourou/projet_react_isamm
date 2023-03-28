@@ -47,6 +47,9 @@ function ManageEvents() {
   const openUpdate = (row) => {
     setPopup({ open: true, type: "update", value: row });
   };
+  const openShow = (row) => {
+    setPopup({ open: true, type: "show", value: row });
+  };
 
   const openDelete = (row) => {
     setPopup({
@@ -193,13 +196,6 @@ function ManageEvents() {
           popup={popup}
           handleClose={handleClose}
           handleEditEvent={handleEditEvent}
-        />
-      )}
-      {popup.type === "delete" && (
-        <ModalDeleteEvent
-          popup={popup}
-          handleClose={handleClose}
-          handleDeleteEvent={handleDeleteEvent}
         />
       )}
       {popup.type === "delete" && (

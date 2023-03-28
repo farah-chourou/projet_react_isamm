@@ -35,6 +35,8 @@ function ModalAddEvent({ popup, handleClose }) {
     eventType: "",
     description: "",
     location: "",
+    duration: "",
+    organizedBy: "",
   });
   const handleChange = (e) => {
     setEvent({ ...Event, [e.target.name]: e.target.value });
@@ -117,7 +119,7 @@ function ModalAddEvent({ popup, handleClose }) {
               )}
               <FormControlLabel
                 control={<Checkbox defaultChecked />}
-                label="Durée 1 jour"
+                label="Dans le meme jour"
                 checked={isChecked}
                 onChange={(event) => {
                   setIsChecked(event.target.checked);
@@ -138,6 +140,31 @@ function ModalAddEvent({ popup, handleClose }) {
                 required
                 onChange={handleChange}
                 value={Event.location}
+              />
+            </Grid>{" "}
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                type="number"
+                label="Durée en heure"
+                name="duration"
+                variant="filled"
+                size="small"
+                required
+                onChange={handleChange}
+                value={Event.duration}
+              />
+            </Grid>{" "}
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="organisateur"
+                name="organizedBy"
+                variant="filled"
+                size="small"
+                required
+                onChange={handleChange}
+                value={Event.organizedBy}
               />
             </Grid>{" "}
             <Grid item xs={12} sm={12}>
