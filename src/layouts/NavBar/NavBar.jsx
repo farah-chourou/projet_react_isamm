@@ -77,7 +77,7 @@ function NavBar() {
             </MenuItem>
           </NavLink>
 
-          <NavLink to="/dash/profile" className={styles.link}>
+          <NavLink to="/dash/ChangerPwd" className={styles.link}>
             <MenuItem onClick={handle_close}>
               <ListItemIcon>
                 <LockIcon fontSize="small" />

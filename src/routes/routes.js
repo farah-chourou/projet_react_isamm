@@ -17,6 +17,7 @@ import CoPresentIcon from "@mui/icons-material/CoPresent";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 // ------------------------- ROLES --------------------------------
 import { roles, permissions } from "../custom/roles";
+import ChangePwd from "../pages/dashboard/changerMdp/ChangerMdp";
 
 const not_logged = {
   routes: [
@@ -48,6 +49,16 @@ const dashboard = {
       path: "/profile",
       Component: Profile,
       title: "Profil",
+      Icon: AccountBoxIcon,
+      role: [roles.ALL],
+      perm_name: permissions.all,
+      in_nav: false,
+    },
+    {
+      main: "/dash",
+      path: "/ChangerPwd",
+      Component: ChangePwd,
+      title: "Changer Mot de passe",
       Icon: AccountBoxIcon,
       role: [roles.ALL],
       perm_name: permissions.all,
