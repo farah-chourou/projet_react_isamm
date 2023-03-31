@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Box, Container, Stack, Typography, Grid, Button } from "@mui/material";
+import {
+  Box,
+  Container,
+  Stack,
+  Typography,
+  Grid,
+  Button,
+  IconButton,
+} from "@mui/material";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import H1 from "../../../components/Texts/H1";
@@ -10,6 +18,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import PeopleIcon from "@mui/icons-material/People";
 import PersonIcon from "@mui/icons-material/Person";
+import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 const eventImage = require("../../../../src/assets/images/figures/BG.jpg");
 
 function DetailsEvent() {
@@ -57,16 +66,32 @@ function DetailsEvent() {
               marginTop: 5,
               borderRadius: 5,
               boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
+              position: "relative",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "flex-end",
             }}
           >
-            {" "}
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <Typography
+                variant=""
+                component="h1"
+                color="#194B94"
+                style={{ flex: 1 }}
+                sx={{
+                  backgroundColor: "rgba(240, 240, 240, 0.26)",
+                  padding: 1,
+                }}
+              >
+                {Event.eventName}
+              </Typography>
+              <IconButton sx={{ padding: 2 }}>
+                <AutoFixHighIcon />
+              </IconButton>
+            </div>
           </div>
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <Typography variant="h4" component="h1">
-            {Event.eventName}
-          </Typography>
-        </Grid>
+
         <Grid item xs={12}>
           <Typography variant="h6" component="h2">
             Détails{" "}

@@ -7,6 +7,7 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 import Dialog from "../../../../components/Popup/Popup";
 import DialogContent from "@mui/material/DialogContent";
@@ -33,7 +34,14 @@ function ModalAddTeacher({ popup, handleClose }) {
     sex: "",
     course: [],
   });
+
+  const [isResponsable, setisResponsable] = useState(false);
+  const [ErrorEmail, setErrorEmail] = useState(false);
+  const [ErrorPhoneNumber, setErrorPhoneNumber] = useState(false);
+  const [Submitted, setSubmitted] = useState(false);
+
   const handleChange = (e) => {
+    setSubmitted(false);
     setTeacher({ ...Teacher, [e.target.name]: e.target.value });
   };
   const [selectedOption, setSelectedOption] = useState([]);
@@ -45,17 +53,38 @@ function ModalAddTeacher({ popup, handleClose }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(Teacher);
-    TeacherService.AddTeacher(Teacher)
-      .then((response) => {
-        toast.success("Enseignant Ajouter avec Succès.");
-        value.push(response.data.data);
-        handleClose();
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.error("Enseignant déjà existe  avec ce numéro de téléphone");
-      });
+    setSubmitted(true);
+    if (isResponsable) {
+      TeacherService.AddTeacherResponsible(Teacher)
+        .then((response) => {
+          toast.success("Enseignant Ajouter avec Succès.");
+          value.push(response.data.data);
+          handleClose();
+        })
+        .catch((error) => {
+          if (error.message == "email error") {
+            setErrorEmail(true);
+          } else {
+            setErrorPhoneNumber(true);
+          }
+          console.log(error);
+        });
+    } else {
+      TeacherService.AddTeacher(Teacher)
+        .then((response) => {
+          toast.success("Enseignant Ajouter avec Succès.");
+          value.push(response.data.data);
+          handleClose();
+        })
+        .catch((error) => {
+          if (error.message == "email error") {
+            setErrorEmail(true);
+          } else {
+            setErrorPhoneNumber(true);
+          }
+          console.log(error);
+        });
+    }
   };
   return (
     <Dialog open={open} handleClose={handleClose} title={"Nouveau Enseignant"}>
@@ -97,6 +126,10 @@ function ModalAddTeacher({ popup, handleClose }) {
                 required
                 onChange={handleChange}
                 value={Teacher.phoneNumber}
+                error={ErrorPhoneNumber}
+                helperText={
+                  ErrorPhoneNumber ? "Numéro de téléphone déja existe" : ""
+                }
               />
             </Grid>{" "}
             <Grid item xs={12} sm={6}>
@@ -123,6 +156,8 @@ function ModalAddTeacher({ popup, handleClose }) {
                 required
                 onChange={handleChange}
                 value={Teacher.email}
+                error={ErrorEmail}
+                helperText={ErrorEmail ? "Email déja existe" : ""}
               />
             </Grid>{" "}
             <Grid item xs={12} sm={6}>
@@ -158,6 +193,16 @@ function ModalAddTeacher({ popup, handleClose }) {
                     placeholder="Cours"
                   />
                 )}
+              />
+            </Grid>{" "}
+            <Grid item xs={12} sm={6}>
+              <FormControlLabel
+                control={<Checkbox defaultChecked />}
+                label="est responsable ?"
+                checked={isResponsable}
+                onChange={(event) => {
+                  setisResponsable(event.target.checked);
+                }}
               />
             </Grid>{" "}
           </Grid>

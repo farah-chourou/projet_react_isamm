@@ -9,7 +9,10 @@ const GetAllTeachers = () => {
 };
 
 const AddTeacher = (info) => {
-  return axios.post(`${API_URL}create`, info);
+  return axios.post(`${API_URL}createTeacher`, info);
+};
+const AddTeacherResponsible = (info) => {
+  return axios.post(`${API_URL}createTeacherResponsible`, info);
 };
 const DeleteTeacher = (_id) => {
   return axios.delete(`${API_URL_All}delete/${_id}`);
@@ -23,4 +26,5 @@ export default {
   AddTeacher,
   DeleteTeacher,
   UpdateTeacher,
+  AddTeacherResponsible,
 };

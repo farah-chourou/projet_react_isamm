@@ -21,6 +21,7 @@ import TeacherService from "../../../services/TeacherService";
 import { isALUMINIE } from "../../../custom/roles";
 
 import { fDate } from "../../../functions/formatTime";
+import { roles } from "../../../custom/roles";
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
@@ -116,12 +117,14 @@ function ManageTeachers() {
             <TableHead>
               <TableRow>
                 <TableCell>#</TableCell>
-                <TableCell>Nom</TableCell>
+                <TableCell padding="none">Nom</TableCell>
                 <TableCell>Prenom</TableCell>
-                <TableCell>Email</TableCell>
+                <TableCell padding="none">Email</TableCell>
                 <TableCell>N° Tel</TableCell>
-                <TableCell>Date De Naissance</TableCell>
+                <TableCell padding="none">Date De Naissance</TableCell>
                 <TableCell>Cours</TableCell>
+                <TableCell> Responsable</TableCell>
+
                 <TableCell align="center">Actions</TableCell>
               </TableRow>
             </TableHead>
@@ -139,15 +142,32 @@ function ManageTeachers() {
                         <></>
                       )}
                     </TableCell>
-                    <TableCell>{item.firstName}</TableCell>{" "}
+                    <TableCell padding="none">{item.firstName}</TableCell>{" "}
                     <TableCell>{item.lastName} </TableCell>
-                    <TableCell>{item.email}</TableCell>
+                    <TableCell padding="none">{item.email}</TableCell>
                     <TableCell>{item.phoneNumber}</TableCell>
-                    <TableCell>{fDate(item.birthDate)}</TableCell>
+                    <TableCell padding="none">
+                      {fDate(item.birthDate)}
+                    </TableCell>
                     <TableCell>
                       {item.course.map((a) => (
                         <span> {a},</span>
                       ))}
+                    </TableCell>
+                    <TableCell>
+                      {item.role === roles.RESPONSIBLE ? (
+                        <Chip
+                          label="Oui"
+                          color="primary"
+                          className={styles.chip}
+                        />
+                      ) : (
+                        <Chip
+                          label="Non"
+                          color="warning"
+                          className={styles.chip}
+                        />
+                      )}
                     </TableCell>
                     <TableCell align="center">
                       <Tooltip title="Modifier">
