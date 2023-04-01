@@ -37,6 +37,7 @@ function App() {
   return (
     <MaterialTheme>
       <Toast />
+
       <UserContext.Provider value={{ user, setUser }}>
         {loading ? (
           <Loading />
