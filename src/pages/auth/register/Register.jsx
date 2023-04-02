@@ -96,6 +96,16 @@ function Register() {
                 <TextField
                   required
                   fullWidth
+                  id="Ntel"
+                  label="Numéro teléphone"
+                  name="email"
+                 // autoComplete="email"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
                   name="password"
                   label="Mot de passe"
                   type="password"

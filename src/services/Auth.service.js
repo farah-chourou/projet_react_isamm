@@ -31,19 +31,22 @@ const Login = (data, succ, fail) => {
     });
 };
 
-// const RegisterAluminie = (data, succ, fail) => {
-//   axios
-//     .post("/api/user/")
-//     .then((res) => {
-//       succ(res.data);
-//     })
-//     .catch((error) => {
-//       toast.error("something went wrong...");
-//       console.log(error.response);
-//     });
-// };
+const RegisterAluminie = (data, succ, fail) => {
+  axios
+    .post("/api/student/register_aluminie",{...data})
+    .then((res) => {
+      succ(res.data);
+    })
+    .catch((error) => {
+      toast.error("something went wrong...");
+      console.log(error.response);
+      fail(error);
+
+    });
+};
 
 export default {
   Login,
   GetUserByToken,
+  RegisterAluminie
 };
