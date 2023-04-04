@@ -15,8 +15,12 @@ import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import SchoolIcon from "@mui/icons-material/School";
 import CoPresentIcon from "@mui/icons-material/CoPresent";
 import DashboardIcon from "@mui/icons-material/Dashboard";
+import EventIcon from "@mui/icons-material/Event";
 // ------------------------- ROLES --------------------------------
 import { roles, permissions } from "../custom/roles";
+import ManageEvents from "../pages/dashboard/ManageEvents/ManageEvents";
+import { Details } from "@mui/icons-material";
+import DetailsEvent from "../pages/dashboard/ManageEvents/DetailsEvent";
 
 const not_logged = {
   routes: [
@@ -65,13 +69,33 @@ const dashboard = {
     },
     {
       main: "/dash",
-      path: "/ManageTeachers",
+      path: "/GestionDesEnseignants",
       Component: ManageTeachers,
       title: "Gest Enseignants",
       Icon: CoPresentIcon,
       role: [roles.ADMIN, roles.SUPERADMIN],
       perm_name: permissions.teacher,
       in_nav: true,
+    },
+    {
+      main: "/dash",
+      path: "/GestionDesEvenement",
+      Component: ManageEvents,
+      title: "Gest Evénement",
+      Icon: EventIcon,
+      role: [roles.ADMIN, roles.SUPERADMIN],
+      perm_name: permissions.teacher,
+      in_nav: true,
+    },
+    {
+      main: "/dash",
+      path: "/GestionDesEvenement/details/:_id",
+      Component: DetailsEvent,
+      title: "Se Déconnecter",
+      Icon: MeetingRoomIcon,
+      role: [roles.ADMIN, roles.SUPERADMIN],
+      perm_name: permissions.teacher,
+      in_nav: false,
     },
     {
       main: "/dash",
