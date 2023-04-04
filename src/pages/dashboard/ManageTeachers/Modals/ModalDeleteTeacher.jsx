@@ -1,28 +1,15 @@
-import React, { useEffect, useState } from "react";
-import {
-  Grid,
-  TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Typography,
-} from "@mui/material";
+import React from "react";
+import { Grid, Typography } from "@mui/material";
 
 import Dialog from "../../../../components/Popup/Popup";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
-import Autocomplete from "@mui/material/Autocomplete";
-import { Box, Avatar } from "@mui/material";
-import Checkbox from "@mui/material/Checkbox";
-import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
+
 import TeacherService from "../../../../services/TeacherService";
-import { roles } from "../../../../custom/roles";
 import { toast } from "react-hot-toast";
 
-const course = ["Node", "Base de Donne", "React"];
+const course = ["Node", "Base de Donne", "React", "Math"];
 function ModalDeleteTeacher({ popup, handleClose, handleDeleteTeacher }) {
   const { open, valueArray, valueRow } = popup;
 
@@ -40,7 +27,11 @@ function ModalDeleteTeacher({ popup, handleClose, handleDeleteTeacher }) {
       });
   };
   return (
-    <Dialog open={open} handleClose={handleClose} title={"Nouveau Enseignant"}>
+    <Dialog
+      open={open}
+      handleClose={handleClose}
+      title={"Supprimer Enseignant"}
+    >
       <form onSubmit={(e) => handleSubmit(e)}>
         <DialogContent dividers>
           <Grid container spacing={2} p={3}>

@@ -53,21 +53,20 @@ function ModalAddTeacher({ popup, handleClose }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSubmitted(true);
     if (isResponsable) {
       TeacherService.AddTeacherResponsible(Teacher)
         .then((response) => {
+          console.log(response);
           toast.success("Enseignant Ajouter avec Succès.");
           value.push(response.data.data);
           handleClose();
         })
         .catch((error) => {
-          if (error.message == "email error") {
+          if (error.response.data.Message == "email error") {
             setErrorEmail(true);
-          } else {
+          } else if (error.response.data.Message == "phoneNumber error") {
             setErrorPhoneNumber(true);
           }
-          console.log(error);
         });
     } else {
       TeacherService.AddTeacher(Teacher)
