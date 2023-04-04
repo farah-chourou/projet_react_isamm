@@ -327,7 +327,7 @@ function ShowCv({ popup, handleClose }) {
                 <Button
                   autoFocus
                   variant="outlined"
-                  onClick={handleRemoveExperience}
+                  onClick={() => handleRemoveExperience(index)}
                 >
                   Supprimer Expérience
                 </Button>
@@ -406,7 +406,7 @@ function ShowCv({ popup, handleClose }) {
                 <Button
                   autoFocus
                   variant="outlined"
-                  onClick={handleRemoveFormations}
+                  onClick={() => handleRemoveFormations(index)}
                 >
                   Supprimer Formation
                 </Button>
@@ -443,7 +443,7 @@ function ShowCv({ popup, handleClose }) {
                     <Button
                       autoFocus
                       variant="outlined"
-                      onClick={handleRemoveHard_skills}
+                      onClick={() => handleRemoveHard_skills(index)}
                     >
                       Supprimer Hard Skill
                     </Button>
@@ -481,7 +481,7 @@ function ShowCv({ popup, handleClose }) {
                     <Button
                       autoFocus
                       variant="outlined"
-                      onClick={handleRemovehobbys}
+                      onClick={() => handleRemovehobbys(index)}
                     >
                       Supprimer Hoppy
                     </Button>
@@ -530,7 +530,7 @@ function ShowCv({ popup, handleClose }) {
                 <Button
                   autoFocus
                   variant="outlined"
-                  onClick={handleRemoveLangages}
+                  onClick={() => handleRemoveLangages(index)}
                 >
                   Supprimer Language
                 </Button>
@@ -566,7 +566,7 @@ function ShowCv({ popup, handleClose }) {
                     <Button
                       autoFocus
                       variant="outlined"
-                      onClick={handleRemoveSoft_skills}
+                      onClick={() => handleRemoveSoft_skills(index)}
                     >
                       Supprimer Soft Skill
                     </Button>
