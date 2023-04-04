@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useContext } from "react";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,19 +12,42 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { UserContext } from "../../../store/Contexts";
 
+import AcountService from "../../../services/Acount.service";
 
 
 const theme = createTheme();
 
 export default function ChangePwd() {
+  const { setUser } = useContext(UserContext);
+
+const[logout,setLogout]=useState(false);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    var body={
+      //email: data.get('email'),
+      password: data.get('NewPwd'),
+      confpassword:data.get('confNewPwd'),
+      oldpassword:data.get('oldPwd'),
+    };
+    const succ = (user) => {
+      //if se deconnecter is selected deconnect else update user
+      if(logout)
+      {
+        setUser(null);
+      }
+      else
+      {
+        setUser(user);
+      }
+    };
+    const fail = (error) => {
+      
+    };
+    AcountService.UpdatePassword(body,succ,fail);
   };
 
   return (
@@ -50,34 +73,39 @@ export default function ChangePwd() {
               margin="normal"
               required
               fullWidth
-              name="password"
+              name="oldPwd"
               label="Ancien mot de passe"
               type="password"
-              id="password"
+              id="oldPwd"
               autoComplete="current-password"
             />
               <TextField
               margin="normal"
               required
               fullWidth
-              name="password"
+              name="NewPwd"
               label="Nouveau mot de passe"
               type="password"
-              id="password"
+              id="NewPwd"
               autoComplete="current-password"
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              name="password"
+              name="confNewPwd"
               label="Confirmer nouveau mot de passe"
               type="password"
-              id="password"
+              id="confNewPwd"
               autoComplete="current-password"
             />
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
+              control={<Checkbox 
+                //schecked={logout} 
+                 onChange={(e)=>{
+                 // console.log(e.target.checked);
+                  setLogout(e.target.checked)
+                }} value="remember" color="primary" />}
               label="Se deconnecter"
             />
             <Button
