@@ -24,7 +24,7 @@ import LockIcon from "@mui/icons-material/Lock";
 function NavBar() {
   const { user } = useContext(UserContext);
 
-  const [target, setTarget] = useState(null);
+  const [target , setTarget] = useState(null);
 
   const handle_open = (event) => {
     setTarget(event.currentTarget);
