@@ -1,53 +1,47 @@
 import React, { useState, useContext } from "react";
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { UserContext } from "../../../store/Contexts";
 
-import AcountService from "../../../services/Acount.service";
-
+// import AcountService from "../../../services/Acount.service";
 
 const theme = createTheme();
 
 export default function ChangePwd() {
   const { setUser } = useContext(UserContext);
 
-const[logout,setLogout]=useState(false);
+  const [logout, setLogout] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    var body={
+    var body = {
       //email: data.get('email'),
-      password: data.get('NewPwd'),
-      confpassword:data.get('confNewPwd'),
-      oldpassword:data.get('oldPwd'),
+      password: data.get("NewPwd"),
+      confpassword: data.get("confNewPwd"),
+      oldpassword: data.get("oldPwd"),
     };
     const succ = (user) => {
       //if se deconnecter is selected deconnect else update user
-      if(logout)
-      {
+      if (logout) {
         setUser(null);
-      }
-      else
-      {
+      } else {
         setUser(user);
       }
     };
-    const fail = (error) => {
-      
-    };
-    AcountService.UpdatePassword(body,succ,fail);
+    const fail = (error) => {};
+    // AcountService.UpdatePassword(body,succ,fail);
   };
 
   return (
@@ -57,19 +51,24 @@ const[logout,setLogout]=useState(false);
         <Box
           sx={{
             marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Changer Mot de passe
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <TextField
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
+            <TextField
               margin="normal"
               required
               fullWidth
@@ -79,7 +78,7 @@ const[logout,setLogout]=useState(false);
               id="oldPwd"
               autoComplete="current-password"
             />
-              <TextField
+            <TextField
               margin="normal"
               required
               fullWidth
@@ -100,12 +99,17 @@ const[logout,setLogout]=useState(false);
               autoComplete="current-password"
             />
             <FormControlLabel
-              control={<Checkbox 
-                //schecked={logout} 
-                 onChange={(e)=>{
-                 // console.log(e.target.checked);
-                  setLogout(e.target.checked)
-                }} value="remember" color="primary" />}
+              control={
+                <Checkbox
+                  //schecked={logout}
+                  onChange={(e) => {
+                    // console.log(e.target.checked);
+                    setLogout(e.target.checked);
+                  }}
+                  value="remember"
+                  color="primary"
+                />
+              }
               label="Se deconnecter"
             />
             <Button
@@ -116,10 +120,7 @@ const[logout,setLogout]=useState(false);
             >
               Mettre à jour
             </Button>
-            <Grid container>
-         
-            
-            </Grid>
+            <Grid container></Grid>
           </Box>
         </Box>
       </Container>

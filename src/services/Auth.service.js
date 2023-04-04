@@ -22,6 +22,7 @@ const Login = (data, succ, fail) => {
     .then((res) => {
       console.log(JSON.stringify(res));
       const { user, token, refreshToken } = res.data.data;
+      console.log(res);
       if (
         user != null &&
         user.role == "ALUMINIE" &&
@@ -37,8 +38,8 @@ const Login = (data, succ, fail) => {
       }
     })
     .catch((error) => {
+      console.log(error);
       toast.error(error.response.data.Message);
-      console.log(error.response);
       fail(error);
     });
 };
