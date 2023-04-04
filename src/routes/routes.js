@@ -18,6 +18,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import EventIcon from "@mui/icons-material/Event";
 // ------------------------- ROLES --------------------------------
 import { roles, permissions } from "../custom/roles";
+import ChangePwd from "../pages/dashboard/changerMdp/ChangerMdp";
 import ManageEvents from "../pages/dashboard/ManageEvents/ManageEvents";
 import { Details } from "@mui/icons-material";
 import DetailsEvent from "../pages/dashboard/ManageEvents/DetailsEvent";
@@ -52,6 +53,16 @@ const dashboard = {
       path: "/profile",
       Component: Profile,
       title: "Profil",
+      Icon: AccountBoxIcon,
+      role: [roles.ALL],
+      perm_name: permissions.all,
+      in_nav: false,
+    },
+    {
+      main: "/dash",
+      path: "/ChangerPwd",
+      Component: ChangePwd,
+      title: "Changer Mot de passe",
       Icon: AccountBoxIcon,
       role: [roles.ALL],
       perm_name: permissions.all,

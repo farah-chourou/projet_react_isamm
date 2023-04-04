@@ -17,6 +17,10 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import CustomizedDialogs from "../../../components/Popup/Popup";
+import FullScreenDialog from "../../../components/Popup/FullWidthPopup";
+import pendingAnnimation from "../../../assets/annimations/pending.json";
+import Lottie from "lottie-react";
 
 function Copyright(props) {
   return (
@@ -38,11 +42,27 @@ function Login() {
     userName: "58217520",
     password: "58217520",
   });
+  const [showPopup, setShowPopup] = useState(false);
+
   const { setUser } = useContext(UserContext);
 
   const handle_change = (event) => {
     const { name, value } = event.target;
     setForm({ ...form, [name]: value });
+  };
+  const AnnimationPending = () => {
+    return (
+      <Lottie
+        style={{
+          resizeMode: "contain",
+          alignSelf: "center",
+          margin: "auto",
+          height: 300,
+          width: 300,
+        }}
+        animationData={pendingAnnimation}
+      />
+    );
   };
 
   const handle_submit = (e) => {
@@ -50,7 +70,12 @@ function Login() {
     const succ = (user) => {
       setUser(user);
     };
-    const fail = () => {};
+    const fail = (error) => {
+      if (error == "ALUMINI_INVALIDE") {
+        //console.log("invalide alumini");
+        setShowPopup(true);
+      }
+    };
 
     AuthServ.Login(form, succ, fail);
   };
@@ -58,6 +83,35 @@ function Login() {
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
+        <CustomizedDialogs
+          open={showPopup}
+          title={"ACOUNT VALIDATION PENDING"}
+          children={
+            <Grid container justifyContent={"center"} direction={"column"}>
+              <Grid item xs>
+                <div style={{ height: 270, width: 500 }}>
+                  <AnnimationPending />
+                </div>
+              </Grid>
+              <Grid item>
+                <div
+                  style={{
+                    textAlign: "center",
+                    fontFamily: "inherit",
+                    fontWeight: "500",
+                    padding: 10,
+                  }}
+                >
+                  <p>
+                    ACOUNT VALIDATION PENDING <br />
+                    WAIT FOR ADMIN VALIDATION
+                  </p>
+                </div>
+              </Grid>
+            </Grid>
+          }
+          handleClose={() => setShowPopup(false)}
+        />
         <CssBaseline />
         <Grid
           item
@@ -134,7 +188,7 @@ function Login() {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link href="/register" variant="body2">
                     Nouvelle Aluminie ? S'inscrire
                   </Link>
                 </Grid>
@@ -142,8 +196,8 @@ function Login() {
               <Copyright sx={{ mt: 5 }} />
               <p className={styles.passwords}>
                 Passwords : <br />
-                ST(58217529) ; AL(58217530) ; AD(27893540) ; TE(50635155) ;
-                SA(58217520) ; RF(00000000)
+                ST(58217529) ; AL(58217570) ; AD(27893540) ; TE(99800937) ;
+                SA(58217520) ; RF(00000000); AL VALIDE(50635155/Talel1234)
               </p>
             </Box>
           </Box>
