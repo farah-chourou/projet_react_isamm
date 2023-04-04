@@ -104,7 +104,7 @@ function ManageEvents() {
             </Button>
           </Grid>
           <Grid item xs={6} md={6} lg={6}></Grid>
-          <Grid item xs={6} md={6} lg={6} container justifyContent="flex-end">
+          {/* <Grid item xs={6} md={6} lg={6} container justifyContent="flex-end">
             <Button
               sx={{ margin: 1 }}
               startIcon={<FormatListBulletedIcon />}
@@ -120,7 +120,7 @@ function ManageEvents() {
             >
               Calendrier
             </Button>
-          </Grid>
+  </Grid>*/}
         </Grid>
       </div>
       <div>
@@ -153,7 +153,6 @@ function ManageEvents() {
                       "&:last-child td, &:last-child th": { border: 0 },
                       cursor: "pointer",
                     }}
-                    onClick={(_id) => handleNavigateDetail(item._id)}
                   >
                     <TableCell>
                       <> {index + 1}</>
@@ -179,6 +178,13 @@ function ManageEvents() {
                       <Tooltip title="Supprimer">
                         <IconButton onClick={() => openDelete(item)}>
                           <DeleteIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Voir">
+                        <IconButton
+                          onClick={(_id) => handleNavigateDetail(item._id)}
+                        >
+                          <VisibilityIcon />
                         </IconButton>
                       </Tooltip>
                     </TableCell>

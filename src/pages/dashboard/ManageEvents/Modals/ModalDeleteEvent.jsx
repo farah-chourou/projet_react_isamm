@@ -40,7 +40,7 @@ function ModalDeleteEvent({ popup, handleClose, handleDeleteEvent }) {
       });
   };
   return (
-    <Dialog open={open} handleClose={handleClose} title={"Nouveau Enseignant"}>
+    <Dialog open={open} handleClose={handleClose} title={"Supprimer événement"}>
       <form onSubmit={(e) => handleSubmit(e)}>
         <DialogContent dividers>
           <Grid container spacing={2} p={3}>

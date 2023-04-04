@@ -75,7 +75,7 @@ function DetailsEvent() {
             <div style={{ display: "flex", alignItems: "center" }}>
               <Typography
                 variant=""
-                component="h1"
+                component="h2"
                 color="#194B94"
                 style={{ flex: 1 }}
                 sx={{
@@ -125,12 +125,12 @@ function DetailsEvent() {
               &nbsp; Organiser Par: {Event.organizedBy}
             </Typography>
           </Box>
-          <Box display="flex" alignItems="center">
+          {/* <Box display="flex" alignItems="center">
             <PeopleIcon color="primary" fontSize="small" />{" "}
             <Typography variant="subtitle1" component="p">
-              &nbsp; 20 interssé
+            &nbsp; 20 interssé
             </Typography>
-          </Box>
+              </Box>*/}
           <Typography variant="body1" component="p">
             {Event.description}
           </Typography>
