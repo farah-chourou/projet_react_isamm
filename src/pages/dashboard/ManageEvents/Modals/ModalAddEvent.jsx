@@ -30,8 +30,8 @@ function ModalAddEvent({ popup, handleClose }) {
 
   const [Event, setEvent] = useState({
     eventName: "",
-    eventDateDebut: "",
-    eventDateFin: null,
+    eventDateDebut: new Date(),
+    eventDateFin: new Date(),
     eventType: "",
     description: "",
     location: "",
@@ -95,6 +95,7 @@ function ModalAddEvent({ popup, handleClose }) {
               <TextField
                 fullWidth
                 type="date"
+                label="Date Debut"
                 name="eventDateDebut"
                 variant="filled"
                 size="small"
@@ -110,6 +111,7 @@ function ModalAddEvent({ popup, handleClose }) {
                 <TextField
                   fullWidth
                   type="date"
+                  label="Date Fin"
                   name="eventDateFin"
                   variant="filled"
                   size="small"

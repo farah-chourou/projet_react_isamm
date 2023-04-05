@@ -62,9 +62,9 @@ function ModalAddTeacher({ popup, handleClose }) {
           handleClose();
         })
         .catch((error) => {
-          if (error.response.data.Message == "email error") {
+          if (error.response.data.Message === "email error") {
             setErrorEmail(true);
-          } else if (error.response.data.Message == "phoneNumber error") {
+          } else if (error.response.data.Message === "phoneNumber error") {
             setErrorPhoneNumber(true);
           }
         });
@@ -76,9 +76,9 @@ function ModalAddTeacher({ popup, handleClose }) {
           handleClose();
         })
         .catch((error) => {
-          if (error.message == "email error") {
+          if (error.response.data.Message === "email error") {
             setErrorEmail(true);
-          } else {
+          } else if (error.response.data.Message === "phoneNumber error") {
             setErrorPhoneNumber(true);
           }
           console.log(error);
