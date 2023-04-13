@@ -31,7 +31,20 @@ const CreateStudent = (data, succ, fail) => {
       toast.error(error.response.data.Message);
     });
 };
-
+const CreateMultipleStudent = (data, succ, fail) => {
+  axios
+    .post("/api/student/create_multiple_with_excel", data)
+    .then((res) => {
+      console.log(res);
+      toast.success("Etudiants ont été créé");
+      succ();
+    })
+    .catch((error) => {
+      fail(error);
+      console.log(error.response);
+      toast.error(error.response.data.Message);
+    });
+};
 const UpdateStudent = (data, succ, fail) => {
   const allowedData = GetOnly(
     [
@@ -98,4 +111,5 @@ export default {
   DeleteStudent,
   UpdateStudent,
   UpdateDiplome,
+  CreateMultipleStudent,
 };

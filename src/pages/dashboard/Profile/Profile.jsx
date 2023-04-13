@@ -58,7 +58,8 @@ function Profile() {
   return (
     <>
       <div>
-        <h1>User Profile</h1>
+        <h1> Profile</h1>
+
         <Grid container spacing={1}>
           <Grid item xl={6} lg={6} md={12}>
             <label className={styles.classLabel} htmlFor="name">

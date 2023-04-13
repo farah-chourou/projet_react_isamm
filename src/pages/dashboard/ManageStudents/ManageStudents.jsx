@@ -21,13 +21,14 @@ import { UserContext } from "../../../store/Contexts";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { Grid, Typography } from "@mui/material";
 
 import AddStudent from "./AddStudent";
 import UpdateStudent from "./UpdateStudent";
 import DeleteStudent from "./DeleteStudent";
-import ShowStudent from "./ShowStudent";
 
 import { makeDate } from "../../../functions/Dates.functions";
+import AddMultipleStudent from "./AddMultipleStudent";
 
 const init_student = {
   firstName: "",
@@ -109,15 +110,27 @@ function ManageStudents() {
       <div className={styles.head}>
         <H1>Gestion Des Etudiants</H1>
         {(isADMIN(user) || isSUPERADMIN(user)) && (
-          <Button
-            onClick={() => {
-              openPopup("add", init_student);
-            }}
-            startIcon={<PersonAddAlt1Icon />}
-            variant="contained"
-          >
-            Ajouter Etudiant
-          </Button>
+          <Grid xs={6} md={6} lg={6} container justifyContent="flex-end">
+            <Button
+              onClick={() => {
+                openPopup("add", init_student);
+              }}
+              startIcon={<PersonAddAlt1Icon />}
+              variant="contained"
+            >
+              Ajouter Etudiant
+            </Button>
+            <Button
+              sx={{ marginLeft: 1 }}
+              onClick={() => {
+                openPopup("addMultiple", init_student);
+              }}
+              startIcon={<PersonAddAlt1Icon />}
+              variant="contained"
+            >
+              Ajouter Multiple
+            </Button>
+          </Grid>
         )}
       </div>
       <div className={styles.filter}>
@@ -196,12 +209,13 @@ function ManageStudents() {
       {popup.type === "add" && (
         <AddStudent popup={popup} handleClose={handleClose} />
       )}
+      {popup.type === "addMultiple" && (
+        <AddMultipleStudent popup={popup} handleClose={handleClose} />
+      )}
       {popup.type === "update" && (
         <UpdateStudent popup={popup} handleClose={handleClose} />
       )}
-      {popup.type === "show" && (
-        <ShowStudent popup={popup} handleClose={handleClose} />
-      )}
+
       {popup.type === "delete" && (
         <DeleteStudent popup={popup} handleClose={handleClose} />
       )}
