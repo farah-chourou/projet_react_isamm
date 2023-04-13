@@ -14,7 +14,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { UserContext } from "../../../store/Contexts";
 
-// import AcountService from "../../../services/Acount.service";
+import AcountService from "../../../services/Acount.service";
 
 const theme = createTheme();
 
@@ -41,7 +41,7 @@ export default function ChangePwd() {
       }
     };
     const fail = (error) => {};
-    // AcountService.UpdatePassword(body,succ,fail);
+    AcountService.UpdatePassword(body, succ, fail);
   };
 
   return (
