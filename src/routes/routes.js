@@ -23,6 +23,7 @@ import ManageEvents from "../pages/dashboard/ManageEvents/ManageEvents";
 import { Details } from "@mui/icons-material";
 import DetailsEvent from "../pages/dashboard/ManageEvents/DetailsEvent";
 import AcountsPage from "../pages/dashboard/AcountStudents/AcountsPage";
+import EventDetail from "../pages/dashboard/MainPage/Event/EventDetail";
 
 const not_logged = {
   routes: [
@@ -48,6 +49,16 @@ const dashboard = {
       role: [roles.ALL],
       perm_name: permissions.all,
       in_nav: true,
+    },
+    {
+      main: "/dash",
+      path: "/main/event/:_id",
+      Component: EventDetail,
+      title: "Page Principal",
+      Icon: DashboardIcon,
+      role: [roles.ALL],
+      perm_name: permissions.all,
+      in_nav: false,
     },
     {
       main: "/dash",
