@@ -22,6 +22,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Grid, Typography } from "@mui/material";
+import TableContainer from "@mui/material/TableContainer";
 
 import AddStudent from "./AddStudent";
 import UpdateStudent from "./UpdateStudent";
@@ -29,6 +30,7 @@ import DeleteStudent from "./DeleteStudent";
 
 import { makeDate } from "../../../functions/Dates.functions";
 import AddMultipleStudent from "./AddMultipleStudent";
+import ShowStudent from "./ShowStudentModal";
 
 const init_student = {
   firstName: "",
@@ -156,55 +158,65 @@ function ManageStudents() {
         />
       </div>
       <div className={styles.body}>
-        <Table sx={{ minWidth: 1000 }}>
-          <TableHead>
-            <TableRow>
-              <TableCell>Etudiant</TableCell>
-              <TableCell>Nom</TableCell>
-              <TableCell>Naissance</TableCell>
-              <TableCell>E-mail</TableCell>
-              <TableCell>Class</TableCell>
-              <TableCell>Diplômé</TableCell>
-              <TableCell>Est Aluminie</TableCell>
-              <TableCell align="center">Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {students.map((row) => (
-              <TableRow key={row._id}>
-                <TableCell>
-                  <Avatar name={`${row.firstName} ${row.lastName} `} />
-                </TableCell>
-                <TableCell>
-                  {row.firstName} {row.lastName}
-                </TableCell>
-                <TableCell>{makeDate(row.birthDate)}</TableCell>
-                <TableCell>{row.email}</TableCell>
-                <TableCell>{concact_class(row)}</TableCell>
-                <TableCell>{isDiplomated(row)}</TableCell>
-                <TableCell>{isAluminie(row)}</TableCell>
-                <TableCell align="center">
-                  <VisibilityIcon
-                    className={styles.action_icon}
-                    onClick={() => openPopup("show", row)}
-                  />
-                  {(isADMIN(user) || isSUPERADMIN(user)) && (
-                    <>
-                      <EditIcon
-                        className={styles.action_icon}
-                        onClick={() => openPopup("update", row)}
-                      />
-                      <DeleteIcon
-                        className={styles.action_icon}
-                        onClick={() => openPopup("delete", row)}
-                      />
-                    </>
-                  )}
-                </TableCell>
+        <TableContainer sx={{ marginTop: 5 }}>
+          <Table
+            sx={{ minWidth: 1000 }}
+            size="small"
+            aria-label="a dense table"
+          >
+            <TableHead>
+              <TableRow
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell>Etudiant</TableCell>
+                <TableCell>Nom</TableCell>
+                <TableCell>Naissance</TableCell>
+                <TableCell>E-mail</TableCell>
+                <TableCell>Class</TableCell>
+                <TableCell>Diplômé</TableCell>
+                <TableCell>Est Aluminie</TableCell>
+                <TableCell align="center">Actions</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+            <TableBody>
+              {students.map((row) => (
+                <TableRow key={row._id}>
+                  <TableCell>
+                    <Avatar name={`${row.firstName} ${row.lastName} `} />
+                  </TableCell>
+                  <TableCell>
+                    {row.firstName} {row.lastName}
+                  </TableCell>
+                  <TableCell>{makeDate(row.birthDate)}</TableCell>
+                  <TableCell>{row.email}</TableCell>
+                  <TableCell>{concact_class(row)}</TableCell>
+                  <TableCell>{isDiplomated(row)}</TableCell>
+                  <TableCell>{isAluminie(row)}</TableCell>
+                  <TableCell align="center">
+                    <VisibilityIcon
+                      className={styles.action_icon}
+                      onClick={() => {
+                        openPopup("show", row);
+                      }}
+                    />
+                    {(isADMIN(user) || isSUPERADMIN(user)) && (
+                      <>
+                        <EditIcon
+                          className={styles.action_icon}
+                          onClick={() => openPopup("update", row)}
+                        />
+                        <DeleteIcon
+                          className={styles.action_icon}
+                          onClick={() => openPopup("delete", row)}
+                        />
+                      </>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
       {popup.type === "add" && (
         <AddStudent popup={popup} handleClose={handleClose} />
@@ -215,7 +227,9 @@ function ManageStudents() {
       {popup.type === "update" && (
         <UpdateStudent popup={popup} handleClose={handleClose} />
       )}
-
+      {popup.type === "show" && (
+        <ShowStudent popup={popup} handleClose={handleClose} />
+      )}
       {popup.type === "delete" && (
         <DeleteStudent popup={popup} handleClose={handleClose} />
       )}

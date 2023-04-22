@@ -22,6 +22,7 @@ import ChangePwd from "../pages/dashboard/changerMdp/ChangerMdp";
 import ManageEvents from "../pages/dashboard/ManageEvents/ManageEvents";
 import { Details } from "@mui/icons-material";
 import DetailsEvent from "../pages/dashboard/ManageEvents/DetailsEvent";
+import AcountsPage from "../pages/dashboard/AcountStudents/AcountsPage";
 
 const not_logged = {
   routes: [
@@ -117,6 +118,16 @@ const dashboard = {
       role: [roles.ALL],
       perm_name: permissions.all,
       in_nav: false,
+    },
+    {
+      main: "/dash",
+      path: "/ComptePublic",
+      Component: AcountsPage,
+      title: "Compte Public",
+      Icon: MeetingRoomIcon,
+      role: [roles.STUDENT],
+      perm_name: permissions.all,
+      in_nav: true,
     },
   ],
   default: "/dash/main",

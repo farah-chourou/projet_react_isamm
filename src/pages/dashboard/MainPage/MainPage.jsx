@@ -1,7 +1,13 @@
 import React from "react";
+import UpdateClass from "./Modals/UpdateClass";
 
 function MainPage() {
-  return <div>MainPage</div>;
+  return (
+    <div>
+      <UpdateClass />
+      MainPage
+    </div>
+  );
 }
 
 export default MainPage;
