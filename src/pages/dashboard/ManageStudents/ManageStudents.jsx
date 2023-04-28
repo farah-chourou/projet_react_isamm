@@ -15,7 +15,12 @@ import Chip from "../../../components/Chip/Chip";
 import Avatar from "../../../components/Avatar/Avatar";
 
 import StudentServ from "../../../services/Student.service";
-import { isALUMINIE, isADMIN, isSUPERADMIN } from "../../../custom/roles";
+import {
+  isALUMINIE,
+  isADMIN,
+  isSUPERADMIN,
+  isTEACHER,
+} from "../../../custom/roles";
 import { UserContext } from "../../../store/Contexts";
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -31,6 +36,8 @@ import DeleteStudent from "./DeleteStudent";
 import { makeDate } from "../../../functions/Dates.functions";
 import AddMultipleStudent from "./AddMultipleStudent";
 import ShowStudent from "./ShowStudentModal";
+import ArticleIcon from "@mui/icons-material/Article";
+import { useNavigate } from "react-router-dom";
 
 const init_student = {
   firstName: "",
@@ -73,6 +80,8 @@ const isAluminie = (item) => {
 };
 
 function ManageStudents() {
+  const navigate = useNavigate();
+
   const [students, setStudents] = useState([]);
   const { user } = useContext(UserContext);
 
@@ -106,7 +115,9 @@ function ManageStudents() {
   useEffect(() => {
     GetData();
   }, []);
-
+  const handleNavigateDetail = (_id) => {
+    navigate(`/dash/gest_students/cv/${_id}`);
+  };
   return (
     <div>
       <div className={styles.head}>
@@ -199,6 +210,14 @@ function ManageStudents() {
                         openPopup("show", row);
                       }}
                     />
+                    {isTEACHER(user) && (
+                      <ArticleIcon
+                        className={styles.action_icon}
+                        onClick={() => {
+                          handleNavigateDetail(row._id);
+                        }}
+                      />
+                    )}
                     {(isADMIN(user) || isSUPERADMIN(user)) && (
                       <>
                         <EditIcon

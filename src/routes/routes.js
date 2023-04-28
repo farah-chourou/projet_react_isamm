@@ -20,10 +20,12 @@ import EventIcon from "@mui/icons-material/Event";
 import { roles, permissions } from "../custom/roles";
 import ChangePwd from "../pages/dashboard/changerMdp/ChangerMdp";
 import ManageEvents from "../pages/dashboard/ManageEvents/ManageEvents";
-import { Details } from "@mui/icons-material";
+import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import DetailsEvent from "../pages/dashboard/ManageEvents/DetailsEvent";
 import AcountsPage from "../pages/dashboard/AcountStudents/AcountsPage";
 import EventDetail from "../pages/dashboard/MainPage/Event/EventDetail";
+import CVStudent from "../pages/dashboard/ManageStudents/CVStudent";
+import ManageAdmins from "../pages/dashboard/ManageAdmins/ManageAdmins";
 
 const not_logged = {
   routes: [
@@ -92,6 +94,15 @@ const dashboard = {
     },
     {
       main: "/dash",
+      path: "/gest_students/cv/:_id",
+      Component: CVStudent,
+      Icon: SchoolIcon,
+      role: [roles.TEACHER, roles.RESPONSIBLE],
+      perm_name: permissions.student,
+      in_nav: false,
+    },
+    {
+      main: "/dash",
       path: "/GestionDesEnseignants",
       Component: ManageTeachers,
       title: "Gest Enseignants",
@@ -107,6 +118,16 @@ const dashboard = {
       title: "Gest Evénement",
       Icon: EventIcon,
       role: [roles.ADMIN, roles.SUPERADMIN],
+      perm_name: permissions.teacher,
+      in_nav: true,
+    },
+    {
+      main: "/dash",
+      path: "/GestionDesAdmin",
+      Component: ManageAdmins,
+      title: "Gest Adminstrateur",
+      Icon: SupervisorAccountIcon,
+      role: [roles.SUPERADMIN],
       perm_name: permissions.teacher,
       in_nav: true,
     },
@@ -136,7 +157,7 @@ const dashboard = {
       Component: AcountsPage,
       title: "Compte Public",
       Icon: MeetingRoomIcon,
-      role: [roles.STUDENT],
+      role: [roles.ALUMINIE],
       perm_name: permissions.all,
       in_nav: true,
     },
