@@ -1,36 +1,35 @@
 import React, { useState } from "react";
 
-import Dialog from "../../../components/Popup/Popup";
+import Dialog from "../../../../components/Popup/Popup";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
-import StudentServ from "../../../services/Student.service";
+import ProjetServ from "../../../../services/Projet.service";
 
-function Delete({ popup, handleClose }) {
+function DeletePFE({ popup, handleClose }) {
   const { open, value, callback } = popup;
   const [loading, setLoading] = useState(false);
 
-  const succ = () => {
-    callback();
-    handleClose();
-    setLoading(false);
-  };
-
-  const fail = () => {
-    setLoading(false);
-  };
-
-  const DeleteStudent = () => {
-    StudentServ.DeleteStudent(value?._id, succ, fail);
+  const DeleteProject = () => {
+    ProjetServ.DeleteProject(value._id)
+      .then((resp) => {
+        console.log(resp);
+        callback();
+        handleClose();
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
   };
 
   return (
     <Dialog
       open={open}
       handleClose={handleClose}
-      title={`Supprimer :  ${value.firstName} ${value.lastName}`}
+      title={`Supprimer PFE : ${value.title}`}
     >
       <DialogContent dividers>
         <Typography variant="h5" component="h1" align="center">
@@ -45,7 +44,7 @@ function Delete({ popup, handleClose }) {
           autoFocus
           variant="contained"
           color="error"
-          onClick={DeleteStudent}
+          onClick={DeleteProject}
           disabled={loading}
         >
           Supprimer
@@ -55,4 +54,4 @@ function Delete({ popup, handleClose }) {
   );
 }
 
-export default Delete;
+export default DeletePFE;

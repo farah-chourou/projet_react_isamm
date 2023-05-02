@@ -138,13 +138,15 @@ function Profile() {
           </Grid>
         </Grid>
 
-        <Button
-          autoFocus
-          variant="outlined"
-          onClick={() => openPopup("show", user)}
-        >
-          Afficher Cv{" "}
-        </Button>
+        {(isALUMINIE(user) || isSTUDENT(user)) && (
+          <Button
+            autoFocus
+            variant="outlined"
+            onClick={() => openPopup("show", user)}
+          >
+            Afficher Cv
+          </Button>
+        )}
       </div>
 
       {popup.type === "update" && (

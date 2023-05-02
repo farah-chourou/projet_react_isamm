@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 
 import Button from "@mui/material/Button";
@@ -15,7 +15,8 @@ import Chip from "../../../components/Chip/Chip";
 import Avatar from "../../../components/Avatar/Avatar";
 
 import StudentServ from "../../../services/Student.service";
-import { isALUMINIE } from "../../../custom/roles";
+import { isALUMINIE, isADMIN, isSUPERADMIN } from "../../../custom/roles";
+import { UserContext } from "../../../store/Contexts";
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
@@ -26,24 +27,19 @@ import UpdateStudent from "./UpdateStudent";
 import DeleteStudent from "./DeleteStudent";
 import ShowStudent from "./ShowStudent";
 
+import { makeDate } from "../../../functions/Dates.functions";
+
 const init_student = {
-  birthDate: new Date(),
-  classe: "",
-  diplome: "",
-  diplomeDate: new Date(),
-  email: "",
   firstName: "",
-  isPublic: true,
   lastName: "",
-  niveau: "",
-  numero_classe: null,
-  password: "",
+  email: "",
   phoneNumber: "",
+  birthDate: new Date(),
+  sex: "MEN",
+  classe: "",
+  niveau: "",
+  numero_classe: "",
   promotion: "",
-  role: "",
-  sex: "",
-  userName: "",
-  _id: "",
 };
 
 const concact_class = (item) => {
@@ -57,7 +53,7 @@ const concact_class = (item) => {
 
 const isDiplomated = (item) => {
   const { diplome } = item;
-  return diplome.length > 0 ? (
+  return diplome.length > 0 && diplome !== "None" ? (
     <Chip label="Diplômé " color="primary" className={styles.chip} />
   ) : (
     <Chip label="non Diplômé " color="error" className={styles.chip} />
@@ -75,56 +71,54 @@ const isAluminie = (item) => {
 
 function ManageStudents() {
   const [students, setStudents] = useState([]);
+  const { user } = useContext(UserContext);
 
-  const [popup, setPopup] = useState({
-    open: false,
-    type: "",
-    value: init_student,
-  });
-
-  const openAdd = () => {
-    setPopup({ open: true, type: "add", value: init_student });
-  };
-
-  const openUpdate = (row) => {
-    setPopup({ open: true, type: "update", value: row });
-  };
-
-  const openShow = (row) => {
-    setPopup({ open: true, type: "show", value: row });
-  };
-
-  const openDelete = (row) => {
-    setPopup({ open: true, type: "delete", value: row });
-  };
-
-  const handleClose = () => {
-    setPopup({ open: false, type: "", value: init_student });
-  };
-
-  useEffect(() => {
-    StudentServ.GetAllPublicStudents(
+  const GetData = () => {
+    StudentServ.GetAllStudents(
       (data) => {
-        console.log(data);
         setStudents(data);
       },
       (error) => {
         console.log(error);
       }
     );
+  };
+
+  const [popup, setPopup] = useState({
+    open: false,
+    type: "",
+    value: init_student,
+    callback: GetData,
+  });
+
+  const openPopup = (type, data) => {
+    console.log(data);
+    setPopup({ ...popup, open: true, type: type, value: data });
+  };
+
+  const handleClose = () => {
+    setPopup({ ...popup, open: false, type: "", value: init_student });
+  };
+
+  useEffect(() => {
+    GetData();
   }, []);
 
   return (
     <div>
       <div className={styles.head}>
         <H1>Gestion Des Etudiants</H1>
-        <Button
-          onClick={openAdd}
-          startIcon={<PersonAddAlt1Icon />}
-          variant="contained"
-        >
-          Ajouter Etudiant
-        </Button>
+        {(isADMIN(user) || isSUPERADMIN(user)) && (
+          <Button
+            onClick={() => {
+              openPopup("add", init_student);
+            }}
+            startIcon={<PersonAddAlt1Icon />}
+            variant="contained"
+          >
+            Ajouter Etudiant
+          </Button>
+        )}
       </div>
       <div className={styles.filter}>
         <TextField
@@ -154,7 +148,8 @@ function ManageStudents() {
             <TableRow>
               <TableCell>Etudiant</TableCell>
               <TableCell>Nom</TableCell>
-              <TableCell>Prenom</TableCell>
+              <TableCell>Naissance</TableCell>
+              <TableCell>E-mail</TableCell>
               <TableCell>Class</TableCell>
               <TableCell>Diplômé</TableCell>
               <TableCell>Est Aluminie</TableCell>
@@ -170,6 +165,7 @@ function ManageStudents() {
                 <TableCell>
                   {row.firstName} {row.lastName}
                 </TableCell>
+                <TableCell>{makeDate(row.birthDate)}</TableCell>
                 <TableCell>{row.email}</TableCell>
                 <TableCell>{concact_class(row)}</TableCell>
                 <TableCell>{isDiplomated(row)}</TableCell>
@@ -177,16 +173,20 @@ function ManageStudents() {
                 <TableCell align="center">
                   <VisibilityIcon
                     className={styles.action_icon}
-                    onClick={() => openShow(row)}
+                    onClick={() => openPopup("show", row)}
                   />
-                  <EditIcon
-                    className={styles.action_icon}
-                    onClick={() => openUpdate(row)}
-                  />
-                  <DeleteIcon
-                    className={styles.action_icon}
-                    onClick={() => openDelete(row)}
-                  />
+                  {(isADMIN(user) || isSUPERADMIN(user)) && (
+                    <>
+                      <EditIcon
+                        className={styles.action_icon}
+                        onClick={() => openPopup("update", row)}
+                      />
+                      <DeleteIcon
+                        className={styles.action_icon}
+                        onClick={() => openPopup("delete", row)}
+                      />
+                    </>
+                  )}
                 </TableCell>
               </TableRow>
             ))}

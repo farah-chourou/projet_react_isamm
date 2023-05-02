@@ -35,3 +35,13 @@
 .textField {
   margin: 10px 0px !important;
 }
+
+.center_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  button {
+    height: 56px;
+  }
+}

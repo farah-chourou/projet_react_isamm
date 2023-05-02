@@ -21,6 +21,7 @@ const permissions = {
   technologie: "technologie",
   cv: "cv",
   saison: "saison",
+  none: "none",
 };
 
 const isAll = () => {
@@ -50,7 +51,7 @@ const have_access = (user, route_roles, route_perm) => {
   // user role exist in the array of roles
   if (have(route_roles, user?.role) || have(route_roles, roles.ALL)) {
     // user role is ADMIN
-    if (user?.role === roles.ADMIN) {
+    if (user?.role === roles.ADMIN && route_perm !== permissions.none) {
       // so we have to check permission
       return (
         have(user?.permessions, route_perm) || route_perm === permissions.all
