@@ -12,6 +12,7 @@ export default function BasicSelect({
   onChange,
   className,
   items = [],
+  disabled = false,
 }) {
   return (
     <FormControl fullWidth className={className}>
@@ -23,6 +24,7 @@ export default function BasicSelect({
         label={label}
         name={name}
         onChange={onChange}
+        disabled={disabled}
       >
         {items.map((item, key) => {
           return (

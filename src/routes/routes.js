@@ -16,12 +16,15 @@ import SchoolIcon from "@mui/icons-material/School";
 import CoPresentIcon from "@mui/icons-material/CoPresent";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import EventIcon from "@mui/icons-material/Event";
+import BookIcon from "@mui/icons-material/Book";
 // ------------------------- ROLES --------------------------------
 import { roles, permissions } from "../custom/roles";
 import ChangePwd from "../pages/dashboard/changerMdp/ChangerMdp";
 import ManageEvents from "../pages/dashboard/ManageEvents/ManageEvents";
 import { Details } from "@mui/icons-material";
 import DetailsEvent from "../pages/dashboard/ManageEvents/DetailsEvent";
+import StudentManageMyPFE from "../pages/dashboard/Projet_Stage_PFE/StudentMyPFE/StudentManageMyPFE";
+import StudentManageMyStage from "../pages/dashboard/Projet_Stage_PFE/StudentMyStage/StudentManageMyStage";
 
 const not_logged = {
   routes: [
@@ -107,6 +110,26 @@ const dashboard = {
       role: [roles.ADMIN, roles.SUPERADMIN],
       perm_name: permissions.teacher,
       in_nav: false,
+    },
+    {
+      main: "/dash",
+      path: "/student_my_pfes",
+      Component: StudentManageMyPFE,
+      title: "Gest Mon PFE",
+      Icon: BookIcon,
+      role: [roles.STUDENT],
+      perm_name: permissions.none,
+      in_nav: true,
+    },
+    {
+      main: "/dash",
+      path: "/student_my_stages",
+      Component: StudentManageMyStage,
+      title: "Gest Mon Stage",
+      Icon: BookIcon,
+      role: [roles.STUDENT],
+      perm_name: permissions.none,
+      in_nav: true,
     },
     {
       main: "/dash",

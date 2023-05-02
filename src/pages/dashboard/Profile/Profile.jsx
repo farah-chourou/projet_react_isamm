@@ -7,10 +7,11 @@ import UpdateProfile from "./UpdateProfile";
 import ShowCv from "./ShowCv";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
+import { isALUMINIE, isSTUDENT } from "../../../custom/roles";
 
 // firstName, lastName, phoneNumber, birthDate, sex
 function Profile() {
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   const init_cv = {
     student: "",
@@ -110,13 +111,15 @@ function Profile() {
           </Grid>
         </Grid>
 
-        <Button
-          autoFocus
-          variant="outlined"
-          onClick={() => openPopup("show", user)}
-        >
-          Afficher Cv{" "}
-        </Button>
+        {(isALUMINIE(user) || isSTUDENT(user)) && (
+          <Button
+            autoFocus
+            variant="outlined"
+            onClick={() => openPopup("show", user)}
+          >
+            Afficher Cv
+          </Button>
+        )}
       </div>
 
       {popup.type === "update" && (
