@@ -8,6 +8,7 @@ import ShowCv from "./ShowCv";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { isALUMINIE, isSTUDENT } from "../../../custom/roles";
 
 // firstName, lastName, phoneNumber, birthDate, sex
 function Profile() {
