@@ -7,9 +7,37 @@ import UpdateProfile from "./UpdateProfile";
 import ShowCv from "./ShowCv";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 // firstName, lastName, phoneNumber, birthDate, sex
 function Profile() {
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
+
+  const lightTheme = createTheme({
+    palette: {
+      mode: "light",
+      // add any other custom theme settings for the light theme
+    },
+  });
+
+  const darkTheme = createTheme({
+    palette: {
+      mode: "dark",
+      // add any other custom theme settings for the dark theme
+    },
+    overrides: {
+      typography: {
+        h3: {
+          color: "red",
+        },
+      },
+    },
+  });
+
+  function handleThemeChange() {
+    setIsDarkTheme(!isDarkTheme);
+  }
+
   const { user, setUser } = useContext(UserContext);
 
   const init_cv = {
@@ -122,8 +150,16 @@ function Profile() {
       {popup.type === "update" && (
         <UpdateProfile popup={popup} handleClose={handleClose} />
       )}
+
       {popup.type === "show" && (
-        <ShowCv popup={popup} handleClose={handleClose} />
+        <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
+          <ShowCv
+            popup={popup}
+            handleClose={handleClose}
+            handleThemeChange={handleThemeChange}
+            isDarkTheme={isDarkTheme}
+          />
+        </ThemeProvider>
       )}
     </>
   );

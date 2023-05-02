@@ -8,6 +8,7 @@ import Loading from "./components/Loading/Loading";
 import AuthServ from "./services/Auth.service";
 
 import { UserContext } from "./store/Contexts";
+import Cv from "./pages/dashboard/Profile/Cv";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -49,6 +50,7 @@ function App() {
                 return <Route key={key} path={path} element={<Component />} />;
               })}
               <Route path="/*" element={<Navigate to={routes.default} />} />
+              <Route path="/cv" element={<Cv />} />
             </Routes>
           </BrowserRouter>
         )}
