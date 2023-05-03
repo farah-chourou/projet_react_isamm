@@ -5,7 +5,6 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
 import styles from "./styles.module.scss";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -16,10 +15,12 @@ import ProjetServ from "../../../../services/Projet.service";
 import TechloServ from "../../../../services/technologies.service";
 import { makeDate2 } from "../../../../functions/Dates.functions";
 import { toast } from "react-hot-toast";
+import { Autocomplete } from "@mui/material";
 
 function UpdateStage({ popup, handleClose }) {
   const { open, value, callback } = popup;
   const [promos, setPromos] = useState([]);
+  const [societes, setSocietes] = useState([]);
   const [techs, setTechs] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -62,6 +63,13 @@ function UpdateStage({ popup, handleClose }) {
       .then((resp) => setTechs(resp.data.data))
       .catch(() => {
         console.log("error");
+      });
+    ProjetServ.GetSocietes()
+      .then((resp) => {
+        setSocietes(resp.data.data);
+      })
+      .catch((error) => {
+        console.log(error);
       });
   }, []);
 
@@ -106,14 +114,25 @@ function UpdateStage({ popup, handleClose }) {
             </Grid>
 
             <Grid item xl={12} lg={12} md={12}>
-              <TextField
-                fullWidth
-                type="text"
-                className={styles.textField}
-                label="Societe"
-                name="societe"
+              <Autocomplete
+                freeSolo
+                options={societes.map((option) => option)}
+                onChange={(event, newValue) => {
+                  handle_change({
+                    target: { name: "societe", value: newValue },
+                  });
+                }}
                 value={form.societe}
-                onChange={handle_change}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Societe"
+                    name="societe"
+                    className={styles.textField}
+                    onChange={handle_change}
+                    value={form.societe}
+                  />
+                )}
               />
             </Grid>
 

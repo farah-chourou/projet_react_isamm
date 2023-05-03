@@ -13,6 +13,10 @@ const GetMyStages = () => {
   return axios.get(`/api/project/get_stage_student`);
 };
 
+const GetSocietes = () => {
+  return axios.get(`/api/project/get_societes`);
+};
+
 const UpdateProject = (data) => {
   const allowedData = GetOnly(
     [
@@ -52,6 +56,7 @@ const DeleteProject = (_id) => {
 export default {
   AddProject,
   GetMyPfes,
+  GetSocietes,
   GetMyStages,
   UpdateProject,
   DeleteProject,

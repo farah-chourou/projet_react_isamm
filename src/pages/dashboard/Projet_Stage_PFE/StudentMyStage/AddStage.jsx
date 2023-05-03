@@ -21,6 +21,7 @@ function AddStage({ popup, handleClose }) {
   const { open, value, callback } = popup;
   const [promos, setPromos] = useState([]);
   const [techs, setTechs] = useState([]);
+  const [societes, setSocietes] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const [form, setForm] = useState({
@@ -65,6 +66,13 @@ function AddStage({ popup, handleClose }) {
       .catch(() => {
         console.log("error");
       });
+    ProjetServ.GetSocietes()
+      .then((resp) => {
+        setSocietes(resp.data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   const handleSubmit = () => {
@@ -107,14 +115,25 @@ function AddStage({ popup, handleClose }) {
             </Grid>
 
             <Grid item xl={12} lg={12} md={12}>
-              <TextField
-                fullWidth
-                type="text"
-                className={styles.textField}
-                label="Societe"
-                name="societe"
+              <Autocomplete
+                freeSolo
+                options={societes.map((option) => option)}
+                onChange={(event, newValue) => {
+                  handle_change({
+                    target: { name: "societe", value: newValue },
+                  });
+                }}
                 value={form.societe}
-                onChange={handle_change}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Societe"
+                    name="societe"
+                    className={styles.textField}
+                    onChange={handle_change}
+                    value={form.societe}
+                  />
+                )}
               />
             </Grid>
 
