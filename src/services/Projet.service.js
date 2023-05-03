@@ -1,5 +1,6 @@
 import axios from "../custom/axios";
 import { GetOnly } from "../functions/Arrays.functions";
+import { MakeQuery } from "../functions/MakeQuery";
 
 const AddProject = (data) => {
   return axios.post(`/api/project/create`, { ...data });
@@ -7,6 +8,10 @@ const AddProject = (data) => {
 
 const GetMyPfes = () => {
   return axios.get(`/api/project/get_pfe_student`);
+};
+
+const GetEverything = (query = {}) => {
+  return axios.get(`/api/project/get_all`, MakeQuery(query));
 };
 
 const GetMyStages = () => {
@@ -36,6 +41,14 @@ const UpdateProject = (data) => {
   return axios.post(`/api/project/update`, { ...allowedData });
 };
 
+const EnseigChoisirPfe = (_id) => {
+  return axios.post(`/api/project/approve_by_enseig/${_id}`);
+};
+
+const AdminValidateProject = (_id, data) => {
+  return axios.post(`/api/project/approve_by_admin/${_id}`, { ...data });
+};
+
 const DeleteProject = (_id) => {
   return axios.delete(`/api/project/delete/${_id}`);
 };
@@ -58,6 +71,9 @@ export default {
   GetMyPfes,
   GetSocietes,
   GetMyStages,
+  GetEverything,
   UpdateProject,
   DeleteProject,
+  EnseigChoisirPfe,
+  AdminValidateProject,
 };
