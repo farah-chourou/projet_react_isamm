@@ -60,7 +60,7 @@ function CVStudent() {
         direction="column"
         className="  rounded shadow-lg m-1 "
         sx={
-          CV?.style === 2
+          CV?.style === 1
             ? { color: "white", background: "#383838", padding: 2 }
             : { padding: 2 }
         }

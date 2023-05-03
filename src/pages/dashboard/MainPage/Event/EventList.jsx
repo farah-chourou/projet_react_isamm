@@ -37,7 +37,7 @@ function EventList() {
     <>
       <Swiper
         slidesPerView={3}
-        spaceBetween={30}
+        spaceBetween={10}
         freeMode={true}
         pagination={{
           clickable: true,
@@ -47,6 +47,7 @@ function EventList() {
       >
         {Events.map((item) => (
           <SwiperSlide>
+            
             <Box
               onClick={(_id) => handleNavigateDetail(item._id)}
               sx={{
@@ -55,7 +56,7 @@ function EventList() {
                 padding: 2,
                 boxShadow: "0px 4px 8px rgba(38, 38, 38, 0.2)",
                 borderRadius: 4,
-                maxWidth: 400,
+                maxWidth: 420,
                 cursor: "pointer",
                 height: 150,
                 margin: 1,
@@ -73,7 +74,7 @@ function EventList() {
                 <Typography variant="h6">{item.eventName}</Typography>
                 <Typography variant="caption">{item.description}</Typography>
               </Box>
-              <Box sx={{ marginLeft: 6 }}>
+              <Box sx={{ marginLeft: 3 }}>
                 <Button
                   startIcon={<StarBorderIcon />}
                   variant="outlined"
