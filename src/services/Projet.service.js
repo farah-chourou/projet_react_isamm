@@ -9,6 +9,10 @@ const GetMyPfes = () => {
   return axios.get(`/api/project/get_pfe_student`);
 };
 
+/*const GetMyPfas = () => {
+  return axios.get(`/api/project/get_pfe_student`);
+};*/
+
 const GetMyStages = () => {
   return axios.get(`/api/project/get_stage_student`);
 };

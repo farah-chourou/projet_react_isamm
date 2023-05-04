@@ -1,6 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import CvUpdt from "../../../services/Cv.service";
-import "./Cv.css";
+import { UserContext } from "../../../store/Contexts";
+
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import {
+  Box,
+  Container,
+  Stack,
+  Typography,
+  Grid,
+  Button,
+  IconButton,
+  Avatar,
+} from "@mui/material";
+
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import DateRangeIcon from "@mui/icons-material/DateRange";
+import { fDate } from "../../../functions/formatTime";
+import Chip from "@mui/material/Chip";
 
 function Cv() {
   const init_cv = {
@@ -16,6 +35,20 @@ function Cv() {
     hobbys: [],
   };
   const [cv, setCv] = useState(init_cv);
+  const [sx, setSx] = useState({ padding: 2 });
+  const { user } = useContext(UserContext);
+
+  const handleClick = () => {
+    // If cv.style is currently 1, change it to 2 and update sx object
+    if (cv.style === 1) {
+      setCv({ ...cv, style: 2 });
+      setSx({ color: "white", background: "#383838", padding: 2 });
+    } else {
+      // If cv.style is currently 2, change it to 1 and update sx object
+      setCv({ ...cv, style: 1 });
+      setSx({ padding: 2 });
+    }
+  };
 
   useEffect(() => {
     CvUpdt.GetCvByUser(
@@ -31,328 +64,228 @@ function Cv() {
 
   return (
     <div>
-      <div class="paper">
-        <div class="part1">
-          <div class="img"></div>
-          <div>
-            <h4>Summary</h4>
-            <p>{cv.bio}</p>
-            <hr />
+      <Grid
+        container
+        direction="column"
+        className="rounded shadow-lg m-1"
+        style={sx}
+      >
+        <Button onClick={handleClick}>{cv.style}-Theme</Button>
+        {/* Your other Grid components */}
+        <Grid
+          className="pt-4 rounded"
+          item
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            backgroundColor: "#383838",
+          }}
+        >
+          <Avatar
+            src={cv?.student?.profilImage}
+            alt="User Image"
+            style={{
+              width: "140px",
+              height: "140px",
+              borderRadius: "50%",
+              top: 50,
+            }}
+          />
+        </Grid>
+        <Grid
+          item
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: 65,
+          }}
+        >
+          {" "}
+          <Box>
+            <Typography variant="h6">
+              {" "}
+              {user.firstName} {user.lastName}
+            </Typography>
+          </Box>
+        </Grid>
+        <Grid
+          item
+          sx={{
+            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+            borderRadius: "5px",
+            border: "1px solid #ddd",
+            padding: 2,
+            marginTop: 3,
+          }}
+        >
+          {" "}
+          <Box>
+            <Typography variant="h6"> Informations Générales</Typography>
+            <Typography variant="body1" color="gray">
+              {cv.bio}
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <LocationOnIcon sx={{ marginRight: "5px" }} /> {cv?.localisation}
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <LinkedInIcon sx={{ marginRight: "5px" }} /> {cv?.linkedIn}
+            </Typography>
+          </Box>
+        </Grid>
+        <Grid
+          item
+          sx={{
+            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+            borderRadius: "5px",
+            border: "1px solid #ddd",
+            padding: 2,
+            marginTop: 3,
+          }}
+        >
+          {" "}
+          <Typography variant="h6"> Experience</Typography>
+          {cv?.experiences?.map((item) => (
+            <Box sx={{ borderBottom: "1px solid gray " }}>
+              <Typography variant="body1">{item.title}</Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+                color="gray"
+              >
+                <LocationOnIcon sx={{ marginRight: "5px" }} />{" "}
+                {item.emplacement}
+              </Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+                color="gray"
+              >
+                <DateRangeIcon sx={{ marginRight: "5px" }} />{" "}
+                {fDate(item.startDate)} - {fDate(item.endDate)}
+              </Typography>
+              <Typography variant="body1">{item.description}</Typography>
+            </Box>
+          ))}
+        </Grid>
+        <Grid
+          item
+          sx={{
+            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+            borderRadius: "5px",
+            border: "1px solid #ddd",
+            padding: 2,
+            marginTop: 3,
+          }}
+        >
+          {" "}
+          <Typography variant="h6"> Formation</Typography>
+          {cv?.formations?.map((item) => (
+            <Box sx={{ borderBottom: "1px solid gray " }}>
+              <Typography variant="body1">{item.title}</Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+                color="gray"
+              >
+                <LocationOnIcon sx={{ marginRight: "5px" }} />{" "}
+                {item.emplacement}
+              </Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+                color="gray"
+              >
+                <DateRangeIcon sx={{ marginRight: "5px" }} />{" "}
+                {fDate(item.startDate)} - {fDate(item.endDate)}
+              </Typography>
+              <Typography variant="body1">{item.description}</Typography>
+            </Box>
+          ))}
+        </Grid>
+        <Grid
+          item
+          sx={{
+            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+            borderRadius: "5px",
+            border: "1px solid #ddd",
+            padding: 2,
+            marginTop: 3,
+          }}
+        >
+          {" "}
+          <Typography variant="h6"> Compétence</Typography>
+          <Typography variant="subtitle2">Compétences Générales</Typography>
+          {cv?.soft_skills?.map((item) => (
+            <Box>
+              <Typography variant="body1">{item}</Typography>
+            </Box>
+          ))}
+          <Typography variant="subtitle2"> Compétences techniques</Typography>
+          {cv?.hard_skills?.map((item) => (
+            <Box>
+              <Typography variant="body1">{item}</Typography>
+            </Box>
+          ))}
+          <Typography variant="subtitle2"> Language</Typography>
+          {cv?.languages?.map((item) => (
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <Chip label={item.lang} />
 
-            <h4>Language</h4>
-            <h5>English - Good</h5>
-            <h5>French - Medium</h5>
-            <hr />
-
-            <h4>Soft Skills</h4>
-            <div class="skill">
-              <h5>Problem-Solving</h5>
-              <div class="rates">
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-0"></span>
-              </div>
-            </div>
-
-            <div class="skill">
-              <h5>Creativity</h5>
-              <div class="rates">
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-0"></span>
-                <span class="r-0"></span>
-              </div>
-            </div>
-
-            <div class="skill">
-              <h5>Communication</h5>
-              <div class="rates">
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-0"></span>
-              </div>
-            </div>
-
-            <div class="skill">
-              <h5>Teamwork</h5>
-              <div class="rates">
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-0"></span>
-              </div>
-            </div>
-
-            <div class="skill">
-              <h5>Management</h5>
-              <div class="rates">
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-0"></span>
-                <span class="r-0"></span>
-              </div>
-            </div>
-
-            <div class="skill">
-              <h5>Learning</h5>
-              <div class="rates">
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-0"></span>
-              </div>
-            </div>
-            <hr />
-
-            <h4>Hard - Skills</h4>
-            <div class="skill">
-              <h5>Html</h5>
-              <div class="rates">
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-0"></span>
-              </div>
-            </div>
-
-            <div class="skill">
-              <h5>Css</h5>
-              <div class="rates">
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-0"></span>
-                <span class="r-0"></span>
-              </div>
-            </div>
-
-            <div class="skill">
-              <h5>JavaScript</h5>
-              <div class="rates">
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-0"></span>
-              </div>
-            </div>
-
-            <div class="skill">
-              <h5>Java</h5>
-              <div class="rates">
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-0"></span>
-                <span class="r-0"></span>
-              </div>
-            </div>
-
-            <div class="skill">
-              <h5>Python</h5>
-              <div class="rates">
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-0"></span>
-                <span class="r-0"></span>
-              </div>
-            </div>
-            <hr />
-
-            <h4>Frameworks</h4>
-            <div class="skill">
-              <h5>React Js</h5>
-              <div class="rates">
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-0"></span>
-              </div>
-            </div>
-
-            <div class="skill">
-              <h5>Node JS</h5>
-              <div class="rates">
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-0"></span>
-              </div>
-            </div>
-
-            <div class="skill">
-              <h5>Jee</h5>
-              <div class="rates">
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-0"></span>
-                <span class="r-0"></span>
-              </div>
-            </div>
-
-            <div class="skill">
-              <h5>Spring Boot</h5>
-              <div class="rates">
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-1"></span>
-                <span class="r-0"></span>
-                <span class="r-0"></span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="part2">
-          <div class="header">
-            <h2>Ben Echikh Hatem</h2>
-            <h2 class="ital">Full Stack Web Developer</h2>
-
-            <p class="info">
-              <span class="material-icons icon">mail_outline</span>
-              Hatembenechikh782@gmail.com
-            </p>
-
-            <p class="info">
-              <span class="material-icons icon">phone_iphone</span>
-              +216 58 217 529
-            </p>
-            <br />
-            <p class="info">
-              <span class="material-icons icon">map</span>
-              26 street 4700 hrayreya 3 zohour 4 tunis - 2052
-            </p>
-            <hr />
-          </div>
-
-          <div class="Education">
-            <h3>Education</h3>
-
-            <p class="education">
-              <span class="material-icons icon">school</span>
-              Computer Science Engineering
-            </p>
-
-            <p class="university">
-              <span class="material-icons icon">location_city</span>
-              Institut Superieur Des Arts Et Multimedia Manouba
-            </p>
-
-            <p class="university">
-              <span class="material-icons icon">event</span>
-              2022 - 2024
-            </p>
-
-            <br />
-
-            <p class="education">
-              <span class="material-icons icon">school</span>
-              Fundamental License in Computer Science and Multimedia
-            </p>
-
-            <p class="university">
-              <span class="material-icons icon">location_city</span>
-              Institut Superieur Des Arts Et Multimedia Manouba
-            </p>
-
-            <p class="university">
-              <span class="material-icons icon">event</span>
-              2019 - 2021
-            </p>
-
-            <br />
-
-            <p class="education">
-              <span class="material-icons icon">school</span>
-              bachelor's degree in computer science
-            </p>
-
-            <p class="university">
-              <span class="material-icons icon">event</span>
-              2017 - 2018
-            </p>
-            <hr />
-          </div>
-
-          <div class="Experience">
-            <h3>Experience</h3>
-
-            <p class="post">Indigames Club - ISAMM 2018-2019</p>
-
-            <p class="experience">
-              Member , Graphic Design And Event Management
-            </p>
-
-            <br />
-
-            <p class="post">Microsoft Club - ISAMM 2019-2020</p>
-
-            <p class="experience">Member , Organizing Game Dev Sessions</p>
-
-            <br />
-
-            <p class="post">Orenda Junior Entreprise - ISAMM 2020-2021</p>
-
-            <p class="experience">
-              Junior Web Developer : A Part of A team of 4 developers In Order,
-              Building An Association Platform
-            </p>
-
-            <br />
-
-            <p class="post">Bright Digital Agency 2020-2021</p>
-
-            <p class="experience">
-              Final Year Project : Building A Rental Car Managemet Platform
-            </p>
-
-            <br />
-
-            <p class="post">Pikoro Agency 2020-2021</p>
-
-            <p class="experience">
-              Summer internship : Building An Agency Website
-            </p>
-          </div>
-
-          {/* 		
-				<hr/>
-
-			<div class="Courses">
-				<h3>Courses</h3>
-
-				<p class="courses">
-					React-Js : Maximilian Schwarzmüller + Codevolution
-				</p>
-				<p class="courses">
-					Node-Js : Code With Mosh
-				</p>
-				<p class="courses">
-					Html + Css : Elzero Web School + Css Tricks
-				</p>
-				<p class="courses">
-					Jee + Java : Isamm
-				</p>
-				<p class="courses">
-					Spring Boot : Isamm + Spring Framework Guru
-				</p>
-
-				
-			</div> */}
-        </div>
-      </div>
+              <Typography variant="body1" color="gray" ml={2}>
+                {item.level}
+              </Typography>
+            </Box>
+          ))}
+        </Grid>
+        <Grid
+          item
+          sx={{
+            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+            borderRadius: "5px",
+            border: "1px solid #ddd",
+            padding: 2,
+            marginTop: 3,
+          }}
+        >
+          {" "}
+          <Typography variant="h6"> Loisir</Typography>
+          {cv?.hobbys?.map((item) => (
+            <Stack direction="row" spacing={1}>
+              <Chip label={item} variant="outlined" />
+            </Stack>
+          ))}
+        </Grid>
+      </Grid>
     </div>
   );
 }

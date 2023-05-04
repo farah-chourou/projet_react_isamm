@@ -35,11 +35,13 @@
 .textField {
   margin: 10px 0px !important;
 }
-.classLabel {
-  font-weight: bold;
-}
 
-.btn-style {
-  width: 80px; /* Set the width of the button */
-  margin: 0 auto; /* Center the button horizontally */
+.center_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  button {
+    height: 56px;
+  }
 }

@@ -25,6 +25,7 @@ import { Details } from "@mui/icons-material";
 import DetailsEvent from "../pages/dashboard/ManageEvents/DetailsEvent";
 import StudentManageMyPFE from "../pages/dashboard/Projet_Stage_PFE/StudentMyPFE/StudentManageMyPFE";
 import StudentManageMyStage from "../pages/dashboard/Projet_Stage_PFE/StudentMyStage/StudentManageMyStage";
+import TeacherPFA from "../pages/dashboard/Projet_Stage_PFE/TeacherPFA/StudentManageMyPFE";
 
 const not_logged = {
   routes: [
@@ -128,6 +129,16 @@ const dashboard = {
       title: "Gest Mon Stage",
       Icon: BookIcon,
       role: [roles.STUDENT],
+      perm_name: permissions.none,
+      in_nav: true,
+    },
+    {
+      main: "/dash",
+      path: "/teacher_my_pfa",
+      Component: TeacherPFA,
+      title: "Gest Mon PFA",
+      Icon: BookIcon,
+      role: [roles.TEACHER],
       perm_name: permissions.none,
       in_nav: true,
     },
