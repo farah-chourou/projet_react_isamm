@@ -12,17 +12,15 @@ import TableRow from "@mui/material/TableRow";
 import H1 from "../../../../components/Texts/H1";
 import Chip from "../../../../components/Chip/Chip";
 import Avatar from "../../../../components/Avatar/Avatar";
+import Select from "../../../../components/Inputs/Select";
 
 import ProjetServ from "../../../../services/Projet.service";
 import { UserContext } from "../../../../store/Contexts";
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
-import AddPFE from "./AddPFE";
-import UpdatePFE from "./UpdatePFE";
-import DeletePFE from "./DeletePFE";
+import ChoisirPFE from "./ApproveByEnsg";
 import ShowMyPFE from "./ShowMyPFE";
 
 const init_project = {
@@ -97,12 +95,17 @@ const MakeState = ({ project_life_cycle = "Pending_Validation" }) => {
   }
 };
 
-function StudentManageMyPFE() {
+function EnseigManagePFE() {
   const [projects, setprojects] = useState([]);
   const { user } = useContext(UserContext);
+  const [FilterEncad, setFilterEncad] = useState("None");
 
   const GetData = () => {
-    ProjetServ.GetMyPfes()
+    let query = { type: "PFE" };
+    if (FilterEncad && FilterEncad !== "None") {
+      query = { ...query, encadrant: FilterEncad };
+    }
+    ProjetServ.GetEverything({ ...query })
       .then((resp) => {
         setprojects(resp.data.data);
       })
@@ -127,23 +130,37 @@ function StudentManageMyPFE() {
     setPopup({ ...popup, open: false, type: "", value: init_project });
   };
 
+  const handle_change = (event) => {
+    const { value } = event.target;
+    setFilterEncad(value);
+  };
+
   useEffect(() => {
     GetData();
-  }, []);
+  }, [FilterEncad]);
 
   return (
     <div>
       <div className={styles.head}>
-        <H1>Mes PFEs</H1>
-        <Button
-          onClick={() => {
-            openPopup("add", init_project);
-          }}
-          startIcon={<BookIcon />}
-          variant="contained"
-        >
-          Ajouter PFE
-        </Button>
+        <H1>Liste des projets de fin d'études</H1>
+      </div>
+      <div className={styles.filterEncad}>
+        <Select
+          className={styles.textField}
+          value={FilterEncad}
+          label="Filtrer Tout PFE / Mes PFE"
+          onChange={handle_change}
+          items={[
+            {
+              name: "Mes PFEs",
+              value: user._id,
+            },
+            {
+              name: "Tout PFEs",
+              value: "None",
+            },
+          ]}
+        />
       </div>
       <div className={styles.body}>
         <Table sx={{ minWidth: 1000 }}>
@@ -191,36 +208,26 @@ function StudentManageMyPFE() {
                     className={styles.action_icon}
                     onClick={() => openPopup("show", row)}
                   />
-                  <>
-                    <EditIcon
+                  {!row.encadrant && (
+                    <CheckCircleIcon
                       className={styles.action_icon}
-                      onClick={() => openPopup("update", row)}
+                      onClick={() => openPopup("choisir", row)}
                     />
-                    <DeleteIcon
-                      className={styles.action_icon}
-                      onClick={() => openPopup("delete", row)}
-                    />
-                  </>
+                  )}
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </div>
-      {popup.type === "add" && (
-        <AddPFE popup={popup} handleClose={handleClose} />
-      )}
-      {popup.type === "update" && (
-        <UpdatePFE popup={popup} handleClose={handleClose} />
-      )}
       {popup.type === "show" && (
         <ShowMyPFE popup={popup} handleClose={handleClose} />
       )}
-      {popup.type === "delete" && (
-        <DeletePFE popup={popup} handleClose={handleClose} />
+      {popup.type === "choisir" && (
+        <ChoisirPFE popup={popup} handleClose={handleClose} />
       )}
     </div>
   );
 }
 
-export default StudentManageMyPFE;
+export default EnseigManagePFE;

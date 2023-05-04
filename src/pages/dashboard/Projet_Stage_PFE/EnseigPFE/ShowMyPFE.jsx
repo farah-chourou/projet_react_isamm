@@ -16,6 +16,10 @@ const MakeAvatarProj = ({ title = "" }) => {
 
 const MakeState = ({ project_life_cycle = "Pending_Validation" }) => {
   switch (project_life_cycle) {
+    case "Pending_Teacher":
+      return (
+        <Chip label="Attend Enseignant" color="error" className={styles.chip} />
+      );
     case "Pending_Validation":
       return (
         <Chip
@@ -28,19 +32,32 @@ const MakeState = ({ project_life_cycle = "Pending_Validation" }) => {
       return <Chip label="Validée" color="success" className={styles.chip} />;
     default:
       return (
-        <Chip label="Attend Validation" color="error" className={styles.chip} />
+        <Chip label="Attend Enseignant" color="error" className={styles.chip} />
       );
   }
 };
 
-function ShowMyStage({ popup, handleClose }) {
+const MakeEncadrent = ({ encadrant }) => {
+  if (encadrant) {
+    const { firstName, lastName } = encadrant;
+    return (
+      <span>
+        {firstName} {lastName}
+      </span>
+    );
+  } else {
+    return <Chip label="pad encore" color="warning" className={styles.chip} />;
+  }
+};
+
+function ShowPFE({ popup, handleClose }) {
   const { open, value } = popup;
 
   return (
     <Dialog
       open={open}
       handleClose={handleClose}
-      title={`STAGE :  ${value.title}`}
+      title={`PFE :  ${value.title}`}
     >
       <DialogContent dividers>
         <div className={styles.show}>
@@ -50,6 +67,17 @@ function ShowMyStage({ popup, handleClose }) {
             </div>
             <h3>{value.title}</h3>
           </div>
+
+          {value.students.length > 0 && (
+            <div className={styles.part1}>
+              <h2>
+                Etudiant :{" "}
+                <a href="/cv/blablabla" target="_blank">
+                  {value.students[0].firstName} {value.students[0].lastName}
+                </a>
+              </h2>
+            </div>
+          )}
 
           <div className={styles.part2}>
             <h4>Societe : </h4>
@@ -79,6 +107,13 @@ function ShowMyStage({ popup, handleClose }) {
           </div>
 
           <div className={styles.part2}>
+            <h4>Encadrent : </h4>
+            <h5>
+              <MakeEncadrent encadrant={value.encadrant} />
+            </h5>
+          </div>
+
+          <div className={styles.part2}>
             <h4>Description : </h4>
             <h5>{value.description}</h5>
           </div>
@@ -98,4 +133,4 @@ function ShowMyStage({ popup, handleClose }) {
   );
 }
 
-export default ShowMyStage;
+export default ShowPFE;

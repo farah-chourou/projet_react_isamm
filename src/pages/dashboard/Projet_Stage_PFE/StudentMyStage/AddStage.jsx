@@ -5,6 +5,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 import styles from "./styles.module.scss";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -12,12 +13,15 @@ import Select from "../../../../components/Inputs/Select";
 
 import PromoServ from "../../../../services/Promotion.service";
 import ProjetServ from "../../../../services/Projet.service";
+import TechloServ from "../../../../services/technologies.service";
 import { makeDate2 } from "../../../../functions/Dates.functions";
 import { toast } from "react-hot-toast";
 
 function AddStage({ popup, handleClose }) {
   const { open, value, callback } = popup;
   const [promos, setPromos] = useState([]);
+  const [techs, setTechs] = useState([]);
+  const [societes, setSocietes] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const [form, setForm] = useState({
@@ -57,6 +61,18 @@ function AddStage({ popup, handleClose }) {
   useEffect(() => {
     const fail = () => {};
     PromoServ.GetAllPromotions(setPromos, fail);
+    TechloServ.GetTechs()
+      .then((resp) => setTechs(resp.data.data))
+      .catch(() => {
+        console.log("error");
+      });
+    ProjetServ.GetSocietes()
+      .then((resp) => {
+        setSocietes(resp.data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   const handleSubmit = () => {
@@ -99,14 +115,25 @@ function AddStage({ popup, handleClose }) {
             </Grid>
 
             <Grid item xl={12} lg={12} md={12}>
-              <TextField
-                fullWidth
-                type="text"
-                className={styles.textField}
-                label="Societe"
-                name="societe"
+              <Autocomplete
+                freeSolo
+                options={societes.map((option) => option)}
+                onChange={(event, newValue) => {
+                  handle_change({
+                    target: { name: "societe", value: newValue },
+                  });
+                }}
                 value={form.societe}
-                onChange={handle_change}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Societe"
+                    name="societe"
+                    className={styles.textField}
+                    onChange={handle_change}
+                    value={form.societe}
+                  />
+                )}
               />
             </Grid>
 
@@ -165,16 +192,25 @@ function AddStage({ popup, handleClose }) {
                 <Grid key={key} item xl={4} lg={4} md={12}>
                   <Grid container spacing={1}>
                     <Grid item xl={9} lg={9} md={9}>
-                      <TextField
-                        fullWidth
-                        type="email"
-                        className={styles.textField}
-                        label={`Technology N° ${key + 1}`}
-                        name="technologies"
-                        value={value}
-                        onChange={(e) => {
-                          handle_change_tech(key, e.target.value);
+                      <Autocomplete
+                        id="free-solo-demo"
+                        freeSolo
+                        options={techs.map((option) => option.title)}
+                        onChange={(event, newValue) => {
+                          handle_change_tech(key, newValue);
                         }}
+                        value={value}
+                        renderInput={(params) => (
+                          <TextField
+                            value={value}
+                            {...params}
+                            label={`Technology N° ${key + 1}`}
+                            className={styles.textField}
+                            onChange={(e) => {
+                              handle_change_tech(key, e.target.value);
+                            }}
+                          />
+                        )}
                       />
                     </Grid>
                     <Grid

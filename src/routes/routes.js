@@ -26,6 +26,8 @@ import DetailsEvent from "../pages/dashboard/ManageEvents/DetailsEvent";
 import StudentManageMyPFE from "../pages/dashboard/Projet_Stage_PFE/StudentMyPFE/StudentManageMyPFE";
 import StudentManageMyStage from "../pages/dashboard/Projet_Stage_PFE/StudentMyStage/StudentManageMyStage";
 import TeacherPFA from "../pages/dashboard/Projet_Stage_PFE/TeacherPFA/StudentManageMyPFE";
+import EnseigManagePFE from "../pages/dashboard/Projet_Stage_PFE/EnseigPFE/EnseigManagePFE";
+import AdminManageProject from "../pages/dashboard/Projet_Stage_PFE/AdminProjects/AdminManageProject";
 
 const not_logged = {
   routes: [
@@ -137,8 +139,21 @@ const dashboard = {
       path: "/teacher_my_pfa",
       Component: TeacherPFA,
       title: "Gest Mon PFA",
+      path: "/enseig_pfe",
+      Component: EnseigManagePFE,
+      title: "Gest PFE",
       Icon: BookIcon,
       role: [roles.TEACHER],
+      perm_name: permissions.none,
+      in_nav: true,
+    },
+    {
+      main: "/dash",
+      path: "/admin_projects",
+      Component: AdminManageProject,
+      title: "Gest PFE/Stage",
+      Icon: BookIcon,
+      role: [roles.SUPERADMIN, roles.RESPONSIBLE],
       perm_name: permissions.none,
       in_nav: true,
     },

@@ -12,18 +12,19 @@ import TableRow from "@mui/material/TableRow";
 import H1 from "../../../../components/Texts/H1";
 import Chip from "../../../../components/Chip/Chip";
 import Avatar from "../../../../components/Avatar/Avatar";
+import Select from "../../../../components/Inputs/Select";
 
 import ProjetServ from "../../../../services/Projet.service";
+import PromoServ from "../../../../services/Promotion.service";
 import { UserContext } from "../../../../store/Contexts";
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
-import AddPFE from "./AddPFE";
-import UpdatePFE from "./UpdatePFE";
-import DeletePFE from "./DeletePFE";
-import ShowMyPFE from "./ShowMyPFE";
+import ApproveByAdmin from "./ApproveByAdmin";
+import ShowMyPFE from "./ShowPFE";
+import { EleminateNull } from "../../../../functions/MakeQuery";
+import { Grid } from "@mui/material";
 
 const init_project = {
   _id: "",
@@ -43,7 +44,7 @@ const MakeAvatarProj = ({ title = "" }) => {
   return <Avatar variant="rounded" name={`${first} ${second} `} />;
 };
 
-const MakeEncadrent = ({ encadrant }) => {
+const MakeEncadrent = ({ encadrant, state }) => {
   if (encadrant) {
     const { firstName, lastName } = encadrant;
     return (
@@ -51,9 +52,11 @@ const MakeEncadrent = ({ encadrant }) => {
         {firstName} {lastName}
       </span>
     );
-  } else {
-    return <Chip label="pad encore" color="warning" className={styles.chip} />;
   }
+  if (state === "Pending_Validation") {
+    return <span>----------------------</span>;
+  }
+  return <Chip label="pas encore" color="warning" className={styles.chip} />;
 };
 
 const MakeNote = ({ projet }) => {
@@ -71,6 +74,15 @@ const MakeMontion = ({ projet }) => {
     return <Chip label="pad encore" color="warning" className={styles.chip} />;
   } else {
     return <span>{mention}</span>;
+  }
+};
+
+const MakeType = ({ projet }) => {
+  const { type } = projet;
+  if (type === "PFE") {
+    return <Chip label="PFE" color="secondary" className={styles.chip} />;
+  } else {
+    return <Chip label="STAGE" color="primary" className={styles.chip} />;
   }
 };
 
@@ -97,12 +109,20 @@ const MakeState = ({ project_life_cycle = "Pending_Validation" }) => {
   }
 };
 
-function StudentManageMyPFE() {
+function AdminManageProject() {
   const [projects, setprojects] = useState([]);
   const { user } = useContext(UserContext);
+  const [Filter, setFilter] = useState({
+    type: "None",
+    promotion: "None",
+    project_life_cycle: "None",
+  });
+  const [promos, setPromos] = useState([]);
 
   const GetData = () => {
-    ProjetServ.GetMyPfes()
+    const query = EleminateNull(Filter);
+    console.log(query);
+    ProjetServ.GetEverything({ ...query })
       .then((resp) => {
         setprojects(resp.data.data);
       })
@@ -127,23 +147,97 @@ function StudentManageMyPFE() {
     setPopup({ ...popup, open: false, type: "", value: init_project });
   };
 
+  const handle_change = (event) => {
+    const { value, name } = event.target;
+    setFilter({ ...Filter, [name]: value });
+  };
+
   useEffect(() => {
     GetData();
+  }, [Filter]);
+
+  useEffect(() => {
+    const fail = () => {};
+    PromoServ.GetAllPromotions(setPromos, fail);
   }, []);
 
   return (
     <div>
       <div className={styles.head}>
-        <H1>Mes PFEs</H1>
-        <Button
-          onClick={() => {
-            openPopup("add", init_project);
-          }}
-          startIcon={<BookIcon />}
-          variant="contained"
-        >
-          Ajouter PFE
-        </Button>
+        <H1>Liste des projets PFE/Stage</H1>
+      </div>
+      <div className={styles.filter}>
+        <Grid container spacing={2}>
+          <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
+            <Select
+              className={styles.textField}
+              value={Filter.type}
+              name="type"
+              label="PFE/STAGE"
+              onChange={handle_change}
+              items={[
+                {
+                  name: "Tout les projet",
+                  value: "None",
+                },
+                {
+                  name: "Tout les pfes",
+                  value: "PFE",
+                },
+                {
+                  name: "Tout les stages",
+                  value: "STAGE",
+                },
+              ]}
+            />
+          </Grid>
+          <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
+            <Select
+              className={styles.textField}
+              value={Filter.promotion}
+              label="Promotion"
+              name="promotion"
+              onChange={handle_change}
+              items={[
+                {
+                  name: "Tout Les Promotions",
+                  value: "None",
+                },
+                ...promos.map((prom) => ({
+                  name: prom.title,
+                  value: prom.title,
+                })),
+              ]}
+            />
+          </Grid>
+          <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
+            <Select
+              className={styles.textField}
+              value={Filter.project_life_cycle}
+              name="project_life_cycle"
+              label="State"
+              onChange={handle_change}
+              items={[
+                {
+                  name: "Tout les states",
+                  value: "None",
+                },
+                {
+                  name: "Attend Enseig",
+                  value: "Pending_Teacher",
+                },
+                {
+                  name: "Attend Validation",
+                  value: "Pending_Validation",
+                },
+                {
+                  name: "Validée",
+                  value: "Validated",
+                },
+              ]}
+            />
+          </Grid>
+        </Grid>
       </div>
       <div className={styles.body}>
         <Table sx={{ minWidth: 1000 }}>
@@ -151,10 +245,10 @@ function StudentManageMyPFE() {
             <TableRow>
               <TableCell>Projet</TableCell>
               <TableCell>Titre</TableCell>
+              <TableCell>Type</TableCell>
               <TableCell>Encadrent</TableCell>
               <TableCell>Promotion</TableCell>
               <TableCell>State</TableCell>
-              <TableCell>Note</TableCell>
               <TableCell>Mention</TableCell>
               <TableCell align="center">Actions</TableCell>
             </TableRow>
@@ -169,7 +263,14 @@ function StudentManageMyPFE() {
                 <TableCell style={{ maxWidth: "150px" }}>{row.title}</TableCell>
 
                 <TableCell>
-                  <MakeEncadrent encadrant={row.encadrant} />
+                  <MakeType projet={row} />
+                </TableCell>
+
+                <TableCell>
+                  <MakeEncadrent
+                    encadrant={row.encadrant}
+                    state={row.project_life_cycle}
+                  />
                 </TableCell>
 
                 <TableCell>{row.promotion}</TableCell>
@@ -182,45 +283,31 @@ function StudentManageMyPFE() {
                   <MakeNote projet={row} />
                 </TableCell>
 
-                <TableCell>
-                  <MakeMontion projet={row} />
-                </TableCell>
-
                 <TableCell align="center">
                   <VisibilityIcon
                     className={styles.action_icon}
                     onClick={() => openPopup("show", row)}
                   />
-                  <>
-                    <EditIcon
+                  {row.project_life_cycle === "Pending_Validation" && (
+                    <CheckCircleIcon
                       className={styles.action_icon}
-                      onClick={() => openPopup("update", row)}
+                      onClick={() => openPopup("choisir", row)}
                     />
-                    <DeleteIcon
-                      className={styles.action_icon}
-                      onClick={() => openPopup("delete", row)}
-                    />
-                  </>
+                  )}
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </div>
-      {popup.type === "add" && (
-        <AddPFE popup={popup} handleClose={handleClose} />
-      )}
-      {popup.type === "update" && (
-        <UpdatePFE popup={popup} handleClose={handleClose} />
-      )}
       {popup.type === "show" && (
         <ShowMyPFE popup={popup} handleClose={handleClose} />
       )}
-      {popup.type === "delete" && (
-        <DeletePFE popup={popup} handleClose={handleClose} />
+      {popup.type === "choisir" && (
+        <ApproveByAdmin popup={popup} handleClose={handleClose} />
       )}
     </div>
   );
 }
 
-export default StudentManageMyPFE;
+export default AdminManageProject;
