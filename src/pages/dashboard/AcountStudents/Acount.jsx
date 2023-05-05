@@ -23,7 +23,7 @@ function Acount() {
       </Box>
       <Box>
         <Typography variant="h6">"user.name"</Typography>
-        <Typography variant="subtitle1">"user.email"</Typography>
+        <Typography variant="body1">"user.email"</Typography>
       </Box>
     </Box>
   );

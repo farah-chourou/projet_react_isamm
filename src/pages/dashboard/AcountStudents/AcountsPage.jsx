@@ -3,24 +3,29 @@ import Acount from "./Acount";
 import { Grid } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, TextField } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import StudentServ from "../../../services/Student.service";
 import H1 from "../../../components/Texts/H1";
-import styles from "../styles.module.scss";
+import { useNavigate } from "react-router-dom";
+import SearchIcon from "@mui/icons-material/Search";
 
 function AcountsPage() {
+  const navigate = useNavigate();
+
   const [Students, setStudents] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(9);
   const [typeStudent, settypeStudent] = useState("actuel");
+  const [searchQuery, setSearchQuery] = useState(""); // new state variable for search query
 
   const handleChange = (event) => {
     settypeStudent(event.target.value);
   };
+
   const GetDataStudents = () => {
     StudentServ.GetAllPublicAccount(
       (data) => {
@@ -33,9 +38,7 @@ function AcountsPage() {
       }
     );
   };
-  const handlePageChange = (event, value) => {
-    setCurrentPage(value);
-  };
+
   const GetDataAluminies = () => {
     StudentServ.GetAllPublicAccount(
       (data) => {
@@ -58,6 +61,25 @@ function AcountsPage() {
     }
   }, [currentPage, typeStudent]);
 
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
+
+  const handleNavigateDetail = (_id) => {
+    navigate(`/dash/gest_students/cv/${_id}`);
+  };
+
+  // new function to filter students based on search query
+  const filterStudents = (students) => {
+    if (searchQuery === "") {
+      return students;
+    } else {
+      return students.filter((student) =>
+        student.firstName.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+  };
+
   return (
     <>
       <div>
@@ -65,34 +87,56 @@ function AcountsPage() {
           <Grid item xs={6} md={6} lg={6}>
             <H1>Liste des comptes Publics </H1>
           </Grid>
-          <Grid item xs={6} md={6} lg={6} container justifyContent="flex-end">
-            <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-              <InputLabel id="demo-select-small">Compte</InputLabel>
-              <Select
-                labelId="demo-select-small"
-                id="demo-select-small"
-                value={typeStudent}
-                label="Compte"
-                onChange={handleChange}
-              >
-                <MenuItem value="actuel">
-                  Compte public des actuels étudiants
-                </MenuItem>
-                <MenuItem value="aluminie">
-                  Compte public des étudiants en alumine.
-                </MenuItem>
-              </Select>
-            </FormControl>
+          <Grid item container>
+            <Grid item xs={6} md={6} lg={6}>
+              <TextField
+                sx={{ margin: 1 }}
+                id="outlined-basic"
+                label="Rechercher Par Nom"
+                variant="outlined"
+                size="small"
+                type="text"
+                placeholder="Search by first name"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                InputProps={{
+                  endAdornment: <SearchIcon />,
+                }}
+              />
+            </Grid>
+            <Grid item xs={6} md={6} lg={6} container justifyContent="flex-end">
+              <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+                <InputLabel id="demo-select-small">Compte</InputLabel>
+                <Select
+                  labelId="demo-select-small"
+                  id="demo-select-small"
+                  value={typeStudent}
+                  label="Compte"
+                  onChange={handleChange}
+                >
+                  <MenuItem value="actuel">
+                    Compte public des actuels étudiants
+                  </MenuItem>
+                  <MenuItem value="aluminie">
+                    Compte public des étudiants en alumine.
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
           </Grid>
         </Grid>
       </div>
 
       <Grid container spacing={3}>
-        {Students &&
-          Students.map((item, index) => (
+        {filterStudents(Students).map(
+          (
+            item,
+            index // filter students based on search query
+          ) => (
             <Grid item lg={4} md={6} xs={6} key={index}>
               {" "}
               <Box
+                onClick={() => handleNavigateDetail(item._id)}
                 sx={{
                   display: "flex",
                   alignItems: "center",
@@ -139,11 +183,12 @@ function AcountsPage() {
                   <Typography variant="h6">
                     {item.firstName} {item.lastName}
                   </Typography>
-                  <Typography variant="subtitle1">{item.email}</Typography>
+                  <Typography variant="subtitle2">{item.email}</Typography>
                 </Box>
               </Box>{" "}
             </Grid>
-          ))}
+          )
+        )}
       </Grid>
       <Box sx={{ position: "sticky", bottom: 0, background: "white" }}>
         <Stack
@@ -153,7 +198,7 @@ function AcountsPage() {
           sx={{ marginTop: 40 }}
         >
           <Pagination
-            count={Math.ceil(Students.length / pageSize)}
+            count={Math.ceil(filterStudents(Students).length / pageSize)} // adjust count based on filtered students
             color="primary"
             onChange={handlePageChange}
           />

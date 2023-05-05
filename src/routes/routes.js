@@ -59,7 +59,7 @@ const dashboard = {
       title: "Page Principal",
       Icon: DashboardIcon,
       role: [roles.ALL],
-      perm_name: permissions.all,
+      perm_name: permissions.event,
       in_nav: false,
     },
     {
@@ -97,8 +97,8 @@ const dashboard = {
       path: "/gest_students/cv/:_id",
       Component: CVStudent,
       Icon: SchoolIcon,
-      role: [roles.TEACHER, roles.RESPONSIBLE],
-      perm_name: permissions.student,
+      role: [roles.TEACHER, roles.RESPONSIBLE, roles.STUDENT, roles.ALUMINIE],
+      perm_name: permissions.all,
       in_nav: false,
     },
     {
@@ -118,7 +118,7 @@ const dashboard = {
       title: "Gest Evénement",
       Icon: EventIcon,
       role: [roles.ADMIN, roles.SUPERADMIN],
-      perm_name: permissions.teacher,
+      perm_name: permissions.event,
       in_nav: true,
     },
     {
@@ -128,7 +128,7 @@ const dashboard = {
       title: "Gest Adminstrateur",
       Icon: SupervisorAccountIcon,
       role: [roles.SUPERADMIN],
-      perm_name: permissions.teacher,
+      perm_name: permissions.admin,
       in_nav: true,
     },
     {
@@ -138,7 +138,7 @@ const dashboard = {
       title: "Se Déconnecter",
       Icon: MeetingRoomIcon,
       role: [roles.ADMIN, roles.SUPERADMIN],
-      perm_name: permissions.teacher,
+      perm_name: permissions.event,
       in_nav: false,
     },
     {
@@ -157,7 +157,7 @@ const dashboard = {
       Component: AcountsPage,
       title: "Compte Public",
       Icon: MeetingRoomIcon,
-      role: [roles.ALUMINIE],
+      role: [roles.STUDENT, roles.ALUMINIE],
       perm_name: permissions.all,
       in_nav: true,
     },

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {
@@ -17,10 +17,19 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import { fDate } from "../../../functions/formatTime";
 import Chip from "@mui/material/Chip";
+import {
+  isALUMINIE,
+  isADMIN,
+  isSUPERADMIN,
+  isTEACHER,
+  isSTUDENT,
+} from "../../../custom/roles";
+import { UserContext } from "../../../store/Contexts";
 
 function CVStudent() {
   const { _id } = useParams();
   const [CV, setCV] = useState([]);
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     CVService.GetCvById(
@@ -46,7 +55,13 @@ function CVStudent() {
           underline="hover"
           key="1"
           color="inherit"
-          to="/dash/gest_students"
+          to={
+            isTEACHER(user)
+              ? "/dash/gest_students"
+              : isSTUDENT(user) || isALUMINIE(user)
+              ? "/dash/ComptePublic"
+              : ""
+          }
         >
           Liste Des Etudiants
         </Link>
