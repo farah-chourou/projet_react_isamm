@@ -28,6 +28,7 @@ import StudentManageMyStage from "../pages/dashboard/Projet_Stage_PFE/StudentMyS
 import TeacherPFA from "../pages/dashboard/Projet_Stage_PFE/TeacherPFA/StudentManageMyPFE";
 import EnseigManagePFE from "../pages/dashboard/Projet_Stage_PFE/EnseigPFE/EnseigManagePFE";
 import AdminManageProject from "../pages/dashboard/Projet_Stage_PFE/AdminProjects/AdminManageProject";
+import ResApprovePFA from "../pages/dashboard/Projet_Stage_PFE/ResponsablePFA/RespManagePFA";
 
 const not_logged = {
   routes: [
@@ -136,12 +137,20 @@ const dashboard = {
     },
     {
       main: "/dash",
+      path: "/approve_pfe",
+      Component: EnseigManagePFE,
+      title: "Approve PFE",
+      Icon: BookIcon,
+      role: [roles.TEACHER],
+      perm_name: permissions.none,
+      in_nav: true,
+    },
+
+    {
+      main: "/dash",
       path: "/teacher_my_pfa",
       Component: TeacherPFA,
       title: "Gest Mon PFA",
-      path: "/enseig_pfe",
-      Component: EnseigManagePFE,
-      title: "Gest PFE",
       Icon: BookIcon,
       role: [roles.TEACHER],
       perm_name: permissions.none,
@@ -152,6 +161,16 @@ const dashboard = {
       path: "/admin_projects",
       Component: AdminManageProject,
       title: "Gest PFE/Stage",
+      Icon: BookIcon,
+      role: [roles.SUPERADMIN, roles.RESPONSIBLE],
+      perm_name: permissions.none,
+      in_nav: true,
+    },
+    {
+      main: "/dash",
+      path: "/approvepfa",
+      Component: ResApprovePFA,
+      title: "Approve PFA",
       Icon: BookIcon,
       role: [roles.SUPERADMIN, roles.RESPONSIBLE],
       perm_name: permissions.none,

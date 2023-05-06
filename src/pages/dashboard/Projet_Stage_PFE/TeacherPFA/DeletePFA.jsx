@@ -8,12 +8,12 @@ import Typography from "@mui/material/Typography";
 
 import ProjetServ from "../../../../services/Projet.service";
 
-function DeletePFE({ popup, handleClose }) {
+function DeletePFA({ popup, handleClose }) {
   const { open, value, callback } = popup;
   const [loading, setLoading] = useState(false);
 
   const DeleteProject = () => {
-    ProjetServ.DeleteProject(value._id)
+    ProjetServ.Deletepfa(value._id)
       .then((resp) => {
         console.log(resp);
         callback();
@@ -54,4 +54,4 @@ function DeletePFE({ popup, handleClose }) {
   );
 }
 
-export default DeletePFE;
+export default DeletePFA;

@@ -12,23 +12,19 @@ import Select from "../../../../components/Inputs/Select";
 
 import PromoServ from "../../../../services/Promotion.service";
 import ProjetServ from "../../../../services/Projet.service";
+import TechloServ from "../../../../services/technologies.service";
 import { makeDate2 } from "../../../../functions/Dates.functions";
+import { Autocomplete } from "@mui/material";
 import { toast } from "react-hot-toast";
 
-function AddPFE({ popup, handleClose }) {
+function UpdatePFA({ popup, handleClose }) {
   const { open, value, callback } = popup;
   const [promos, setPromos] = useState([]);
+  const [techs, setTechs] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const [form, setForm] = useState({
-    title: "",
-    description: "",
-    technologies: [],
-    societe: "",
-    type: "PFE",
-    promotion: "",
-    startDate: new Date(),
-    endDate: new Date(),
+    ...value,
   });
 
   const handle_change = (event) => {
@@ -57,16 +53,22 @@ function AddPFE({ popup, handleClose }) {
   useEffect(() => {
     const fail = () => {};
     PromoServ.GetAllPromotions(setPromos, fail);
+    TechloServ.GetTechs()
+      .then((resp) => setTechs(resp.data.data))
+      .catch(() => {
+        console.log("error");
+      });
   }, []);
 
   const handleSubmit = () => {
     setLoading(true);
-    ProjetServ.AddProject(form)
+    ProjetServ.UpdatePFA(form)
       .then((resp) => {
         console.log(resp);
         callback();
         handleClose();
         setLoading(false);
+        toast.success("Project Updated Successfully");
       })
       .catch((error) => {
         setLoading(false);
@@ -78,7 +80,7 @@ function AddPFE({ popup, handleClose }) {
     <Dialog
       open={open}
       handleClose={handleClose}
-      title={"Ajouter un nouvel PFE"}
+      title={"Modifier PFE"}
       width="md"
     >
       <DialogContent dividers>
@@ -99,23 +101,12 @@ function AddPFE({ popup, handleClose }) {
             </Grid>
 
             <Grid item xl={12} lg={12} md={12}>
-              <TextField
-                fullWidth
-                type="text"
-                className={styles.textField}
-                label="Societe"
-                name="societe"
-                value={form.societe}
-                onChange={handle_change}
-              />
-            </Grid>
-
-            <Grid item xl={12} lg={12} md={12}>
               <Select
                 className={styles.textField}
                 value={form.promotion}
                 label="Promotion"
                 name="promotion"
+                disabled={true}
                 onChange={handle_change}
                 items={promos.map((prom) => ({
                   name: prom.title,
@@ -165,16 +156,25 @@ function AddPFE({ popup, handleClose }) {
                 <Grid key={key} item xl={4} lg={4} md={12}>
                   <Grid container spacing={1}>
                     <Grid item xl={9} lg={9} md={9}>
-                      <TextField
-                        fullWidth
-                        type="email"
-                        className={styles.textField}
-                        label={`Technology N° ${key + 1}`}
-                        name="technologies"
-                        value={value}
-                        onChange={(e) => {
-                          handle_change_tech(key, e.target.value);
+                      <Autocomplete
+                        id="free-solo-demo"
+                        freeSolo
+                        options={techs.map((option) => option.title)}
+                        onChange={(event, newValue) => {
+                          handle_change_tech(key, newValue);
                         }}
+                        value={value}
+                        renderInput={(params) => (
+                          <TextField
+                            value={value}
+                            {...params}
+                            label={`Technology N° ${key + 1}`}
+                            className={styles.textField}
+                            onChange={(e) => {
+                              handle_change_tech(key, e.target.value);
+                            }}
+                          />
+                        )}
                       />
                     </Grid>
                     <Grid
@@ -222,11 +222,11 @@ function AddPFE({ popup, handleClose }) {
           onClick={handleSubmit}
           disabled={loading}
         >
-          Ajouter
+          Update
         </Button>
       </DialogActions>
     </Dialog>
   );
 }
 
-export default AddPFE;
+export default UpdatePFA;
