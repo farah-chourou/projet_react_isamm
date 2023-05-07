@@ -8,7 +8,6 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-
 import H1 from "../../../../components/Texts/H1";
 import Chip from "../../../../components/Chip/Chip";
 import Avatar from "../../../../components/Avatar/Avatar";

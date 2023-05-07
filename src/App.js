@@ -9,6 +9,7 @@ import AuthServ from "./services/Auth.service";
 
 import { UserContext } from "./store/Contexts";
 import Cv from "./pages/dashboard/Profile/Cv";
+import CVStud from "./pages/dashboard/Projet_Stage_PFE/TeacherPFA/Cvstud";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -51,6 +52,7 @@ function App() {
               })}
               <Route path="/*" element={<Navigate to={routes.default} />} />
               <Route path="/cv" element={<Cv />} />
+              <Route path="/cv/:_id" element={<CVStud />} />
             </Routes>
           </BrowserRouter>
         )}

@@ -91,7 +91,7 @@ function ShowPFA({ popup, handleClose }) {
           <div className={styles.part2}>
             <h4>Student : </h4>
             <h5>
-              <MakeStudent student={value.student} />
+              <MakeStudent student={value.students} />
             </h5>
           </div>
 

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./styles.module.scss";
-
+import { EleminateNull } from "../../../../functions/MakeQuery";
 import Button from "@mui/material/Button";
 import BookIcon from "@mui/icons-material/Book";
 import Table from "@mui/material/Table";
@@ -8,26 +8,26 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-
+import PromoServ from "../../../../services/Promotion.service";
+import TechServ from "../../../../services/technologies.service";
 import H1 from "../../../../components/Texts/H1";
 import Chip from "../../../../components/Chip/Chip";
 import Avatar from "../../../../components/Avatar/Avatar";
-
+import Select from "../../../../components/Inputs/Select";
 import ProjetServ from "../../../../services/Projet.service";
 import { UserContext } from "../../../../store/Contexts";
+import { Grid } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
-import AddPFA from "./AddPFA";
-import UpdatePFA from "./UpdatePFA";
-import DeletePFA from "./DeletePFA";
+import ChoisirPfA from "./ApproveByRes";
 import ShowMyPFA from "./ShowMyPFA";
 
 const init_project = {
   _id: "",
   title: "",
   description: "",
+  encadrant: { firstName: "", lastName: "" },
   student: { firstName: "", lastName: "" },
   technologies: [""],
   promotion: "",
@@ -52,26 +52,8 @@ const MakeStudent = ({ student }) => {
     return <Chip label="pas encore" color="warning" className={styles.chip} />;
   }
 };
-
-//valide
-const MakeState = ({ project_life_cycle = "Pending_Validation" }) => {
+const MakeState = ({ project_life_cycle = "Pending_Accept_By_Resp" }) => {
   switch (project_life_cycle) {
-    case "Pending_Accept_By_Resp":
-      return (
-        <Chip
-          label="Attend Responsable"
-          color="error"
-          className={styles.chip}
-        />
-      );
-    case "Pending_Validation":
-      return (
-        <Chip
-          label="Attend Validation"
-          color="warning"
-          className={styles.chip}
-        />
-      );
     case "Validated":
       return <Chip label="Validée" color="success" className={styles.chip} />;
     default:
@@ -85,14 +67,22 @@ const MakeState = ({ project_life_cycle = "Pending_Validation" }) => {
   }
 };
 
-function StudentManageMyPFE() {
+function StudentPFA() {
   const [projects, setprojects] = useState([]);
   const { user } = useContext(UserContext);
+  const [allowed, setallowed] = useState(false);
 
   const GetData = () => {
-    ProjetServ.GetMyPfa()
+    ProjetServ.isAllowedToPick().then((resp) => {
+      setallowed(resp.data.data.allowed);
+    });
+
+    ProjetServ.GetPFAStudent()
       .then((resp) => {
-        setprojects(resp.data.data);
+        const validatedProjects = resp.data.data.filter(
+          (project) => project.project_life_cycle === "Validated"
+        );
+        setprojects(validatedProjects);
       })
       .catch((error) => {
         console.log(error);
@@ -118,21 +108,20 @@ function StudentManageMyPFE() {
   useEffect(() => {
     GetData();
   }, []);
-
+  if (user?.niveau !== "2") {
+    return (
+      <div>
+        Vous n'êtes pas autorisé à consulter cette page. Vous devez être de
+        niveau 2.
+      </div>
+    );
+  }
   return (
     <div>
       <div className={styles.head}>
-        <H1>Mes PFAs</H1>
-        <Button
-          onClick={() => {
-            openPopup("add", init_project);
-          }}
-          startIcon={<BookIcon />}
-          variant="contained"
-        >
-          Ajouter PFA
-        </Button>
+        <H1>Liste des projets de fin d'année</H1>
       </div>
+
       <div className={styles.body}>
         <Table sx={{ minWidth: 1000 }}>
           <TableHead>
@@ -140,10 +129,12 @@ function StudentManageMyPFE() {
               <TableCell>Projet</TableCell>
               <TableCell>Titre</TableCell>
               <TableCell>Student</TableCell>
+              <TableCell>encadrant</TableCell>
               <TableCell>Promotion</TableCell>
               <TableCell>State</TableCell>
               <TableCell>Technologies</TableCell>
               <TableCell>Description</TableCell>
+
               <TableCell align="center">Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -155,9 +146,14 @@ function StudentManageMyPFE() {
                 </TableCell>
 
                 <TableCell style={{ maxWidth: "150px" }}>{row.title}</TableCell>
-
                 <TableCell>
-                  <MakeStudent student={row.students} />
+                  <MakeStudent
+                    student={row.students}
+                    state={row.project_life_cycle}
+                  />
+                </TableCell>
+                <TableCell>
+                  {row.encadrant.firstName} {row.encadrant.lastName}
                 </TableCell>
 
                 <TableCell>{row.promotion}</TableCell>
@@ -179,36 +175,26 @@ function StudentManageMyPFE() {
                     className={styles.action_icon}
                     onClick={() => openPopup("show", row)}
                   />
-                  <>
-                    <EditIcon
+                  {!row.students && allowed && (
+                    <CheckCircleIcon
                       className={styles.action_icon}
-                      onClick={() => openPopup("update", row)}
+                      onClick={() => openPopup("choisir", row)}
                     />
-                    <DeleteIcon
-                      className={styles.action_icon}
-                      onClick={() => openPopup("delete", row)}
-                    />
-                  </>
+                  )}
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </div>
-      {popup.type === "add" && (
-        <AddPFA popup={popup} handleClose={handleClose} />
-      )}
-      {popup.type === "update" && (
-        <UpdatePFA popup={popup} handleClose={handleClose} />
-      )}
       {popup.type === "show" && (
         <ShowMyPFA popup={popup} handleClose={handleClose} />
       )}
-      {popup.type === "delete" && (
-        <DeletePFA popup={popup} handleClose={handleClose} />
+      {popup.type === "choisir" && (
+        <ChoisirPfA popup={popup} handleClose={handleClose} />
       )}
     </div>
   );
 }
 
-export default StudentManageMyPFE;
+export default StudentPFA;

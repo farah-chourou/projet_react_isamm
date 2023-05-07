@@ -36,7 +36,6 @@ const MakeState = ({ project_life_cycle = "Pending_Validation" }) => {
       );
   }
 };
-
 const MakeStudent = ({ student }) => {
   if (student) {
     const { firstName, lastName } = student;
@@ -49,7 +48,7 @@ const MakeStudent = ({ student }) => {
     return <Chip label="pas encore" color="warning" className={styles.chip} />;
   }
 };
-function ShowMyPFA({ popup, handleClose }) {
+function ShowPFA({ popup, handleClose }) {
   const { open, value } = popup;
 
   return (
@@ -66,17 +65,6 @@ function ShowMyPFA({ popup, handleClose }) {
             </div>
             <h3>{value.title}</h3>
           </div>
-
-          {value.students.length > 0 && (
-            <div className={styles.part1}>
-              <h2>
-                Etudiant :{" "}
-                <a href={`/cv/${value.students[0]._id}`} target="_blank">
-                  {value.students[0].firstName} {value.students[0].lastName}
-                </a>
-              </h2>
-            </div>
-          )}
 
           <div className={styles.part2}>
             <h4>Promotion : </h4>
@@ -127,4 +115,4 @@ function ShowMyPFA({ popup, handleClose }) {
   );
 }
 
-export default ShowMyPFA;
+export default ShowPFA;

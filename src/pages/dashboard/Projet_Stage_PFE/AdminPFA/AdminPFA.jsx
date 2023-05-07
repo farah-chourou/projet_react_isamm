@@ -12,22 +12,21 @@ import TableRow from "@mui/material/TableRow";
 import H1 from "../../../../components/Texts/H1";
 import Chip from "../../../../components/Chip/Chip";
 import Avatar from "../../../../components/Avatar/Avatar";
+import Select from "../../../../components/Inputs/Select";
 
 import ProjetServ from "../../../../services/Projet.service";
 import { UserContext } from "../../../../store/Contexts";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 
-import AddPFA from "./AddPFA";
-import UpdatePFA from "./UpdatePFA";
-import DeletePFA from "./DeletePFA";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+
 import ShowMyPFA from "./ShowMyPFA";
 
 const init_project = {
   _id: "",
   title: "",
   description: "",
+  encadrant: { firstName: "", lastName: "" },
   student: { firstName: "", lastName: "" },
   technologies: [""],
   promotion: "",
@@ -42,7 +41,7 @@ const MakeAvatarProj = ({ title = "" }) => {
 
 const MakeStudent = ({ student }) => {
   if (student) {
-    const { firstName, lastName } = student[0];
+    const { firstName, lastName } = student;
     return (
       <span>
         {firstName} {lastName}
@@ -52,8 +51,6 @@ const MakeStudent = ({ student }) => {
     return <Chip label="pas encore" color="warning" className={styles.chip} />;
   }
 };
-
-//valide
 const MakeState = ({ project_life_cycle = "Pending_Validation" }) => {
   switch (project_life_cycle) {
     case "Pending_Accept_By_Resp":
@@ -85,12 +82,12 @@ const MakeState = ({ project_life_cycle = "Pending_Validation" }) => {
   }
 };
 
-function StudentManageMyPFE() {
+function AdminPFA() {
   const [projects, setprojects] = useState([]);
   const { user } = useContext(UserContext);
 
   const GetData = () => {
-    ProjetServ.GetMyPfa()
+    ProjetServ.GetPFAAdmin()
       .then((resp) => {
         setprojects(resp.data.data);
       })
@@ -99,13 +96,15 @@ function StudentManageMyPFE() {
       });
   };
 
+  useEffect(() => {
+    GetData();
+  }, []);
   const [popup, setPopup] = useState({
     open: false,
     type: "",
     value: init_project,
     callback: GetData,
   });
-
   const openPopup = (type, data) => {
     console.log(data);
     setPopup({ ...popup, open: true, type: type, value: data });
@@ -115,24 +114,12 @@ function StudentManageMyPFE() {
     setPopup({ ...popup, open: false, type: "", value: init_project });
   };
 
-  useEffect(() => {
-    GetData();
-  }, []);
-
   return (
     <div>
       <div className={styles.head}>
-        <H1>Mes PFAs</H1>
-        <Button
-          onClick={() => {
-            openPopup("add", init_project);
-          }}
-          startIcon={<BookIcon />}
-          variant="contained"
-        >
-          Ajouter PFA
-        </Button>
+        <H1>Liste des projets de fin d'année</H1>
       </div>
+
       <div className={styles.body}>
         <Table sx={{ minWidth: 1000 }}>
           <TableHead>
@@ -140,10 +127,12 @@ function StudentManageMyPFE() {
               <TableCell>Projet</TableCell>
               <TableCell>Titre</TableCell>
               <TableCell>Student</TableCell>
+              <TableCell>encadrant</TableCell>
               <TableCell>Promotion</TableCell>
               <TableCell>State</TableCell>
               <TableCell>Technologies</TableCell>
               <TableCell>Description</TableCell>
+
               <TableCell align="center">Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -155,9 +144,11 @@ function StudentManageMyPFE() {
                 </TableCell>
 
                 <TableCell style={{ maxWidth: "150px" }}>{row.title}</TableCell>
-
                 <TableCell>
-                  <MakeStudent student={row.students} />
+                  <MakeStudent student={row.student} />
+                </TableCell>
+                <TableCell>
+                  {row.encadrant.firstName} {row.encadrant.lastName}
                 </TableCell>
 
                 <TableCell>{row.promotion}</TableCell>
@@ -179,36 +170,17 @@ function StudentManageMyPFE() {
                     className={styles.action_icon}
                     onClick={() => openPopup("show", row)}
                   />
-                  <>
-                    <EditIcon
-                      className={styles.action_icon}
-                      onClick={() => openPopup("update", row)}
-                    />
-                    <DeleteIcon
-                      className={styles.action_icon}
-                      onClick={() => openPopup("delete", row)}
-                    />
-                  </>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </div>
-      {popup.type === "add" && (
-        <AddPFA popup={popup} handleClose={handleClose} />
-      )}
-      {popup.type === "update" && (
-        <UpdatePFA popup={popup} handleClose={handleClose} />
-      )}
       {popup.type === "show" && (
         <ShowMyPFA popup={popup} handleClose={handleClose} />
-      )}
-      {popup.type === "delete" && (
-        <DeletePFA popup={popup} handleClose={handleClose} />
       )}
     </div>
   );
 }
 
-export default StudentManageMyPFE;
+export default AdminPFA;

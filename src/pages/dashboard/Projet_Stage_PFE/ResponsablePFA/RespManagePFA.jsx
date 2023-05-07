@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./styles.module.scss";
-
+import { EleminateNull } from "../../../../functions/MakeQuery";
 import Button from "@mui/material/Button";
 import BookIcon from "@mui/icons-material/Book";
 import Table from "@mui/material/Table";
@@ -8,7 +8,8 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-
+import PromoServ from "../../../../services/Promotion.service";
+import TechServ from "../../../../services/technologies.service";
 import H1 from "../../../../components/Texts/H1";
 import Chip from "../../../../components/Chip/Chip";
 import Avatar from "../../../../components/Avatar/Avatar";
@@ -16,7 +17,7 @@ import Select from "../../../../components/Inputs/Select";
 
 import ProjetServ from "../../../../services/Projet.service";
 import { UserContext } from "../../../../store/Contexts";
-
+import { Grid } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
@@ -42,7 +43,7 @@ const MakeAvatarProj = ({ title = "" }) => {
 
 const MakeStudent = ({ student }) => {
   if (student) {
-    const { firstName, lastName } = student;
+    const { firstName, lastName } = student[0];
     return (
       <span>
         {firstName} {lastName}
@@ -52,21 +53,13 @@ const MakeStudent = ({ student }) => {
     return <Chip label="pas encore" color="warning" className={styles.chip} />;
   }
 };
-const MakeState = ({ project_life_cycle = "Pending_Validation" }) => {
+const MakeState = ({ project_life_cycle = "Pending_Accept_By_Resp" }) => {
   switch (project_life_cycle) {
     case "Pending_Accept_By_Resp":
       return (
         <Chip
           label="Attend Responsable"
           color="error"
-          className={styles.chip}
-        />
-      );
-    case "Pending_Validation":
-      return (
-        <Chip
-          label="Attend Validation"
-          color="warning"
           className={styles.chip}
         />
       );
@@ -86,10 +79,17 @@ const MakeState = ({ project_life_cycle = "Pending_Validation" }) => {
 function RespManagePFA() {
   const [projects, setprojects] = useState([]);
   const { user } = useContext(UserContext);
-  const [FilterEncad, setFilterEncad] = useState("None");
+  const [promos, setPromos] = useState([]);
+  const [techs, setTechs] = useState([]);
+  const [encads, setEncads] = useState([]);
+  const [Filter, setFilter] = useState({
+    promotion: "None",
+    project_life_cycle: "None",
+  });
 
   const GetData = () => {
-    ProjetServ.GetPFAResp()
+    const query = EleminateNull(Filter);
+    ProjetServ.GetPFAResp({ ...query })
       .then((resp) => {
         setprojects(resp.data.data);
       })
@@ -98,9 +98,6 @@ function RespManagePFA() {
       });
   };
 
-  useEffect(() => {
-    GetData();
-  }, []);
   const [popup, setPopup] = useState({
     open: false,
     type: "",
@@ -116,39 +113,99 @@ function RespManagePFA() {
   const handleClose = () => {
     setPopup({ ...popup, open: false, type: "", value: init_project });
   };
-
   const handle_change = (event) => {
-    const { value } = event.target;
-    setFilterEncad(value);
+    const { value, name } = event.target;
+    setFilter({ ...Filter, [name]: value });
   };
 
-  // useEffect(() => {
-  //   GetData();
-  // }, [FilterEncad]);
+  useEffect(() => {
+    GetData();
+  }, [Filter]);
+
+  useEffect(() => {
+    const fail = () => {};
+    PromoServ.GetAllPromotions(setPromos, fail);
+
+    TechServ.GetTechs()
+      .then((res) => {
+        setTechs(res.data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   return (
     <div>
       <div className={styles.head}>
         <H1>Liste des projets de fin d'année</H1>
       </div>
-      {/* <div className={styles.filterEncad}>
-        <Select
-          className={styles.textField}
-          value={FilterEncad}
-          label="Filtrer Tout PFE / Mes PFE"
-          onChange={handle_change}
-          items={[
-            {
-              name: "Mes PFAs",
-              value: user._id,
-            },
-            {
-              name: "Tout PFAs",
-              value: "None",
-            },
-          ]}
-        />
-      </div> */}
+      <div className={styles.filter}>
+        <Grid container spacing={2}>
+          <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
+            <Select
+              className={styles.textField}
+              value={Filter.promotion}
+              label="Promotion"
+              name="promotion"
+              onChange={handle_change}
+              items={[
+                {
+                  name: "Tout Les Promotions",
+                  value: "None",
+                },
+                ...promos.map((prom) => ({
+                  name: prom.title,
+                  value: prom.title,
+                })),
+              ]}
+            />
+          </Grid>
+          {/* <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
+            <Select
+              className={styles.textField}
+              value={Filter.technologies}
+              label="Technologies"
+              name="technologies"
+              onChange={handle_change}
+              items={[
+                {
+                  name: "Tout Les Technologies",
+                  value: [],
+                },
+                ...techs.map((tech) => ({
+                  name: tech.title,
+                  value: tech.title,
+                })),
+              ]}
+            />
+          </Grid> */}
+          <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
+            <Select
+              className={styles.textField}
+              value={Filter.project_life_cycle}
+              name="project_life_cycle"
+              label="State"
+              onChange={handle_change}
+              items={[
+                {
+                  name: "Tout les states",
+                  value: "None",
+                },
+                {
+                  name: "Attend Responsable",
+                  value: "Pending_Accept_By_Resp",
+                },
+
+                {
+                  name: "Validée",
+                  value: "Validated",
+                },
+              ]}
+            />
+          </Grid>
+        </Grid>
+      </div>
       <div className={styles.body}>
         <Table sx={{ minWidth: 1000 }}>
           <TableHead>
@@ -174,7 +231,10 @@ function RespManagePFA() {
 
                 <TableCell style={{ maxWidth: "150px" }}>{row.title}</TableCell>
                 <TableCell>
-                  <MakeStudent student={row.student} />
+                  <MakeStudent
+                    student={row.students}
+                    state={row.project_life_cycle}
+                  />
                 </TableCell>
                 <TableCell>
                   {row.encadrant.firstName} {row.encadrant.lastName}
@@ -199,7 +259,7 @@ function RespManagePFA() {
                     className={styles.action_icon}
                     onClick={() => openPopup("show", row)}
                   />
-                  {row.encadrant && (
+                  {row.project_life_cycle != "Validated" && (
                     <CheckCircleIcon
                       className={styles.action_icon}
                       onClick={() => openPopup("choisir", row)}
