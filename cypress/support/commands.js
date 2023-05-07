@@ -4,6 +4,7 @@
 /**********************    LOGIN COMMANDS *******************/
 
 Cypress.Commands.add("connect_as_superadmin", () => {
+  cy.clearToken();
   cy.request({
     method: "POST",
     url: Cypress.env("urlBackend") + "/user/login",
