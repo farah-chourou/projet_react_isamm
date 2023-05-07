@@ -41,7 +41,7 @@ const MakeAvatarProj = ({ title = "" }) => {
 
 const MakeStudent = ({ student }) => {
   if (student) {
-    const { firstName, lastName } = student;
+    const { firstName, lastName } = student[0];
     return (
       <span>
         {firstName} {lastName}
@@ -145,7 +145,7 @@ function AdminPFA() {
 
                 <TableCell style={{ maxWidth: "150px" }}>{row.title}</TableCell>
                 <TableCell>
-                  <MakeStudent student={row.student} />
+                  <MakeStudent student={row.students} />
                 </TableCell>
                 <TableCell>
                   {row.encadrant.firstName} {row.encadrant.lastName}
