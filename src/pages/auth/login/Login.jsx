@@ -161,6 +161,7 @@ function Login() {
                 name="userName"
                 autoFocus
                 onChange={handle_change}
+                data-test="userName"
               />
               <TextField
                 margin="normal"
@@ -170,6 +171,7 @@ function Login() {
                 label="Mot De Passe"
                 type="password"
                 onChange={handle_change}
+                data-test="password"
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
@@ -180,6 +182,7 @@ function Login() {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                data-test="connectButton"
               >
                 Se connecter
               </Button>
