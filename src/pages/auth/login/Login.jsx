@@ -19,7 +19,7 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CustomizedDialogs from "../../../components/Popup/Popup";
 import FullScreenDialog from "../../../components/Popup/FullWidthPopup";
-//import pendingAnnimation from "../../../assets/annimations/pending.json";
+import pendingAnnimation from "../../../assets/annimations/pending.json";
 import Lottie from "lottie-react";
 
 function Copyright(props) {
@@ -50,8 +50,8 @@ function Login() {
     const { name, value } = event.target;
     setForm({ ...form, [name]: value });
   };
-  {
-    /* const AnnimationPending = () => {
+  
+     const AnnimationPending = () => {
     return (
       <Lottie
         style={{
@@ -64,8 +64,8 @@ function Login() {
         animationData={pendingAnnimation}
       />
     );
-  };*/
-  }
+  };
+  
 
   const handle_submit = (e) => {
     e.preventDefault();
@@ -92,7 +92,7 @@ function Login() {
             <Grid container justifyContent={"center"} direction={"column"}>
               <Grid item xs>
                 <div style={{ height: 270, width: 500 }}>
-                  {/*<AnnimationPending />*/}
+                  <AnnimationPending />
                 </div>
               </Grid>
               <Grid item>
