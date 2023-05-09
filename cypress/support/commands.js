@@ -88,7 +88,9 @@ Cypress.Commands.add("clearToken", () => {
 Cypress.Commands.add("getByData", (selector) => {
   return cy.get(`[data-test=${selector}]`);
 });
-
+Cypress.Commands.add("getByName", (selector) => {
+  return cy.get(`[name=${selector}]`);
+});
 Cypress.Commands.add("getUserByToken", () => {
   cy.request({
     method: "GET",

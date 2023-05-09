@@ -99,6 +99,7 @@ function ManageEvents() {
               onClick={openAdd}
               startIcon={<AddCircleOutlineOutlinedIcon />}
               variant="contained"
+              data-test="addEventButton"
             >
               Ajouter Evénenement
             </Button>

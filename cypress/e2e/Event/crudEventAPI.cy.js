@@ -33,7 +33,6 @@ describe("CRUD EVENT", () => {
   describe("CRUD EVENT WITH CONNEXION", () => {
     beforeEach(() => {
       cy.connect_as_superadmin().then((resp) => (token = `Bearer ${resp}`));
-      API_URL = Cypress.env("urlBackend") + "/event/";
     });
     it("Should Add Event", () => {
       const data = {
@@ -64,7 +63,6 @@ describe("CRUD EVENT", () => {
         expect(resp.body.data.location).to.eq(data.location);
         expect(resp.body.data._id).to.exist;
         savedEvent = resp.body.data;
-        console.log(savedEvent);
       });
     });
 
@@ -78,7 +76,7 @@ describe("CRUD EVENT", () => {
       }).then((response) => {
         expect(response.status).to.eq(200);
         const events = response.body.data;
-        const event = events.find((t) => t._id === savedEvent._id);
+        const event = events.filter((t) => t._id === savedEvent._id);
         expect(event).to.exist;
       });
     });
