@@ -7,7 +7,6 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import FormControlLabel from "@mui/material/FormControlLabel";
 
 import Dialog from "../../../../components/Popup/Popup";
 import DialogContent from "@mui/material/DialogContent";
@@ -18,75 +17,73 @@ import { Box, Avatar } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import TeacherService from "../../../../services/TeacherService";
+import AdminService from "../../../../services/AdminService";
 import { roles } from "../../../../custom/roles";
 import { toast } from "react-hot-toast";
 
-const course = ["Node", "Base de Donne", "React"];
-function ModalAddTeacher({ popup, handleClose }) {
+const permessions = [
+  "student",
+  "teacher",
+  "user",
+  "event",
+  "participation",
+  "project",
+  "technologie",
+  "cv",
+  "saison",
+];
+function ModalEditAdmin({ popup, handleClose, handleEditAdmin }) {
   const { open, value } = popup;
-  const [Teacher, setTeacher] = useState({
+  const [Admin, setAdmin] = useState({
     birthDate: new Date(),
     email: "",
     firstName: "",
     lastName: "",
     phoneNumber: "",
     sex: "",
-    course: [],
+    permessions: [],
   });
-
-  const [isResponsable, setisResponsable] = useState(false);
-  const [ErrorEmail, setErrorEmail] = useState(false);
-  const [ErrorPhoneNumber, setErrorPhoneNumber] = useState(false);
-  const [Submitted, setSubmitted] = useState(false);
-
   const handleChange = (e) => {
-    setSubmitted(false);
-    setTeacher({ ...Teacher, [e.target.name]: e.target.value });
+    setAdmin({ ...Admin, [e.target.name]: e.target.value });
   };
   const [selectedOption, setSelectedOption] = useState([]);
 
   const handleOptionSelect = (event, options) => {
     setSelectedOption(options);
-    setTeacher({ ...Teacher, course: options });
+    setAdmin({ ...Admin, permessions: options });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (isResponsable) {
-      TeacherService.AddTeacherResponsible(Teacher)
-        .then((response) => {
-          console.log(response);
-          toast.success("Enseignant Ajouter avec Succès.");
-          value.push(response.data.data);
-          handleClose();
-        })
-        .catch((error) => {
-          if (error.response.data.Message === "email error") {
-            setErrorEmail(true);
-          } else if (error.response.data.Message === "phoneNumber error") {
-            setErrorPhoneNumber(true);
-          }
-        });
-    } else {
-      TeacherService.AddTeacher(Teacher)
-        .then((response) => {
-          toast.success("Enseignant Ajouter avec Succès.");
-          value.push(response.data.data);
-          handleClose();
-        })
-        .catch((error) => {
-          if (error.response.data.Message === "email error") {
-            setErrorEmail(true);
-          } else if (error.response.data.Message === "phoneNumber error") {
-            setErrorPhoneNumber(true);
-          }
-          console.log(error);
-        });
-    }
+    console.log(Admin);
+    AdminService.UpdateAdmin(value._id, Admin)
+      .then((response) => {
+        console.log(response.data);
+        handleEditAdmin(value._id, Admin);
+        toast.success("Adminstrateur modifier avec Succès.");
+        handleClose();
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error(error.message);
+      });
   };
+
+  useEffect(() => {
+    setSelectedOption(value.permessions);
+    setAdmin({
+      birthDate: new Date(value.birthDate).toISOString().substr(0, 10),
+      email: value.email,
+      firstName: value.firstName,
+      lastName: value.lastName,
+      phoneNumber: value.phoneNumber,
+      sex: value.sex,
+      permessions: value.permessions,
+    });
+  }, []);
+
   return (
-    <Dialog open={open} handleClose={handleClose} title={"Nouveau Enseignant"}>
+    <Dialog open={open} handleClose={handleClose} title={"Modifer Enseignant"}>
       <form onSubmit={(e) => handleSubmit(e)}>
         <DialogContent dividers>
           <Grid container spacing={2}>
@@ -99,7 +96,7 @@ function ModalAddTeacher({ popup, handleClose }) {
                 variant="filled"
                 size="small"
                 onChange={handleChange}
-                value={Teacher.firstName}
+                value={Admin.firstName}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -111,7 +108,7 @@ function ModalAddTeacher({ popup, handleClose }) {
                 size="small"
                 required
                 onChange={handleChange}
-                value={Teacher.lastName}
+                value={Admin.lastName}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -124,11 +121,7 @@ function ModalAddTeacher({ popup, handleClose }) {
                 size="small"
                 required
                 onChange={handleChange}
-                value={Teacher.phoneNumber}
-                error={ErrorPhoneNumber}
-                helperText={
-                  ErrorPhoneNumber ? "Numéro de téléphone déja existe" : ""
-                }
+                value={Admin.phoneNumber}
               />
             </Grid>{" "}
             <Grid item xs={12} sm={6}>
@@ -141,7 +134,7 @@ function ModalAddTeacher({ popup, handleClose }) {
                 size="small"
                 required
                 onChange={handleChange}
-                value={Teacher.birthDate}
+                value={Admin.birthDate}
               />
             </Grid>{" "}
             <Grid item xs={12} sm={6}>
@@ -154,9 +147,7 @@ function ModalAddTeacher({ popup, handleClose }) {
                 size="small"
                 required
                 onChange={handleChange}
-                value={Teacher.email}
-                error={ErrorEmail}
-                helperText={ErrorEmail ? "Email déja existe" : ""}
+                value={Admin.email}
               />
             </Grid>{" "}
             <Grid item xs={12} sm={6}>
@@ -168,7 +159,7 @@ function ModalAddTeacher({ popup, handleClose }) {
                 variant="filled"
                 size="small"
                 onChange={handleChange}
-                value={Teacher.sex}
+                value={Admin.sex}
                 required
               >
                 <MenuItem value="MEN">MEN</MenuItem>
@@ -179,7 +170,7 @@ function ModalAddTeacher({ popup, handleClose }) {
               <Autocomplete
                 size="small"
                 multiple
-                options={course}
+                options={permessions}
                 disableCloseOnSelect
                 getOptionLabel={(option) => option}
                 onChange={handleOptionSelect}
@@ -188,20 +179,10 @@ function ModalAddTeacher({ popup, handleClose }) {
                   <TextField
                     {...params}
                     variant="filled"
-                    label="Cours"
-                    placeholder="Cours"
+                    label="permessions"
+                    placeholder="permessions"
                   />
                 )}
-              />
-            </Grid>{" "}
-            <Grid item xs={12} sm={6}>
-              <FormControlLabel
-                control={<Checkbox defaultChecked />}
-                label="est responsable ?"
-                checked={isResponsable}
-                onChange={(event) => {
-                  setisResponsable(event.target.checked);
-                }}
               />
             </Grid>{" "}
           </Grid>
@@ -211,7 +192,7 @@ function ModalAddTeacher({ popup, handleClose }) {
             Annuler
           </Button>
           <Button autoFocus variant="contained" type="submit">
-            Ajouter
+            Modifier
           </Button>
         </DialogActions>
       </form>
@@ -219,4 +200,4 @@ function ModalAddTeacher({ popup, handleClose }) {
   );
 }
 
-export default ModalAddTeacher;
+export default ModalEditAdmin;

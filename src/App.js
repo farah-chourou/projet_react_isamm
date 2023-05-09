@@ -48,7 +48,7 @@ function App() {
                 const { path, Component } = route;
                 return <Route key={key} path={path} element={<Component />} />;
               })}
-              <Route path="/*" element={<Navigate to={routes.default} />} />
+              {<Route path="/*" element={<Navigate to={routes.default} />} />}
             </Routes>
           </BrowserRouter>
         )}

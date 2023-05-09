@@ -104,6 +104,7 @@ function ModalEditEvent({ popup, handleClose, handleEditEvent }) {
               <TextField
                 fullWidth
                 type="date"
+                label="Date Debut"
                 name="eventDateDebut"
                 variant="filled"
                 size="small"
@@ -119,6 +120,7 @@ function ModalEditEvent({ popup, handleClose, handleEditEvent }) {
                 <TextField
                   fullWidth
                   type="date"
+                  label="Date Fin"
                   name="eventDateFin"
                   variant="filled"
                   size="small"

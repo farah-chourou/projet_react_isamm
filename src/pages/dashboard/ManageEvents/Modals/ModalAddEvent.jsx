@@ -30,8 +30,8 @@ function ModalAddEvent({ popup, handleClose }) {
 
   const [Event, setEvent] = useState({
     eventName: "",
-    eventDateDebut: "",
-    eventDateFin: null,
+    eventDateDebut: new Date(),
+    eventDateFin: new Date(),
     eventType: "",
     description: "",
     location: "",
@@ -47,7 +47,6 @@ function ModalAddEvent({ popup, handleClose }) {
     console.log(Event);
     EventService.AddEvent(Event)
       .then((response) => {
-        console.log(response.data);
         toast.success("Evénement Ajouter avec Succès.");
         value.push(response.data.data);
         handleClose();
@@ -60,7 +59,7 @@ function ModalAddEvent({ popup, handleClose }) {
   return (
     <Dialog open={open} handleClose={handleClose} title={"Nouveau Evénement"}>
       <form onSubmit={(e) => handleSubmit(e)}>
-        <DialogContent dividers>
+        <DialogContent dividers data-test="modal">
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -77,13 +76,14 @@ function ModalAddEvent({ popup, handleClose }) {
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
-                label="Type d'événement"
+                id="demo-simple-select"
                 name="eventType"
-                select
                 variant="filled"
                 size="small"
                 onChange={handleChange}
                 value={Event.eventType}
+                label="Type d'evenement"
+                select
                 required
               >
                 {EventType.map((item) => (
@@ -95,6 +95,7 @@ function ModalAddEvent({ popup, handleClose }) {
               <TextField
                 fullWidth
                 type="date"
+                label="Date Debut"
                 name="eventDateDebut"
                 variant="filled"
                 size="small"
@@ -110,6 +111,7 @@ function ModalAddEvent({ popup, handleClose }) {
                 <TextField
                   fullWidth
                   type="date"
+                  label="Date Fin"
                   name="eventDateFin"
                   variant="filled"
                   size="small"
@@ -170,8 +172,8 @@ function ModalAddEvent({ popup, handleClose }) {
             <Grid item xs={12} sm={12}>
               <TextField
                 fullWidth
-                id="outlined-multiline-static"
-                label="description"
+                label="description du evenement"
+                data-test="dd"
                 name="description"
                 variant="filled"
                 size="small"
@@ -188,7 +190,12 @@ function ModalAddEvent({ popup, handleClose }) {
           <Button autoFocus variant="outlined" onClick={handleClose}>
             Annuler
           </Button>
-          <Button autoFocus variant="contained" type="submit">
+          <Button
+            autoFocus
+            variant="contained"
+            type="submit"
+            data-test="buttonAddEvent"
+          >
             Ajouter
           </Button>
         </DialogActions>

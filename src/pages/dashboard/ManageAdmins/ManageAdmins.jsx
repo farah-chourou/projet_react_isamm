@@ -15,9 +15,10 @@ import H1 from "../../../components/Texts/H1";
 import Chip from "../../../components/Chip/Chip";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
-import EventService from "../../../services/EventService";
-
+import AdminService from "../../../services/AdminService";
+import Stack from "@mui/material/Stack";
 import { fDate } from "../../../functions/formatTime";
+import Avatar from "@mui/material/Avatar";
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
@@ -25,23 +26,23 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Grid, Typography } from "@mui/material";
 import TableContainer from "@mui/material/TableContainer";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import ModalAddEvent from "./Modals/ModalAddEvent";
-import ModalEditEvent from "./Modals/ModalEditEvent";
-import ModalDeleteEvent from "./Modals/ModalDeleteEvent";
+import ModalAddAdmin from "./Modals/ModalAddAdmin";
+import ModalEditAdmin from "./Modals/ModalEditAdmin";
+import ModalDeleteAdmin from "./Modals/ModalDeleteAdmin";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-function ManageEvents() {
+function ManageAdmins() {
   const navigate = useNavigate();
-  const [Events, setEvents] = useState([]);
+  const [Admins, setAdmins] = useState([]);
   const [List, setList] = useState(false);
 
   const [popup, setPopup] = useState({
     open: false,
     type: "",
-    value: Events,
+    value: Admins,
   });
   const openAdd = () => {
-    setPopup({ open: true, type: "add", value: Events });
+    setPopup({ open: true, type: "add", value: Admins });
   };
 
   const openUpdate = (row) => {
@@ -56,32 +57,33 @@ function ManageEvents() {
       open: true,
       type: "delete",
       valueRow: row,
-      valueArray: Events,
+      valueArray: Admins,
     });
   };
 
   const handleClose = () => {
-    setPopup({ open: false, type: "", row: Events });
+    setPopup({ open: false, type: "", row: Admins });
   };
 
   useEffect(() => {
-    EventService.GetAllEvents()
+    AdminService.GetAllAdmins()
       .then((response) => {
-        setEvents(response.data.data);
+        setAdmins(response.data.data);
+        console.log(response);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
-  const handleDeleteEvent = (_id) => {
-    const filteredEvents = Events.filter((Events) => Events._id !== _id);
-    setEvents(filteredEvents);
+  const handleDeleteAdmin = (_id) => {
+    const filteredAdmins = Admins.filter((Admins) => Admins._id !== _id);
+    setAdmins(filteredAdmins);
   };
 
-  const handleEditEvent = (_id, row) => {
-    const index = Events.findIndex((item) => item._id === _id);
+  const handleEditAdmin = (_id, row) => {
+    const index = Admins.findIndex((item) => item._id === _id);
     if (index !== -1) {
-      Events[index] = { ...Events[index], ...row };
+      Admins[index] = { ...Admins[index], ...row };
     }
   };
   const handleNavigateDetail = (_id) => {
@@ -92,36 +94,18 @@ function ManageEvents() {
       <div>
         <Grid container alignItems="center">
           <Grid item xs={6} md={6} lg={6}>
-            <H1>Gestion Des Evénenements </H1>
+            <H1>Gestion Des Administrateurs </H1>
           </Grid>
           <Grid item xs={6} md={6} lg={6} container justifyContent="flex-end">
             <Button
               onClick={openAdd}
               startIcon={<AddCircleOutlineOutlinedIcon />}
               variant="contained"
-              data-test="addEventButton"
             >
-              Ajouter Evénenement
+              Ajouter Administrateur
             </Button>
           </Grid>
           <Grid item xs={6} md={6} lg={6}></Grid>
-          {/* <Grid item xs={6} md={6} lg={6} container justifyContent="flex-end">
-            <Button
-              sx={{ margin: 1 }}
-              startIcon={<FormatListBulletedIcon />}
-              variant="outlined"
-              onClick={() => setList(true)}
-            >
-              Liste
-            </Button>{" "}
-            <Button
-              sx={{ margin: 1 }}
-              startIcon={<CalendarMonthIcon />}
-              variant="outlined"
-            >
-              Calendrier
-            </Button>
-  </Grid>*/}
         </Grid>
       </div>
       <div>
@@ -135,18 +119,20 @@ function ManageEvents() {
             <TableHead>
               <TableRow>
                 <TableCell>#</TableCell>
-                <TableCell>Titre</TableCell>
-                <TableCell>Date De Début</TableCell>
-                <TableCell>Date De Fin </TableCell>
-                <TableCell> Type d'événement</TableCell>
-                <TableCell>location</TableCell>
-                <TableCell>Description</TableCell>
+                <TableCell padding="none">Nom</TableCell>
+                <TableCell>Prenom</TableCell>
+                <TableCell padding="none">Email</TableCell>
+                <TableCell>N° Tel</TableCell>
+                <TableCell padding="none">Date De Naissance</TableCell>
+                <TableCell>Genre</TableCell>
+                <TableCell> Permissions</TableCell>
+
                 <TableCell align="center">Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {Events &&
-                Events.map((item, index) => (
+              {Admins &&
+                Admins.map((item, index) => (
                   <TableRow
                     hover
                     key={item._id}
@@ -156,20 +142,27 @@ function ManageEvents() {
                     }}
                   >
                     <TableCell>
-                      <> {index + 1}</>
-                    </TableCell>
-                    <TableCell>{item.eventName}</TableCell>{" "}
-                    <TableCell>{fDate(item.eventDateDebut)}</TableCell>{" "}
-                    <TableCell>
-                      {item.eventDateFin ? (
-                        fDate(item.eventDateFin)
+                      {item.profilImage ? (
+                        <Avatar src={item.profilImage} />
                       ) : (
-                        <Typography color="textSecondary"> Néant </Typography>
-                      )}{" "}
+                        <></>
+                      )}
                     </TableCell>
-                    <TableCell>{item.eventType}</TableCell>
-                    <TableCell>{item.location}</TableCell>
-                    <TableCell>{item.description}</TableCell>
+                    <TableCell padding="none">{item.firstName}</TableCell>{" "}
+                    <TableCell>{item.lastName} </TableCell>
+                    <TableCell padding="none">{item.email}</TableCell>
+                    <TableCell>{item.phoneNumber}</TableCell>
+                    <TableCell padding="none">
+                      {fDate(item.birthDate)}
+                    </TableCell>
+                    <TableCell>{item.sex}</TableCell>
+                    <TableCell>
+                      <Stack direction="row" spacing={1}>
+                        {item.permessions.map((a) => (
+                          <Chip label={a} color="success" />
+                        ))}
+                      </Stack>
+                    </TableCell>
                     <TableCell align="center">
                       <Tooltip title="Modifier">
                         <IconButton onClick={() => openUpdate(item)}>
@@ -181,13 +174,6 @@ function ManageEvents() {
                           <DeleteIcon />
                         </IconButton>
                       </Tooltip>
-                      <Tooltip title="Voir">
-                        <IconButton
-                          onClick={(_id) => handleNavigateDetail(item._id)}
-                        >
-                          <VisibilityIcon />
-                        </IconButton>
-                      </Tooltip>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -196,24 +182,24 @@ function ManageEvents() {
         </TableContainer>
       </div>
       {popup.type === "add" && (
-        <ModalAddEvent popup={popup} handleClose={handleClose} />
+        <ModalAddAdmin popup={popup} handleClose={handleClose} />
       )}{" "}
       {popup.type === "update" && (
-        <ModalEditEvent
+        <ModalEditAdmin
           popup={popup}
           handleClose={handleClose}
-          handleEditEvent={handleEditEvent}
+          handleEditAdmin={handleEditAdmin}
         />
       )}
       {popup.type === "delete" && (
-        <ModalDeleteEvent
+        <ModalDeleteAdmin
           popup={popup}
           handleClose={handleClose}
-          handleDeleteEvent={handleDeleteEvent}
+          handleDeleteAdmin={handleDeleteAdmin}
         />
       )}
     </div>
   );
 }
 
-export default ManageEvents;
+export default ManageAdmins;
