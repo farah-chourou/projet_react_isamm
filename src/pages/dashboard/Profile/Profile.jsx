@@ -11,6 +11,8 @@ import H1 from "../../../components/Texts/H1";
 import PublicIcon from "@mui/icons-material/Public";
 import PublicOffIcon from "@mui/icons-material/PublicOff";
 import EditStateAccount from "./EditStateAccount";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { isALUMINIE, isSTUDENT } from "../../../custom/roles";
 
 // firstName, lastName, phoneNumber, birthDate, sex
 function Profile() {
@@ -148,18 +150,21 @@ function Profile() {
           </Grid>
         </Grid>
 
-        <Button
-          autoFocus
-          variant="outlined"
-          onClick={() => openPopup("show", user)}
-        >
-          Afficher Cv{" "}
-        </Button>
+        {(isALUMINIE(user) || isSTUDENT(user)) && (
+          <Button
+            autoFocus
+            variant="outlined"
+            onClick={() => openPopup("show", user)}
+          >
+            Afficher Cv
+          </Button>
+        )}
       </div>
 
       {popup.type === "update" && (
         <UpdateProfile popup={popup} handleClose={handleClose} />
       )}
+
       {popup.type === "show" && (
         <ShowCv popup={popup} handleClose={handleClose} />
       )}

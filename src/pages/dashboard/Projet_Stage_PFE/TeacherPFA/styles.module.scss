@@ -35,11 +35,18 @@
 .textField {
   margin: 10px 0px !important;
 }
-.classLabel {
-  font-weight: bold;
+
+.center_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  button {
+    height: 56px;
+  }
 }
 
-.btn-style {
-  width: 80px; /* Set the width of the button */
-  margin: 0 auto; /* Center the button horizontally */
+// tech
+.technology-list span {
+  display: block;
 }
