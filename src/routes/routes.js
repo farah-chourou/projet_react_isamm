@@ -29,14 +29,14 @@ import ManageAdmins from "../pages/dashboard/ManageAdmins/ManageAdmins";
 
 const not_logged = {
   routes: [
-    { path: "/login", Component: Login },
-    { path: "/register", Component: Register },
+    { path: "/login", route: "login", Component: Login },
+    { path: "/register", route: "register", Component: Register },
   ],
   default: "/login",
 };
 
 const logged = {
-  routes: [{ path: "/dash/*", Component: Dashboard }],
+  routes: [{ path: "/dash/*", route: "dash", Component: Dashboard }],
   default: "/dash/main",
 };
 
@@ -44,6 +44,7 @@ const dashboard = {
   routes: [
     {
       main: "/dash",
+      route: "main",
       path: "/main",
       Component: MainPage,
       title: "Page Principal",
@@ -53,8 +54,10 @@ const dashboard = {
       in_nav: true,
     },
     {
+      // back to this part ....
       main: "/dash",
-      path: "/main/event/:_id",
+      route: "event",
+      path: "/event/:_id",
       Component: EventDetail,
       title: "Page Principal",
       Icon: DashboardIcon,
@@ -64,6 +67,7 @@ const dashboard = {
     },
     {
       main: "/dash",
+      route: "profile",
       path: "/profile",
       Component: Profile,
       title: "Profil",
@@ -74,6 +78,7 @@ const dashboard = {
     },
     {
       main: "/dash",
+      route: "ChangerPwd",
       path: "/ChangerPwd",
       Component: ChangePwd,
       title: "Changer Mot de passe",
@@ -84,6 +89,7 @@ const dashboard = {
     },
     {
       main: "/dash",
+      route: "gest_students",
       path: "/gest_students",
       Component: ManageStudents,
       title: "Gest Etudiants",
@@ -94,6 +100,7 @@ const dashboard = {
     },
     {
       main: "/dash",
+      route: "gest_students",
       path: "/gest_students/cv/:_id",
       Component: CVStudent,
       Icon: SchoolIcon,
@@ -103,6 +110,7 @@ const dashboard = {
     },
     {
       main: "/dash",
+      route: "GestionDesEnseignants",
       path: "/GestionDesEnseignants",
       Component: ManageTeachers,
       title: "Gest Enseignants",
@@ -113,6 +121,7 @@ const dashboard = {
     },
     {
       main: "/dash",
+      route: "GestionDesEvenement",
       path: "/GestionDesEvenement",
       Component: ManageEvents,
       title: "Gest Evénement",
@@ -123,6 +132,7 @@ const dashboard = {
     },
     {
       main: "/dash",
+      route: "GestionDesAdmin",
       path: "/GestionDesAdmin",
       Component: ManageAdmins,
       title: "Gest Adminstrateur",
@@ -133,6 +143,7 @@ const dashboard = {
     },
     {
       main: "/dash",
+      route: "GestionDesEvenement",
       path: "/GestionDesEvenement/details/:_id",
       Component: DetailsEvent,
       title: "Se Déconnecter",
@@ -143,6 +154,7 @@ const dashboard = {
     },
     {
       main: "/dash",
+      route: "logout",
       path: "/logout",
       Component: Logout,
       title: "Se Déconnecter",
@@ -153,6 +165,7 @@ const dashboard = {
     },
     {
       main: "/dash",
+      route: "ComptePublic",
       path: "/ComptePublic",
       Component: AcountsPage,
       title: "Compte Public",

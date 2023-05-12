@@ -41,7 +41,7 @@ function ModalDeleteEvent({ popup, handleClose, handleDeleteEvent }) {
   };
   return (
     <Dialog open={open} handleClose={handleClose} title={"Supprimer événement"}>
-      <form onSubmit={(e) => handleSubmit(e)}>
+      <form onSubmit={(e) => handleSubmit(e)} data-test="modal">
         <DialogContent dividers>
           <Grid container spacing={2} p={3}>
             <Typography variant="h6" fontWeight="bold">
@@ -54,7 +54,12 @@ function ModalDeleteEvent({ popup, handleClose, handleDeleteEvent }) {
           <Button autoFocus variant="outlined" onClick={handleClose}>
             Annuler
           </Button>
-          <Button autoFocus variant="contained" type="submit">
+          <Button
+            autoFocus
+            variant="contained"
+            type="submit"
+            data-test="confirmDeleteButton"
+          >
             Supprimer
           </Button>
         </DialogActions>

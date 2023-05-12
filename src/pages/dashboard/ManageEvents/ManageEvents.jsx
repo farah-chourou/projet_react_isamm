@@ -131,6 +131,7 @@ function ManageEvents() {
             size="small"
             stickyHeader
             aria-label="sticky table"
+            data-test="table"
           >
             <TableHead>
               <TableRow>
@@ -172,18 +173,25 @@ function ManageEvents() {
                     <TableCell>{item.description}</TableCell>
                     <TableCell align="center">
                       <Tooltip title="Modifier">
-                        <IconButton onClick={() => openUpdate(item)}>
+                        <IconButton
+                          onClick={() => openUpdate(item)}
+                          data-test={`updateButton-${item.eventName}`}
+                        >
                           <EditIcon />
                         </IconButton>
                       </Tooltip>
                       <Tooltip title="Supprimer">
-                        <IconButton onClick={() => openDelete(item)}>
+                        <IconButton
+                          onClick={() => openDelete(item)}
+                          data-test={`deleteButton-${item.eventName}`}
+                        >
                           <DeleteIcon />
                         </IconButton>
                       </Tooltip>
                       <Tooltip title="Voir">
                         <IconButton
                           onClick={(_id) => handleNavigateDetail(item._id)}
+                          data-test={`viewButton-${item.eventName}`}
                         >
                           <VisibilityIcon />
                         </IconButton>

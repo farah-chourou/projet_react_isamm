@@ -2,6 +2,7 @@
 /* eslint-disable no-undef */
 
 /**********************    LOGIN COMMANDS *******************/
+import { format } from "date-fns";
 
 Cypress.Commands.add("connect_as_superadmin", () => {
   cy.clearToken();
@@ -104,13 +105,11 @@ Cypress.Commands.add("getUserByToken", () => {
   });
 });
 
-Cypress.Commands.add("setTokenInHeaders", () => {
-  const token = window.localStorage.getItem("isamm_token");
-
-  if (token) {
-    console.log(token);
-    cy.intercept("*", (req) => {
-      req.headers.authorization = `Bearer ${token}`;
-    });
+Cypress.Commands.add(
+  "typeDate",
+  { prevSubject: "element" },
+  (subject, date) => {
+    const formattedDate = format(new Date(date), "yyyy-MM-dd");
+    cy.wrap(subject).type(formattedDate);
   }
-});
+);
