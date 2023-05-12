@@ -52,7 +52,7 @@ function App() {
         return elem.route;
       });
       let current_toute = location.pathname.split("/")[1];
-      if (allowed_routes.indexOf(current_toute) === -1) {
+      if ([...allowed_routes, "cv"].indexOf(current_toute) === -1) {
         navig(routes.default);
       }
     }
