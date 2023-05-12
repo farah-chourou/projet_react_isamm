@@ -15,6 +15,7 @@ import "swiper/css/pagination";
 
 // import required modules
 import { FreeMode, Pagination } from "swiper";
+import ParticipationService from "../../../../services/ParticipationService";
 
 function EventList() {
   const navigate = useNavigate();
@@ -30,8 +31,15 @@ function EventList() {
       });
   }, []);
 
+  const onInteresst = (id) => {
+    ParticipationService.AddParticipation(id)
+      .then((response) => {})
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const handleNavigateDetail = (_id) => {
-    navigate(`/dash/main/event/${_id}`);
+    navigate(`/dash/event/${_id}`);
   };
   return (
     <>
@@ -47,7 +55,6 @@ function EventList() {
       >
         {Events.map((item) => (
           <SwiperSlide>
-            
             <Box
               onClick={(_id) => handleNavigateDetail(item._id)}
               sx={{

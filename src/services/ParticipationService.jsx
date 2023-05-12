@@ -1,27 +1,20 @@
 import axios from "../custom/axios";
 
-const API_URL = "/api/event/";
+const API_URL = "/api/participation/";
 
-const GetAllEvents = () => {
-  return axios.get(`${API_URL}getAll`);
+const getAllConfirmed = (_id) => {
+  return axios.get(`${API_URL}getAllConfirmed/${_id}`);
 };
-const GetEventById = (_id) => {
-  return axios.get(`${API_URL}getOne/${_id}`);
+
+const AddParticipation = (_id) => {
+  return axios.post(`${API_URL}create/${_id}`);
 };
-const AddEvent = (info) => {
-  return axios.post(`${API_URL}create`, info);
-};
-const DeleteEvent = (_id) => {
-  return axios.delete(`${API_URL}delete/${_id}`);
-};
-const UpdateEvent = (_id, info) => {
-  console.log(info);
-  return axios.put(`${API_URL}update/${_id}`, info);
+
+const updateConfirmation = (_id, info) => {
+  return axios.put(`${API_URL}updateConfirmation/${_id}`, info);
 };
 export default {
-  GetAllEvents,
-  AddEvent,
-  DeleteEvent,
-  UpdateEvent,
-  GetEventById,
+  getAllConfirmed,
+  AddParticipation,
+  updateConfirmation,
 };
