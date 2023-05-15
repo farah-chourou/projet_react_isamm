@@ -5,21 +5,18 @@ describe("CRUD EVENT", () => {
   let savedEvent;
   let updatedEvent;
   let API_URL = Cypress.env("urlBackend") + "/event/";
+  let eventData;
+  let eventDataUpdated;
 
   it("Should Connect", () => {
-    const data = {
-      eventDateDebut: "2022-05-09T23:00:00.000Z",
-      eventDateFin: null,
-      eventType: "Journée d'integration",
-      description: "ffffffff",
-      eventName: "formation node js",
-      location: "technopole manouba",
-    };
+    cy.fixture("event.json").then((data) => {
+      eventData = data.event;
+    });
 
     cy.request({
       method: "POST",
       url: `${API_URL}create`,
-      body: data,
+      body: eventData,
       headers: {
         Authorization: token,
       },
@@ -33,21 +30,18 @@ describe("CRUD EVENT", () => {
   describe("CRUD EVENT WITH CONNEXION", () => {
     beforeEach(() => {
       cy.connect_as_superadmin().then((resp) => (token = `Bearer ${resp}`));
+      cy.fixture("event.json").then((data) => {
+        eventData = data.event;
+      });
+      cy.fixture("event.json").then((data) => {
+        eventDataUpdated = data.eventUpdated;
+      });
     });
     it("Should Add Event", () => {
-      const data = {
-        eventDateDebut: "2022-05-09T23:00:00.000Z",
-        eventDateFin: null,
-        eventType: "Journée d'integration",
-        description: "ffffffff",
-        eventName: "formation node js",
-        location: "technopole manouba",
-      };
-
       cy.request({
         method: "POST",
         url: `${API_URL}create`,
-        body: data,
+        body: eventData,
         headers: {
           Authorization: token,
         },
@@ -55,12 +49,12 @@ describe("CRUD EVENT", () => {
         console.log(resp.body.data);
 
         expect(resp.status).to.eq(200);
-        expect(resp.body.data.eventName).to.eq(data.eventName);
-        expect(resp.body.data.eventDateDebut).to.eq(data.eventDateDebut);
-        expect(resp.body.data.eventType).to.eq(data.eventType);
-        expect(resp.body.data.description).to.eq(data.description);
-        expect(resp.body.data.description).to.eq(data.description);
-        expect(resp.body.data.location).to.eq(data.location);
+        expect(resp.body.data.eventName).to.eq(eventData.eventName);
+        expect(resp.body.data.eventDateDebut).to.eq(eventData.eventDateDebut);
+        expect(resp.body.data.eventType).to.eq(eventData.eventType);
+        expect(resp.body.data.description).to.eq(eventData.description);
+        expect(resp.body.data.description).to.eq(eventData.description);
+        expect(resp.body.data.location).to.eq(eventData.location);
         expect(resp.body.data._id).to.exist;
         savedEvent = resp.body.data;
       });
@@ -82,18 +76,10 @@ describe("CRUD EVENT", () => {
     });
 
     it("should update event", () => {
-      const data = {
-        eventDateDebut: "2022-05-09T23:00:00.000Z",
-        eventDateFin: null,
-        eventType: "Journée d'integration",
-        description: "ffffffff",
-        eventName: "formation react js",
-        location: "technopole manouba",
-      };
       cy.request({
         method: "PUT",
         url: `${API_URL}update/${savedEvent._id}`,
-        body: data,
+        body: eventDataUpdated,
         headers: {
           Authorization: token,
         },

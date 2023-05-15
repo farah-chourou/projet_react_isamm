@@ -1,8 +1,14 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import styles from "./styles.module.scss";
 import { UserContext } from "../../store/Contexts";
 import SideBar from "../../layouts/SideBar/SideBar";
-import { Route, Routes, Navigate } from "react-router-dom";
+import {
+  Route,
+  Routes,
+  Navigate,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 
 import { dashboard } from "../../routes/routes";
 import NavBar from "../../layouts/NavBar/NavBar";
@@ -10,10 +16,26 @@ import NavBar from "../../layouts/NavBar/NavBar";
 function Dashboard() {
   const { user } = useContext(UserContext);
   const [reduced, setReduces] = useState(false);
+  const navig = useNavigate();
+  const location = useLocation();
 
   const handle_reduce = () => {
     setReduces(!reduced);
   };
+
+  useEffect(() => {
+    if (user) {
+      let allowed_routes = dashboard.routes.map((elem) => {
+        return elem.route;
+      });
+      console.log(allowed_routes);
+      let current_toute = location.pathname.split("/")[2];
+      console.log(current_toute);
+      if (allowed_routes.indexOf(current_toute) === -1) {
+        navig(dashboard.default);
+      }
+    }
+  }, [user]);
 
   return (
     <div className={styles.main}>
@@ -29,7 +51,6 @@ function Dashboard() {
                   <Route key={key} path={`${path}`} element={<Component />} />
                 );
               })}
-              {/* <Route path="/*" element={<Navigate to={dashboard.default} />} /> */}
             </Routes>
           </div>
         </div>

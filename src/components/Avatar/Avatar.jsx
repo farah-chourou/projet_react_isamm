@@ -32,6 +32,6 @@ function stringAvatar(name) {
   };
 }
 
-export default function BackgroundLetterAvatars({ name }) {
-  return <Avatar {...stringAvatar(name)} />;
+export default function BackgroundLetterAvatars({ name, variant = "circle" }) {
+  return <Avatar variant={variant} {...stringAvatar(name)} />;
 }

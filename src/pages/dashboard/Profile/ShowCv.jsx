@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styles from "./styles.module.scss";
 import Dialog from "../../../components/Popup/FullWidthPopup";
 import Grid from "@mui/material/Grid";
@@ -9,7 +9,14 @@ import CvUpdt from "../../../services/Cv.service";
 import TextField from "@mui/material/TextField";
 import { makeDate3 } from "../../../functions/dates";
 import CvService from "../../../services/Cv.service";
-function ShowCv({ popup, handleClose }) {
+import Switch from "@mui/material/Switch";
+import Box from "@mui/material/Box";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import { UserContext } from "../../../store/Contexts";
+
+function ShowCv({ popup, handleClose, handleThemeChange, isDarkTheme }) {
+  const [isDiplome, setDiplome] = React.useState(false);
+  const { user } = useContext(UserContext);
   const { open, value } = popup;
   const init_cv = {
     bio: "",
@@ -53,6 +60,19 @@ function ShowCv({ popup, handleClose }) {
       }
     );
   }, []);
+
+  useEffect(() => {
+    const dip_name = user.diplome;
+    setDiplome(dip_name !== "" && dip_name !== "None");
+  }, [user]);
+
+  // useEffect(() => {
+  //   if (isDiplome) {
+  //     alert("i am diplomated");
+  //   } else {
+  //     alert("i am not diplomated");
+  //   }
+  // }, [isDiplome]);
 
   useEffect(() => {
     const { bio, linkedIn, localisation, style } = cv;
@@ -223,6 +243,17 @@ function ShowCv({ popup, handleClose }) {
       title={`Cv User : ${value.firstName} ${value.lastName}`}
     >
       <DialogContent dividers>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={isDarkTheme}
+              onChange={handleThemeChange}
+              color="primary"
+            />
+          }
+          label="Theme"
+        />
+
         <h3>Bio</h3>
         <Grid container spacing={1}>
           <Grid item xs={8}>
@@ -279,6 +310,7 @@ function ShowCv({ popup, handleClose }) {
                   name="description"
                   value={exp?.description}
                   onChange={(e) => handleExpChange(e, index)}
+                  disabled={isDiplome}
                 />
               </Grid>
               <Grid item xl={12} lg={8} md={12}>
@@ -289,6 +321,7 @@ function ShowCv({ popup, handleClose }) {
                   name="emplacement"
                   value={exp.emplacement}
                   onChange={(e) => handleExpChange(e, index)}
+                  disabled={isDiplome}
                 />
               </Grid>
               <Grid item xl={12} lg={8} md={12}>
@@ -300,6 +333,7 @@ function ShowCv({ popup, handleClose }) {
                   name="startDate"
                   value={makeDate3(exp.startDate)}
                   onChange={(e) => handleExpChange(e, index)}
+                  disabled={isDiplome}
                 />
               </Grid>
               <Grid item xl={12} lg={8} md={12}>
@@ -311,6 +345,7 @@ function ShowCv({ popup, handleClose }) {
                   name="endDate"
                   value={makeDate3(exp.endDate)}
                   onChange={(e) => handleExpChange(e, index)}
+                  disabled={isDiplome}
                 />
               </Grid>
               <Grid item xl={12} lg={8} md={12}>
@@ -321,6 +356,7 @@ function ShowCv({ popup, handleClose }) {
                   name="title"
                   value={exp.title}
                   onChange={(e) => handleExpChange(e, index)}
+                  disabled={isDiplome}
                 />
               </Grid>
               <Grid item xl={12} lg={8} md={12}>
@@ -328,6 +364,7 @@ function ShowCv({ popup, handleClose }) {
                   autoFocus
                   variant="outlined"
                   onClick={() => handleRemoveExperience(index)}
+                  disabled={isDiplome}
                 >
                   Supprimer Expérience
                 </Button>
@@ -338,7 +375,12 @@ function ShowCv({ popup, handleClose }) {
 
         <Grid container spacing={2}>
           <Grid item xl={12} lg={8} md={12}>
-            <Button autoFocus variant="outlined" onClick={handleAddExperience}>
+            <Button
+              autoFocus
+              variant="outlined"
+              onClick={handleAddExperience}
+              disabled={isDiplome}
+            >
               Ajouter Expérience
             </Button>
           </Grid>
@@ -358,6 +400,7 @@ function ShowCv({ popup, handleClose }) {
                   name="description"
                   value={item.description}
                   onChange={(e) => handleFormationChange(e, index)}
+                  disabled={isDiplome}
                 />
               </Grid>
               <Grid item xl={12} lg={8} md={12}>
@@ -368,6 +411,7 @@ function ShowCv({ popup, handleClose }) {
                   name="emplacement"
                   value={item.emplacement}
                   onChange={(e) => handleFormationChange(e, index)}
+                  disabled={isDiplome}
                 />
               </Grid>
               <Grid item xl={12} lg={8} md={12}>
@@ -379,6 +423,7 @@ function ShowCv({ popup, handleClose }) {
                   name="startDate"
                   value={makeDate3(item.startDate)}
                   onChange={(e) => handleFormationChange(e, index)}
+                  disabled={isDiplome}
                 />
               </Grid>
               <Grid item xl={12} lg={8} md={12}>
@@ -390,6 +435,7 @@ function ShowCv({ popup, handleClose }) {
                   name="endDate"
                   value={makeDate3(item.endDate)}
                   onChange={(e) => handleFormationChange(e, index)}
+                  disabled={isDiplome}
                 />
               </Grid>
               <Grid item xl={12} lg={8} md={12}>
@@ -400,6 +446,7 @@ function ShowCv({ popup, handleClose }) {
                   name="title"
                   value={item.title}
                   onChange={(e) => handleFormationChange(e, index)}
+                  disabled={isDiplome}
                 />
               </Grid>
               <Grid item xl={12} lg={8} md={12}>
@@ -407,6 +454,7 @@ function ShowCv({ popup, handleClose }) {
                   autoFocus
                   variant="outlined"
                   onClick={() => handleRemoveFormations(index)}
+                  disabled={isDiplome}
                 >
                   Supprimer Formation
                 </Button>
@@ -417,7 +465,12 @@ function ShowCv({ popup, handleClose }) {
 
         <Grid container spacing={1}>
           <Grid item xl={12} lg={8} md={12}>
-            <Button autoFocus variant="outlined" onClick={handleAddFormation}>
+            <Button
+              autoFocus
+              variant="outlined"
+              onClick={handleAddFormation}
+              disabled={isDiplome}
+            >
               Ajouter Formation
             </Button>
           </Grid>
@@ -595,6 +648,9 @@ function ShowCv({ popup, handleClose }) {
         <Button autoFocus variant="contained" onClick={HandleSubmit}>
           Modifier
         </Button>
+        <a href="http://localhost:3000/cv" target="_blank">
+          <Button variant="contained">Show Cv</Button>
+        </a>
       </DialogActions>
     </Dialog>
   );
