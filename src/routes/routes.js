@@ -26,6 +26,7 @@ import AcountsPage from "../pages/dashboard/AcountStudents/AcountsPage";
 import EventDetail from "../pages/dashboard/MainPage/Event/EventDetail";
 import CVStudent from "../pages/dashboard/ManageStudents/CVStudent";
 import ManageAdmins from "../pages/dashboard/ManageAdmins/ManageAdmins";
+import GestionAlumini from "../pages/dashboard/GestionAlumini/GestionAlumini";
 
 const not_logged = {
   routes: [
@@ -158,6 +159,17 @@ const dashboard = {
       title: "Compte Public",
       Icon: MeetingRoomIcon,
       role: [roles.STUDENT, roles.ALUMINIE],
+      perm_name: permissions.all,
+      in_nav: true,
+    }
+    ,
+    {
+      main: "/dash",
+      path: "/validateAlumini",
+      Component: GestionAlumini,
+      title: "Gestion Alumini",
+      Icon: SupervisorAccountIcon,
+      role: [roles.ADMIN, roles.SUPERADMIN],
       perm_name: permissions.all,
       in_nav: true,
     },
