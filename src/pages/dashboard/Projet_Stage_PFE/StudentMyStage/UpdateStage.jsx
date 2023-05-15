@@ -137,6 +137,17 @@ function UpdateStage({ popup, handleClose }) {
             </Grid>
 
             <Grid item xl={12} lg={12} md={12}>
+              <TextField
+                fullWidth
+                className={styles.textField}
+                label="Pays"
+                name="pays"
+                value={form.pays}
+                onChange={handle_change}
+              />
+            </Grid>
+
+            <Grid item xl={12} lg={12} md={12}>
               <Select
                 className={styles.textField}
                 value={form.promotion}

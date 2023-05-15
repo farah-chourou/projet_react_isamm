@@ -35,6 +35,7 @@ const UpdateProject = (data) => {
       "promotion",
       "startDate",
       "endDate",
+      "pays",
     ],
     data
   );
