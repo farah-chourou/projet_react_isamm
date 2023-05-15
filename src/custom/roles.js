@@ -21,6 +21,10 @@ const permissions = {
   technologie: "technologie",
   cv: "cv",
   saison: "saison",
+  admin: "admin",
+  employement: "employement",
+  recruitment: "recruitment",
+  offer: "offer",
   none: "none",
 };
 

@@ -31,7 +31,20 @@ const CreateStudent = (data, succ, fail) => {
       toast.error(error.response.data.Message);
     });
 };
-
+const CreateMultipleStudent = (data, succ, fail) => {
+  axios
+    .post("/api/student/create_multiple_with_excel", data)
+    .then((res) => {
+      console.log(res);
+      toast.success("Etudiants ont été créé");
+      succ();
+    })
+    .catch((error) => {
+      fail(error);
+      console.log(error.response);
+      toast.error(error.response.data.Message);
+    });
+};
 const UpdateStudent = (data, succ, fail) => {
   const allowedData = GetOnly(
     [
@@ -91,11 +104,39 @@ const DeleteStudent = (_id, succ, fail) => {
       toast.error(error.response.data.Message);
     });
 };
+const GetAllPublicAccount = (succ, fail) => {
+  axios
+    .get("/api/student/getallpublic")
+    .then((res) => {
+      console.log(res);
+      succ(res.data.data);
+    })
+    .catch((error) => {
+      fail(error);
+      toast.error(error.response.data.Message);
+    });
+};
 
+const UpdateUniverYear = (data, succ, fail) => {
+  axios
+    .put(`/api/student/update_year_univer`, data)
+    .then((res) => {
+      console.log(res);
+      toast.success("Mise a des informations avec succé");
+      succ(res);
+    })
+    .catch((error) => {
+      console.log(error.response);
+      toast.error(error.response.data.Message);
+    });
+};
 export default {
   GetAllStudents,
   CreateStudent,
   DeleteStudent,
   UpdateStudent,
   UpdateDiplome,
+  CreateMultipleStudent,
+  GetAllPublicAccount,
+  UpdateUniverYear,
 };

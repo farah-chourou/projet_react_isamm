@@ -7,11 +7,16 @@ import UpdateProfile from "./UpdateProfile";
 import ShowCv from "./ShowCv";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
+import H1 from "../../../components/Texts/H1";
+import PublicIcon from "@mui/icons-material/Public";
+import PublicOffIcon from "@mui/icons-material/PublicOff";
+import EditStateAccount from "./EditStateAccount";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { isALUMINIE, isSTUDENT } from "../../../custom/roles";
 
 // firstName, lastName, phoneNumber, birthDate, sex
 function Profile() {
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   const init_cv = {
     student: "",
@@ -55,11 +60,45 @@ function Profile() {
   const handleClose = () => {
     setPopup({ ...popup, open: false, type: "", value: init_cv });
   };
-
+  // update State Account
+  const [Etat, setEtat] = useState("");
   return (
     <>
       <div>
-        <h1>User Profile</h1>
+        <div className={styles.head}>
+          <Grid container alignItems="center">
+            <Grid item xs={6} md={6} lg={6}>
+              <H1>Profile</H1>
+            </Grid>
+            <Grid item xs={6} md={6} lg={6} container justifyContent="flex-end">
+              <>
+                {user?.isPublic === true ? (
+                  <Button
+                    startIcon={<PublicIcon />}
+                    variant="contained"
+                    onClick={() => {
+                      openPopup("updateStateAccount", user);
+                      setEtat("privé");
+                    }}
+                  >
+                    Compte Public
+                  </Button>
+                ) : (
+                  <Button
+                    startIcon={<PublicOffIcon />}
+                    variant="contained"
+                    onClick={() => {
+                      openPopup("updateStateAccount", user);
+                      setEtat("public");
+                    }}
+                  >
+                    Compte Privé
+                  </Button>
+                )}
+              </>{" "}
+            </Grid>
+          </Grid>
+        </div>
         <Grid container spacing={1}>
           <Grid item xl={6} lg={6} md={12}>
             <label className={styles.classLabel} htmlFor="name">
@@ -125,8 +164,12 @@ function Profile() {
       {popup.type === "update" && (
         <UpdateProfile popup={popup} handleClose={handleClose} />
       )}
+
       {popup.type === "show" && (
         <ShowCv popup={popup} handleClose={handleClose} />
+      )}
+      {popup.type === "updateStateAccount" && (
+        <EditStateAccount popup={popup} handleClose={handleClose} etat={Etat} />
       )}
     </>
   );

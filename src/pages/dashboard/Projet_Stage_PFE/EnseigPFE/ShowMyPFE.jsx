@@ -72,7 +72,7 @@ function ShowPFE({ popup, handleClose }) {
             <div className={styles.part1}>
               <h2>
                 Etudiant :{" "}
-                <a href="/cv/blablabla" target="_blank">
+                <a href={`/cv/${value.students[0]._id}`} target="_blank">
                   {value.students[0].firstName} {value.students[0].lastName}
                 </a>
               </h2>

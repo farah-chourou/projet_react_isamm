@@ -6,13 +6,36 @@ const AddProject = (data) => {
   return axios.post(`/api/project/create`, { ...data });
 };
 
+const AddPFA = (data) => {
+  return axios.post(`/api/project/create_pfa`, { ...data });
+};
+
 const GetMyPfes = () => {
   return axios.get(`/api/project/get_pfe_student`);
+};
+
+const GetMyPfa = () => {
+  return axios.get(`/api/project/get_pfa_teacher`);
+};
+const GetPFAResp = (query = {}) => {
+  return axios.get(`/api/project/get_pfa_resp`, MakeQuery(query));
+};
+
+const GetPFAStudent = () => {
+  return axios.get(`/api/project/get_pfa_student`);
+};
+
+const GetPFAAdmin = () => {
+  return axios.get(`/api/project/get_pfa_admin`);
 };
 
 const GetEverything = (query = {}) => {
   return axios.get(`/api/project/get_all`, MakeQuery(query));
 };
+
+/*const GetMyPfas = () => {
+  return axios.get(`/api/project/get_pfe_student`);
+};*/
 
 const GetMyStages = () => {
   return axios.get(`/api/project/get_stage_student`);
@@ -42,8 +65,33 @@ const UpdateProject = (data) => {
   return axios.post(`/api/project/update`, { ...allowedData });
 };
 
+const UpdatePFA = (data) => {
+  const allowedData = GetOnly(
+    [
+      "_id",
+      "title",
+      "description",
+      "student_id",
+      "technologies",
+      "promotion",
+      "startDate",
+      "endDate",
+    ],
+    data
+  );
+  return axios.post(`/api/project/update_pfa`, { ...allowedData });
+};
+
 const EnseigChoisirPfe = (_id) => {
   return axios.post(`/api/project/approve_by_enseig/${_id}`);
+};
+
+const ResponsableApprvPFA = (_id) => {
+  return axios.post(`/api/project/approve_by_responsable/${_id}`);
+};
+
+const Student_Chose_pfa = (_id) => {
+  return axios.post(`/api/project/choisirpfa_by_student/${_id}`);
 };
 
 const AdminValidateProject = (_id, data) => {
@@ -52,6 +100,13 @@ const AdminValidateProject = (_id, data) => {
 
 const DeleteProject = (_id) => {
   return axios.delete(`/api/project/delete/${_id}`);
+};
+const Deletepfa = (_id) => {
+  return axios.delete(`/api/project/delete_pfa/${_id}`);
+};
+
+const isAllowedToPick = (_id) => {
+  return axios.get(`/api/project/alowed_to_pick`);
 };
 
 // const GetAllTeachers = () => {
@@ -69,12 +124,22 @@ const DeleteProject = (_id) => {
 
 export default {
   AddProject,
+  AddPFA,
   GetMyPfes,
+  GetMyPfa,
   GetSocietes,
   GetMyStages,
   GetEverything,
   UpdateProject,
+  UpdatePFA,
+  GetPFAResp,
+  GetPFAAdmin,
   DeleteProject,
   EnseigChoisirPfe,
+  ResponsableApprvPFA,
   AdminValidateProject,
+  Deletepfa,
+  GetPFAStudent,
+  Student_Chose_pfa,
+  isAllowedToPick,
 };

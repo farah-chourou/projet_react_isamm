@@ -68,7 +68,7 @@ function ModalEditEvent({ popup, handleClose, handleEditEvent }) {
 
   return (
     <Dialog open={open} handleClose={handleClose} title={"Modifier Evénement"}>
-      <form onSubmit={(e) => handleSubmit(e)}>
+      <form onSubmit={(e) => handleSubmit(e)} data-test="modal">
         <DialogContent dividers>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -169,7 +169,12 @@ function ModalEditEvent({ popup, handleClose, handleEditEvent }) {
           <Button autoFocus variant="outlined" onClick={handleClose}>
             Annuler
           </Button>
-          <Button autoFocus variant="contained" type="submit">
+          <Button
+            autoFocus
+            variant="contained"
+            type="submit"
+            data-test="confirmUpdateButton"
+          >
             Modifier
           </Button>
         </DialogActions>

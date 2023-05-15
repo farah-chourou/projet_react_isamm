@@ -12,7 +12,7 @@ function CustomToaster(props) {
       .forEach((t) => toast.dismiss(t.id));
   }, [toasts]);
 
-  return <Toaster position="top right" {...props} />;
+  return <Toaster position="bottom right" {...props} data-test="toast" />;
 }
 
 export default CustomToaster;
