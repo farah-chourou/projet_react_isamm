@@ -17,6 +17,7 @@ import CoPresentIcon from "@mui/icons-material/CoPresent";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import EventIcon from "@mui/icons-material/Event";
 import BookIcon from "@mui/icons-material/Book";
+import BarChartIcon from "@mui/icons-material/BarChart";
 // ------------------------- ROLES --------------------------------
 import { roles, permissions } from "../custom/roles";
 import ChangePwd from "../pages/dashboard/changerMdp/ChangerMdp";
@@ -27,6 +28,7 @@ import StudentManageMyPFE from "../pages/dashboard/Projet_Stage_PFE/StudentMyPFE
 import StudentManageMyStage from "../pages/dashboard/Projet_Stage_PFE/StudentMyStage/StudentManageMyStage";
 import EnseigManagePFE from "../pages/dashboard/Projet_Stage_PFE/EnseigPFE/EnseigManagePFE";
 import AdminManageProject from "../pages/dashboard/Projet_Stage_PFE/AdminProjects/AdminManageProject";
+import StatistiquePfe from "../pages/dashboard/StatistiquePfe/StatistiquePfe";
 
 const not_logged = {
   routes: [
@@ -150,6 +152,16 @@ const dashboard = {
       title: "Gest PFE/Stage",
       Icon: BookIcon,
       role: [roles.SUPERADMIN, roles.RESPONSIBLE],
+      perm_name: permissions.none,
+      in_nav: true,
+    },
+    {
+      main: "/dash",
+      path: "/pfe_stats",
+      Component: StatistiquePfe,
+      title: "Statistis PFE",
+      Icon: BarChartIcon,
+      role: [roles.SUPERADMIN, roles.RESPONSIBLE, roles.ADMIN],
       perm_name: permissions.none,
       in_nav: true,
     },
