@@ -67,7 +67,7 @@ function ShowMyPFA({ popup, handleClose }) {
             <h3>{value.title}</h3>
           </div>
 
-          {value.students.length > 0 && (
+          {value.students?.length > 0 && (
             <div className={styles.part1}>
               <h2>
                 Etudiant :{" "}
