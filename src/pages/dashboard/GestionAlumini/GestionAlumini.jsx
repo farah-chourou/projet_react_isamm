@@ -85,7 +85,9 @@ const GestionAlumini = () => {
         </Grid>
       </div>
       <div>
-      <TableContainer sx={{ marginTop: 5 }}>
+      <TableContainer 
+      data-testid="aluminiTableContainer"
+      sx={{ marginTop: 5 }}>
           <Table
             sx={{ minWidth: 1000 }}
             size="small"
@@ -112,7 +114,7 @@ const GestionAlumini = () => {
                     "&:last-child td, &:last-child th": { border: 0 },
                     cursor: "pointer",
                   }}
-                  data-testid="aluminiTableRow"
+                  data-test="aluminiTableRow"
                 >
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>{alumini.firstName}</TableCell>
@@ -124,7 +126,8 @@ const GestionAlumini = () => {
                   <TableCell align="center">
                     <Tooltip title="Valider inscription">
                       <IconButton
-                      data-testid="validateButton"
+                      data-test="validateBtn"
+                      //{`validateBtn-${alumini._id}`}
                       onClick={() => validateAl(alumini)}>
                         <CheckCircleIcon color="success"/>
                       </IconButton>
