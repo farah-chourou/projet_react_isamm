@@ -28,8 +28,6 @@ function AddPFA({ popup, handleClose }) {
     description: "",
     technologies: [],
     promotion: "",
-    startDate: new Date(),
-    endDate: new Date(),
   });
 
   const handle_change = (event) => {
@@ -88,7 +86,7 @@ function AddPFA({ popup, handleClose }) {
       title={"Ajouter un nouvel PFA"}
       width="md"
     >
-      <DialogContent dividers>
+      <DialogContent dividers data-test="add">
         <div className={styles.card}>
           <Typography variant="h5" component="h1">
             Informations Générales
@@ -111,6 +109,7 @@ function AddPFA({ popup, handleClose }) {
                 value={form.promotion}
                 label="Promotion"
                 name="promotion"
+                data-test="prom"
                 onChange={handle_change}
                 items={promos.map((prom) => ({
                   name: prom.title,
@@ -118,33 +117,10 @@ function AddPFA({ popup, handleClose }) {
                 }))}
               />
             </Grid>
-            <Grid item xl={6} lg={6} md={12}>
-              <TextField
-                fullWidth
-                type="date"
-                className={styles.textField}
-                label="Date de debut"
-                name="startDate"
-                value={makeDate2(form.startDate)}
-                onChange={handle_change}
-              />
-            </Grid>
-            <Grid item xl={6} lg={6} md={12}>
-              <TextField
-                fullWidth
-                type="date"
-                className={styles.textField}
-                label="Date de fin"
-                name="endDate"
-                value={makeDate2(form.endDate)}
-                onChange={handle_change}
-              />
-            </Grid>
 
             <Grid item xl={12} lg={12} md={12}>
               <TextField
                 fullWidth
-                type="email"
                 className={styles.textField}
                 label="Description"
                 name="description"
@@ -152,6 +128,7 @@ function AddPFA({ popup, handleClose }) {
                 onChange={handle_change}
                 multiline
                 rows={4}
+                data-test="desc"
               />
             </Grid>
 
@@ -172,6 +149,7 @@ function AddPFA({ popup, handleClose }) {
                             {...params}
                             label={`Technology N° ${key + 1}`}
                             className={styles.textField}
+                            data-set="technologies"
                             onChange={(e) => {
                               handle_change_tech(key, e.target.value);
                             }}
@@ -208,6 +186,7 @@ function AddPFA({ popup, handleClose }) {
                 variant="contained"
                 fullWidth={true}
                 onClick={handle_add_tech}
+                data-test="buttonAddtech"
               >
                 Ajouter Tech
               </Button>
@@ -224,6 +203,7 @@ function AddPFA({ popup, handleClose }) {
           variant="contained"
           onClick={handleSubmit}
           disabled={loading}
+          data-test="buttonAddpfa"
         >
           Ajouter
         </Button>

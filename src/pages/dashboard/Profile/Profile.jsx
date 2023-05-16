@@ -16,6 +16,7 @@ import { isALUMINIE, isSTUDENT } from "../../../custom/roles";
 
 // firstName, lastName, phoneNumber, birthDate, sex
 function Profile() {
+  const [isDiplome, setDiplome] = React.useState(false);
   const { user, setUser } = useContext(UserContext);
 
   const init_cv = {
@@ -62,6 +63,11 @@ function Profile() {
   };
   // update State Account
   const [Etat, setEtat] = useState("");
+
+  useEffect(() => {
+    const dip_name = user.diplome;
+    setDiplome(dip_name !== "" && dip_name !== "None");
+  }, [user]);
   return (
     <>
       <div>
@@ -144,6 +150,7 @@ function Profile() {
               autoFocus
               variant="outlined"
               onClick={() => openPopup("update", user)}
+              disabled={isDiplome}
             >
               Modifier Profile
             </Button>

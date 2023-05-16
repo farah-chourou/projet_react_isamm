@@ -13,7 +13,7 @@ import Select from "../../../../components/Inputs/Select";
 import PromoServ from "../../../../services/Promotion.service";
 import ProjetServ from "../../../../services/Projet.service";
 import TechloServ from "../../../../services/technologies.service";
-import { makeDate2 } from "../../../../functions/Dates.functions";
+
 import { Autocomplete } from "@mui/material";
 import { toast } from "react-hot-toast";
 
@@ -83,7 +83,7 @@ function UpdatePFA({ popup, handleClose }) {
       title={"Modifier PFE"}
       width="md"
     >
-      <DialogContent dividers>
+      <DialogContent dividers data-test="edit">
         <div className={styles.card}>
           <Typography variant="h5" component="h1">
             Informations Générales
@@ -114,28 +114,6 @@ function UpdatePFA({ popup, handleClose }) {
                 }))}
               />
             </Grid>
-            <Grid item xl={6} lg={6} md={12}>
-              <TextField
-                fullWidth
-                type="date"
-                className={styles.textField}
-                label="Date de debut"
-                name="startDate"
-                value={makeDate2(form.startDate)}
-                onChange={handle_change}
-              />
-            </Grid>
-            <Grid item xl={6} lg={6} md={12}>
-              <TextField
-                fullWidth
-                type="date"
-                className={styles.textField}
-                label="Date de fin"
-                name="endDate"
-                value={makeDate2(form.endDate)}
-                onChange={handle_change}
-              />
-            </Grid>
 
             <Grid item xl={12} lg={12} md={12}>
               <TextField
@@ -144,6 +122,7 @@ function UpdatePFA({ popup, handleClose }) {
                 className={styles.textField}
                 label="Description"
                 name="description"
+                data-test="desc"
                 value={form.description}
                 onChange={handle_change}
                 multiline
@@ -221,6 +200,7 @@ function UpdatePFA({ popup, handleClose }) {
           variant="contained"
           onClick={handleSubmit}
           disabled={loading}
+          data-test="confirmUpdateButtonpfa"
         >
           Update
         </Button>
