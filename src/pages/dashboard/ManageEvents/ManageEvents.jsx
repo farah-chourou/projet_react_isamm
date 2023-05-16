@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import Button from "@mui/material/Button";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
@@ -32,8 +32,11 @@ import ModalDeleteEvent from "./Modals/ModalDeleteEvent";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 import Select from "../../../components/Inputs/Select";
+import { isADMIN, isSUPERADMIN, isTEACHER } from "../../../custom/roles";
+import { UserContext } from "../../../store/Contexts";
 
 function ManageEvents() {
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const [Events, setEvents] = useState([]);
   const [List, setList] = useState(false);
@@ -207,22 +210,27 @@ function ManageEvents() {
                     <TableCell>{item.location}</TableCell>
                     <TableCell>{item.description}</TableCell>
                     <TableCell align="center">
-                      <Tooltip title="Modifier">
-                        <IconButton
-                          onClick={() => openUpdate(item)}
-                          data-test={`updateButton-${item.eventName}`}
-                        >
-                          <EditIcon />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title="Supprimer">
-                        <IconButton
-                          onClick={() => openDelete(item)}
-                          data-test={`deleteButton-${item.eventName}`}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </Tooltip>
+                      {(isADMIN(user) || isSUPERADMIN(user)) && (
+                        <Tooltip title="Modifier">
+                          <IconButton
+                            onClick={() => openUpdate(item)}
+                            data-test={`updateButton-${item.eventName}`}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                        </Tooltip>
+                      )}
+
+                      {(isADMIN(user) || isSUPERADMIN(user)) && (
+                        <Tooltip title="Supprimer">
+                          <IconButton
+                            onClick={() => openDelete(item)}
+                            data-test={`deleteButton-${item.eventName}`}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </Tooltip>
+                      )}
                       <Tooltip title="Voir">
                         <IconButton
                           onClick={(_id) => handleNavigateDetail(item._id)}

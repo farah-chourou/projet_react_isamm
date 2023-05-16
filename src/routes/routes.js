@@ -140,7 +140,7 @@ const dashboard = {
       Component: ManageEvents,
       title: "Gest Evénement",
       Icon: EventIcon,
-      role: [roles.ADMIN, roles.SUPERADMIN],
+      role: [roles.ADMIN, roles.SUPERADMIN, roles.TEACHER],
       perm_name: permissions.event,
       in_nav: true,
     },
