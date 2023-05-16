@@ -30,8 +30,6 @@ const init_project = {
   student: { firstName: "", lastName: "" },
   technologies: [""],
   promotion: "",
-  startDate: new Date(),
-  endDate: new Date(),
 };
 
 const MakeAvatarProj = ({ title = "" }) => {

@@ -243,17 +243,6 @@ function ShowCv({ popup, handleClose, handleThemeChange, isDarkTheme }) {
       title={`Cv User : ${value.firstName} ${value.lastName}`}
     >
       <DialogContent dividers>
-        <FormControlLabel
-          control={
-            <Switch
-              checked={isDarkTheme}
-              onChange={handleThemeChange}
-              color="primary"
-            />
-          }
-          label="Theme"
-        />
-
         <h3>Bio</h3>
         <Grid container spacing={1}>
           <Grid item xs={8}>
@@ -375,12 +364,7 @@ function ShowCv({ popup, handleClose, handleThemeChange, isDarkTheme }) {
 
         <Grid container spacing={2}>
           <Grid item xl={12} lg={8} md={12}>
-            <Button
-              autoFocus
-              variant="outlined"
-              onClick={handleAddExperience}
-              disabled={isDiplome}
-            >
+            <Button autoFocus variant="outlined" onClick={handleAddExperience}>
               Ajouter Expérience
             </Button>
           </Grid>
@@ -465,12 +449,7 @@ function ShowCv({ popup, handleClose, handleThemeChange, isDarkTheme }) {
 
         <Grid container spacing={1}>
           <Grid item xl={12} lg={8} md={12}>
-            <Button
-              autoFocus
-              variant="outlined"
-              onClick={handleAddFormation}
-              disabled={isDiplome}
-            >
+            <Button autoFocus variant="outlined" onClick={handleAddFormation}>
               Ajouter Formation
             </Button>
           </Grid>

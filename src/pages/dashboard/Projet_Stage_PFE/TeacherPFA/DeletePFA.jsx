@@ -31,13 +31,18 @@ function DeletePFA({ popup, handleClose }) {
       handleClose={handleClose}
       title={`Supprimer PFE : ${value.title}`}
     >
-      <DialogContent dividers>
+      <DialogContent dividers data-test="delet">
         <Typography variant="h5" component="h1" align="center">
           Es-tu sûr de supprimer {value.firstName} {value.lastName}
         </Typography>
       </DialogContent>
       <DialogActions>
-        <Button autoFocus variant="outlined" onClick={handleClose}>
+        <Button
+          autoFocus
+          variant="outlined"
+          onClick={handleClose}
+          data-test="confirmDeleteButtonpfa"
+        >
           Annuler
         </Button>
         <Button

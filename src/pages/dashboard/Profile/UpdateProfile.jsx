@@ -1,4 +1,3 @@
-
 import { makeDate2 } from "../../../functions/dates";
 import React, { useContext, useEffect, useState } from "react";
 import Profil from "../../../services/Profile.service";
@@ -12,12 +11,9 @@ import Grid from "@mui/material/Grid";
 import Select from "../../../components/Inputs/Select";
 import TextField from "@mui/material/TextField";
 
-
-
 function UpdateProfile({ popup, handleClose }) {
-
   const { open, value } = popup;
-  const { user,setUser } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -30,9 +26,9 @@ function UpdateProfile({ popup, handleClose }) {
   const [emailForm, setEmailForm] = useState("");
 
   useEffect(() => {
-    const { firstName, lastName, phoneNumber, birthDate, sex,email } = user;
+    const { firstName, lastName, phoneNumber, birthDate, sex, email } = user;
     setFormData({ firstName, lastName, phoneNumber, birthDate, sex });
-    setEmailForm(email)
+    setEmailForm(email);
   }, [user]);
 
   const handle_change_profile = (event) => {
@@ -48,7 +44,7 @@ function UpdateProfile({ popup, handleClose }) {
 
   const handleUpdateEmail = () => {
     try {
-      Profil.UpdateEmail(emailForm,(res)=>{
+      Profil.UpdateEmail(emailForm, (res) => {
         setUser(res.data.data);
       });
     } catch (error) {
@@ -63,11 +59,10 @@ function UpdateProfile({ popup, handleClose }) {
       title={`User :  ${value.firstName} ${value.lastName}`}
     >
       <DialogContent dividers>
-      <div className={styles.card}>
-        
-      <Grid container spacing={1}>
+        <div className={styles.card}>
+          <Grid container spacing={1}>
             <Grid item xl={6} lg={6} md={12}>
-            <TextField
+              <TextField
                 fullWidth
                 className={styles.textField}
                 label="Prénom"
@@ -75,10 +70,10 @@ function UpdateProfile({ popup, handleClose }) {
                 value={formData?.firstName}
                 onChange={handle_change_profile}
               />
-          </Grid>
-          
-          <Grid item xl={6} lg={6} md={12}>
-          <TextField
+            </Grid>
+
+            <Grid item xl={6} lg={6} md={12}>
+              <TextField
                 fullWidth
                 className={styles.textField}
                 label="Nom"
@@ -86,10 +81,10 @@ function UpdateProfile({ popup, handleClose }) {
                 value={formData.lastName}
                 onChange={handle_change_profile}
               />
-          </Grid>
+            </Grid>
 
-          <Grid item xl={6} lg={6} md={12}>
-        <TextField
+            <Grid item xl={6} lg={6} md={12}>
+              <TextField
                 fullWidth
                 className={styles.textField}
                 label="Numéro de tel"
@@ -97,9 +92,9 @@ function UpdateProfile({ popup, handleClose }) {
                 value={formData.phoneNumber}
                 onChange={handle_change_profile}
               />
-        </Grid>
-          <Grid item xl={6} lg={6} md={12}>
-          <TextField
+            </Grid>
+            <Grid item xl={6} lg={6} md={12}>
+              <TextField
                 fullWidth
                 type="date"
                 className={styles.textField}
@@ -108,12 +103,10 @@ function UpdateProfile({ popup, handleClose }) {
                 value={makeDate2(formData.birthDate)}
                 onChange={handle_change_profile}
               />
-        </Grid>
+            </Grid>
 
-
-          <Grid item xl={6} lg={6} md={12}>
-       
-       <Select
+            <Grid item xl={6} lg={6} md={12}>
+              <Select
                 className={styles.textField}
                 value={formData.sex}
                 label="Genre"
@@ -124,21 +117,23 @@ function UpdateProfile({ popup, handleClose }) {
                   { name: "Féminin", value: "WOMEN" },
                 ]}
               />
+            </Grid>
+          </Grid>
+          <Grid container spacing={1}>
+            <Grid item xl={6} lg={6} md={12}>
+              <Button
+                autoFocus
+                variant="outlined"
+                onClick={handleUpdateGeneral}
+              >
+                Modifier Profile
+              </Button>
+            </Grid>
+          </Grid>
 
-
-        </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-        <Grid item xl={6} lg={6} md={12}>
-        <Button autoFocus variant="outlined" onClick={handleUpdateGeneral}>
-        Modifier Profile
-        </Button>
-        </Grid>
-        </Grid>
-
-        <Grid container spacing={1}>
-          <Grid item xl={6} lg={6} md={12}>
-        <TextField
+          <Grid container spacing={1}>
+            <Grid item xl={6} lg={6} md={12}>
+              <TextField
                 fullWidth
                 type="email"
                 className={styles.textField}
@@ -147,19 +142,17 @@ function UpdateProfile({ popup, handleClose }) {
                 value={emailForm}
                 onChange={(e) => setEmailForm(e.target.value)}
               />
-     
-       </Grid>
-       <br />
-      </Grid>
-      <Grid container spacing={1}>
-      <Grid item xl={6} lg={6} md={12}>
-       <Button autoFocus variant="outlined" onClick={handleUpdateEmail}>
-       Modifier Email
-        </Button>
-        </Grid>
-        </Grid>
-      </div>
-      
+            </Grid>
+            <br />
+          </Grid>
+          <Grid container spacing={1}>
+            <Grid item xl={6} lg={6} md={12}>
+              <Button autoFocus variant="outlined" onClick={handleUpdateEmail}>
+                Modifier Email
+              </Button>
+            </Grid>
+          </Grid>
+        </div>
       </DialogContent>
       <DialogActions>
         <Button autoFocus variant="outlined" onClick={handleClose}>
