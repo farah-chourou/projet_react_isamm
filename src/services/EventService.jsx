@@ -2,9 +2,10 @@ import axios from "../custom/axios";
 
 const API_URL = "/api/event/";
 
-const GetAllEvents = () => {
-  return axios.get(`${API_URL}getAll`);
+const GetAllEvents = (saison = "") => {
+  return axios.get(`${API_URL}getAll?saison=${saison}`);
 };
+
 const GetEventById = (_id) => {
   return axios.get(`${API_URL}getOne/${_id}`);
 };
