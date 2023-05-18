@@ -12,6 +12,7 @@ import {
 
 import { dashboard } from "../../routes/routes";
 import NavBar from "../../layouts/NavBar/NavBar";
+import { roles } from "../../custom/roles";
 
 function Dashboard() {
   const { user } = useContext(UserContext);
@@ -24,13 +25,26 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    if (user) {
+    if (user && user.role === roles.ADMIN) {
+      let allowed_routes = dashboard.routes
+        .filter(
+          (route) =>
+            route.perm_name &&
+            user.permessions &&
+            user.permessions.includes(route.perm_name)
+        )
+        .map((elem) => {
+          return elem.route;
+        });
+      let current_toute = location.pathname.split("/")[2];
+      if (allowed_routes.indexOf(current_toute) === -1) {
+        navig(dashboard.default);
+      }
+    } else {
       let allowed_routes = dashboard.routes.map((elem) => {
         return elem.route;
       });
-      console.log(allowed_routes);
       let current_toute = location.pathname.split("/")[2];
-      console.log(current_toute);
       if (allowed_routes.indexOf(current_toute) === -1) {
         navig(dashboard.default);
       }

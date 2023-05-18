@@ -1,20 +1,23 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-undef */
-describe("CRUD EVENT", () => {
+describe("CRUD teacher", () => {
   let token;
-  let savedEvent;
-  let updatedEvent;
-  let API_URL = Cypress.env("urlBackend") + "/event/";
-  let eventData;
+  let savedteacher;
+  let updatedteacher;
+  let API_URL = Cypress.env("urlBackend") + "/teacher/";
+  let API_URL_All = Cypress.env("urlBackend") + "/user/";
+  let dataJson;
+  let dataWithUpdate;
 
   it("Should Connect", () => {
-    cy.fixture("event.json").then((data) => {
-      eventData = data.event;
+    cy.fixture("teacher.json").then((data) => {
+      dataJson = data.teacher;
     });
+
     cy.request({
       method: "POST",
-      url: `${API_URL}create`,
-      body: data,
+      url: `${API_URL}createTeacher`,
+      body: dataJson,
       headers: {
         Authorization: token,
       },
@@ -25,24 +28,19 @@ describe("CRUD EVENT", () => {
     });
   });
 
-  describe("CRUD EVENT WITH CONNEXION", () => {
+  describe("CRUD teacher WITH CONNEXION", () => {
     beforeEach(() => {
       cy.connect_as_superadmin().then((resp) => (token = `Bearer ${resp}`));
+      cy.fixture("teacher.json").then((data) => {
+        dataJson = data.teacher;
+        dataWithUpdate = data.teacherUpdated;
+      });
     });
-    it("Should Add Event", () => {
-      const data = {
-        eventDateDebut: "2022-05-09T23:00:00.000Z",
-        eventDateFin: null,
-        eventType: "Journée d'integration",
-        description: "ffffffff",
-        eventName: "formation node js",
-        location: "technopole manouba",
-      };
-
+    it("Should Add teacher", () => {
       cy.request({
         method: "POST",
-        url: `${API_URL}create`,
-        body: data,
+        url: `${API_URL}createTeacher`,
+        body: dataJson,
         headers: {
           Authorization: token,
         },
@@ -50,45 +48,50 @@ describe("CRUD EVENT", () => {
         console.log(resp.body.data);
 
         expect(resp.status).to.eq(200);
-        expect(resp.body.data.eventName).to.eq(data.eventName);
-        expect(resp.body.data.eventDateDebut).to.eq(data.eventDateDebut);
-        expect(resp.body.data.eventType).to.eq(data.eventType);
-        expect(resp.body.data.description).to.eq(data.description);
-        expect(resp.body.data.description).to.eq(data.description);
-        expect(resp.body.data.location).to.eq(data.location);
+        expect(resp.body.data.firstName).to.eq(dataJson.firstName);
+        expect(resp.body.data.lastName).to.eq(dataJson.lastName);
+        expect(resp.body.data.birthDate).to.eq(dataJson.birthDate);
+        expect(resp.body.data.phoneNumber).to.eq(dataJson.phoneNumber);
+        expect(resp.body.data.sex).to.eq(dataJson.sex);
+        expect(resp.body.data.email).to.eq(dataJson.email);
+        expect(resp.body.data.course).to.deep.eq(dataJson.course);
         expect(resp.body.data._id).to.exist;
-        savedEvent = resp.body.data;
+        savedteacher = resp.body.data;
       });
     });
 
-    it("Check If Event Added Exist ", () => {
+    it("Check If teacher Added Exist ", () => {
       cy.request({
         method: "GET",
-        url: `${API_URL}getAll`,
+        url: `${API_URL}get_all`,
         headers: {
           Authorization: token,
         },
       }).then((response) => {
         expect(response.status).to.eq(200);
-        const events = response.body.data;
-        const event = events.filter((t) => t._id === savedEvent._id);
-        expect(event).to.exist;
+        const teachers = response.body.data;
+        const teacher = teachers.filter((t) => t._id === savedteacher._id);
+        expect(teacher).to.exist;
       });
     });
-
-    it("should update event", () => {
-      const data = {
-        eventDateDebut: "2022-05-09T23:00:00.000Z",
-        eventDateFin: null,
-        eventType: "Journée d'integration",
-        description: "ffffffff",
-        eventName: "formation react js",
-        location: "technopole manouba",
-      };
+    it(" add same teachear --> should show 409   ", () => {
+      cy.request({
+        method: "POST",
+        url: `${API_URL}createTeacher`,
+        body: dataJson,
+        headers: {
+          Authorization: token,
+        },
+        failOnStatusCode: false,
+      }).then((resp) => {
+        expect(resp.status).to.eq(409);
+      });
+    });
+    it("should update teacher", () => {
       cy.request({
         method: "PUT",
-        url: `${API_URL}update/${savedEvent._id}`,
-        body: data,
+        url: `${API_URL}update_info/${savedteacher._id}`,
+        body: dataWithUpdate,
         headers: {
           Authorization: token,
         },
@@ -96,33 +99,32 @@ describe("CRUD EVENT", () => {
         expect(resp.status).to.eq(200);
 
         expect(resp.body.data._id).to.exist;
-        updatedEvent = resp.body.data;
+        updatedteacher = resp.body.data;
       });
     });
     it("check if task is updated by id", () => {
       cy.request({
         method: "GET",
-        url: `${API_URL}getOne/${savedEvent._id}`,
+        url: `${API_URL}getOne/${savedteacher._id}`,
         headers: {
           Authorization: token,
         },
       }).then((resp) => {
         expect(resp.status).to.eq(200);
-        expect(resp.body.data.eventName).to.eq(updatedEvent.eventName);
-        expect(resp.body.data.eventDateDebut).to.eq(
-          updatedEvent.eventDateDebut
-        );
-        expect(resp.body.data.eventType).to.eq(updatedEvent.eventType);
-        expect(resp.body.data.description).to.eq(updatedEvent.description);
-        expect(resp.body.data.description).to.eq(updatedEvent.description);
-        expect(resp.body.data.location).to.eq(updatedEvent.location);
+        expect(resp.body.data.firstName).to.eq(updatedteacher.firstName);
+        expect(resp.body.data.lastName).to.eq(updatedteacher.lastName);
+        expect(resp.body.data.birthDate).to.eq(updatedteacher.birthDate);
+        expect(resp.body.data.phoneNumber).to.eq(updatedteacher.phoneNumber);
+        expect(resp.body.data.sex).to.eq(updatedteacher.sex);
+        expect(resp.body.data.email).to.eq(updatedteacher.email);
+        expect(resp.body.data.course).to.deep.eq(updatedteacher.course);
       });
     });
 
-    it("Should Delete Event Added", () => {
+    it("Should Delete teacher Added", () => {
       cy.request({
         method: "DELETE",
-        url: `${API_URL}delete/${savedEvent._id}`,
+        url: `${API_URL_All}delete/${savedteacher._id}`,
         headers: {
           Authorization: token,
         },
@@ -131,14 +133,14 @@ describe("CRUD EVENT", () => {
       });
     });
 
-    it("Check If Event Delected Succesfully ", () => {
+    it("Check If teacher Delected Succesfully ", () => {
       cy.request({
         method: "GET",
-        url: `${API_URL}getOne/${savedEvent._id}`,
+        url: `${API_URL}getOne/${savedteacher._id}`,
         headers: {
           Authorization: token,
         },
-        failOnStatusCode: false, // to prevent Cypress from failing the test due to a 404 status code
+        failOnStatusCode: false, // to prteacher Cypress from failing the test due to a 404 status code
       }).then((response) => {
         expect(response.status).to.eq(404);
       });

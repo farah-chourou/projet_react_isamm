@@ -54,10 +54,11 @@ function UpdateClass() {
   };
 
   useEffect(() => {
+    console.log(today);
     if (
       (user.role === roles.STUDENT || user.role === roles.ALUMINIE) &&
-      user.isUpdated === true &&
-      getMonth(today) === 5
+      user.isUpdated === false &&
+      getMonth(today) + 1 >= 9
     ) {
       setOpen(true);
     }

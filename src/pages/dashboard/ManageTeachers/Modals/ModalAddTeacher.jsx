@@ -88,7 +88,7 @@ function ModalAddTeacher({ popup, handleClose }) {
   return (
     <Dialog open={open} handleClose={handleClose} title={"Nouveau Enseignant"}>
       <form onSubmit={(e) => handleSubmit(e)}>
-        <DialogContent dividers>
+        <DialogContent dividers data-test="modal">
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -170,6 +170,7 @@ function ModalAddTeacher({ popup, handleClose }) {
                 onChange={handleChange}
                 value={Teacher.sex}
                 required
+                id="genre-select"
               >
                 <MenuItem value="MEN">MEN</MenuItem>
                 <MenuItem value="WOMEN">WOMEN</MenuItem>
@@ -177,6 +178,7 @@ function ModalAddTeacher({ popup, handleClose }) {
             </Grid>
             <Grid item xs={12} sm={6}>
               <Autocomplete
+                id="course-select"
                 size="small"
                 multiple
                 options={course}
@@ -210,7 +212,12 @@ function ModalAddTeacher({ popup, handleClose }) {
           <Button autoFocus variant="outlined" onClick={handleClose}>
             Annuler
           </Button>
-          <Button autoFocus variant="contained" type="submit">
+          <Button
+            autoFocus
+            data-test="buttonAddteacher"
+            variant="contained"
+            type="submit"
+          >
             Ajouter
           </Button>
         </DialogActions>

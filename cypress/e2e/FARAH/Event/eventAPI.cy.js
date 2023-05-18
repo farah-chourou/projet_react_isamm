@@ -8,7 +8,7 @@ describe("CRUD EVENT", () => {
   let eventData;
   let eventDataUpdated;
 
-  it("Should Connect", () => {
+  it("Should Connect ", () => {
     cy.fixture("event.json").then((data) => {
       eventData = data.event;
     });
@@ -27,8 +27,8 @@ describe("CRUD EVENT", () => {
     });
   });
 
-  describe("CRUD EVENT WITH CONNEXION", () => {
-    beforeEach(() => {
+  describe("CRUD EVENT WITH CONNEXION AS SUPERADMIN", () => {
+    before(() => {
       cy.connect_as_superadmin().then((resp) => (token = `Bearer ${resp}`));
       cy.fixture("event.json").then((data) => {
         eventData = data.event;
@@ -36,6 +36,8 @@ describe("CRUD EVENT", () => {
       cy.fixture("event.json").then((data) => {
         eventDataUpdated = data.eventUpdated;
       });
+
+      cy.wait(5000);
     });
     it("Should Add Event", () => {
       cy.request({
@@ -132,6 +134,23 @@ describe("CRUD EVENT", () => {
         failOnStatusCode: false, // to prevent Cypress from failing the test due to a 404 status code
       }).then((response) => {
         expect(response.status).to.eq(404);
+      });
+    });
+  });
+  describe("GET ALL EVENT WITH CONNEXION AS STUDENT", () => {
+    before(() => {
+      cy.connect_as_student().then((resp) => (token = `Bearer ${resp}`));
+    });
+    it("GET ALL EVENT", () => {
+      cy.request({
+        method: "GET",
+        url: `${API_URL}getAll`,
+        headers: {
+          Authorization: token,
+        },
+      }).then((response) => {
+        expect(response.status).to.eq(200);
+        expect(response.body.data).to.be.an("array").to.exist;
       });
     });
   });

@@ -33,7 +33,7 @@ function ModalDeleteTeacher({ popup, handleClose, handleDeleteTeacher }) {
       title={"Supprimer Enseignant"}
     >
       <form onSubmit={(e) => handleSubmit(e)}>
-        <DialogContent dividers>
+        <DialogContent dividers data-test="modal">
           <Grid container spacing={2} p={3}>
             <Typography variant="h6" fontWeight="bold">
               {" "}
@@ -46,7 +46,12 @@ function ModalDeleteTeacher({ popup, handleClose, handleDeleteTeacher }) {
           <Button autoFocus variant="outlined" onClick={handleClose}>
             Annuler
           </Button>
-          <Button autoFocus variant="contained" type="submit">
+          <Button
+            autoFocus
+            variant="contained"
+            type="submit"
+            data-test="confirmDeleteButton"
+          >
             Supprimer
           </Button>
         </DialogActions>

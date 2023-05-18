@@ -16,18 +16,22 @@ import "swiper/css/pagination";
 // import required modules
 import { FreeMode, Pagination } from "swiper";
 import ParticipationService from "../../../../services/ParticipationService";
+import Loading from "../../../../layouts/Loading";
 
 function EventList() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   const [Events, setEvents] = useState([]);
   useEffect(() => {
     EventService.GetAllEvents()
       .then((response) => {
         setEvents(response.data.data);
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
+        setLoading(false);
       });
   }, []);
 
@@ -43,57 +47,62 @@ function EventList() {
   };
   return (
     <>
-      <Swiper
-        slidesPerView={3}
-        spaceBetween={10}
-        freeMode={true}
-        pagination={{
-          clickable: true,
-        }}
-        modules={[FreeMode, Pagination]}
-        className="mySwiper"
-      >
-        {Events.map((item) => (
-          <SwiperSlide>
-            <Box
-              onClick={(_id) => handleNavigateDetail(item._id)}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                padding: 2,
-                boxShadow: "0px 4px 8px rgba(38, 38, 38, 0.2)",
-                borderRadius: 4,
-                maxWidth: 420,
-                cursor: "pointer",
-                height: 150,
-                margin: 1,
-              }}
-            >
+      {loading ? (
+        <Loading />
+      ) : (
+        <Swiper
+          slidesPerView={3}
+          spaceBetween={10}
+          freeMode={true}
+          pagination={{
+            clickable: true,
+          }}
+          modules={[FreeMode, Pagination]}
+          className="mySwiper"
+          data-test="swiper"
+        >
+          {Events.map((item) => (
+            <SwiperSlide>
               <Box
+                onClick={(_id) => handleNavigateDetail(item._id)}
                 sx={{
-                  marginLeft: 2,
+                  display: "flex",
+                  alignItems: "center",
+                  padding: 2,
+                  boxShadow: "0px 4px 8px rgba(38, 38, 38, 0.2)",
+                  borderRadius: 4,
+                  maxWidth: 420,
+                  cursor: "pointer",
+                  height: 150,
+                  margin: 1,
                 }}
               >
-                <Typography variant="subtitle1">
-                  {fDate(item.eventDateDebut)}
-                </Typography>
-
-                <Typography variant="h6">{item.eventName}</Typography>
-                <Typography variant="caption">{item.description}</Typography>
-              </Box>
-              <Box sx={{ marginLeft: 3 }}>
-                <Button
-                  startIcon={<StarBorderIcon />}
-                  variant="outlined"
-                  size="small"
+                <Box
+                  sx={{
+                    marginLeft: 2,
+                  }}
                 >
-                  intéressé
-                </Button>
+                  <Typography variant="subtitle1">
+                    {fDate(item.eventDateDebut)}
+                  </Typography>
+
+                  <Typography variant="h6">{item.eventName}</Typography>
+                  <Typography variant="caption">{item.description}</Typography>
+                </Box>
+                <Box sx={{ marginLeft: 3 }}>
+                  <Button
+                    startIcon={<StarBorderIcon />}
+                    variant="outlined"
+                    size="small"
+                  >
+                    intéressé
+                  </Button>
+                </Box>
               </Box>
-            </Box>
-          </SwiperSlide>
-        ))}
-      </Swiper>{" "}
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      )}
     </>
   );
 }

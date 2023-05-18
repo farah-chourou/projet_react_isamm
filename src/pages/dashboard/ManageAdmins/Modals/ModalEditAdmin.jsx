@@ -85,7 +85,7 @@ function ModalEditAdmin({ popup, handleClose, handleEditAdmin }) {
   return (
     <Dialog open={open} handleClose={handleClose} title={"Modifer Enseignant"}>
       <form onSubmit={(e) => handleSubmit(e)}>
-        <DialogContent dividers>
+        <DialogContent dividers data-test="modal">
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -168,6 +168,7 @@ function ModalEditAdmin({ popup, handleClose, handleEditAdmin }) {
             </Grid>
             <Grid item xs={12} sm={6}>
               <Autocomplete
+                id="permission-select"
                 size="small"
                 multiple
                 options={permessions}
@@ -191,7 +192,12 @@ function ModalEditAdmin({ popup, handleClose, handleEditAdmin }) {
           <Button autoFocus variant="outlined" onClick={handleClose}>
             Annuler
           </Button>
-          <Button autoFocus variant="contained" type="submit">
+          <Button
+            autoFocus
+            variant="contained"
+            type="submit"
+            data-test="buttonAddadmin"
+          >
             Modifier
           </Button>
         </DialogActions>
