@@ -37,6 +37,8 @@ import AdminManageProject from "../pages/dashboard/Projet_Stage_PFE/AdminProject
 import ResApprovePFA from "../pages/dashboard/Projet_Stage_PFE/ResponsablePFA/RespManagePFA";
 import AdminPFA from "../pages/dashboard/Projet_Stage_PFE/AdminPFA/AdminPFA";
 import StudentPFA from "../pages/dashboard/Projet_Stage_PFE/StudentPFA/StudentPFA";
+import StatsComponent from "../pages/dashboard/stats/StatsComponent";
+import RecruitmentScreen from "../pages/dashboard/Recrutement/RecruitmentScreen";
 const not_logged = {
   routes: [
     { path: "/login", route: "login", Component: Login },
@@ -277,10 +279,36 @@ const dashboard = {
     {
       main: "/dash",
       path: "/validateAlumini",
+      route: "validateAlumini",
+
       Component: GestionAlumini,
       title: "Gestion Alumini",
       Icon: SupervisorAccountIcon,
       role: [roles.ADMIN, roles.SUPERADMIN],
+      perm_name: permissions.all,
+      in_nav: true,
+    },
+    {
+      main: "/dash",
+      path: "/statAlumini",
+      route: "statAlumini",
+
+      Component: StatsComponent,
+      title: "Statistiques Alumini",
+      Icon: SupervisorAccountIcon,
+      role: [roles.ADMIN, roles.SUPERADMIN],
+      perm_name: permissions.all,
+      in_nav: true,
+    },
+    {
+      main: "/dash",
+      path: "/RecrutementForm",
+      route: "RecrutementForm",
+
+      Component: RecruitmentScreen,
+      title: "Recrutement Form",
+      Icon: SupervisorAccountIcon,
+      role: [roles.ALUMINIE],
       perm_name: permissions.all,
       in_nav: true,
     },

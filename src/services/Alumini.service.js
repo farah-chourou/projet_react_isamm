@@ -4,11 +4,11 @@ import { GetOnly } from "../functions/Arrays.functions";
 
 const GetAllAlumini = (succ, fail) => {
   axios
-    .get("/api/student/getall")
+    .get("/api/student/getAllAluminies")
     .then((res) => {
       console.log(res);
-      const { allpublicAluminies, allpublicStrudents } = res.data.data;
-      succ(allpublicAluminies);
+      const { allAluminies } = res.data.data;
+      succ(allAluminies);
       //succ([...res.data.data, ...res2.data.data]);
     })
     .catch((error) => {
@@ -36,8 +36,43 @@ const validateAluminiInscription = (idAlumini, validated, succ, fail) => {
 };
 
 
+const getAluminiStats = (critere, succ, fail) => {
+  axios
+    .get(`/api/employement/getAluminiStats/${critere}`)
+    .then((res) => {
+      toast.success(res.data.Message);
+
+      // Perform any necessary operations with the response data
+      succ(res.data.data); // Pass the response data to the success callback
+    })
+    .catch((error) => {
+      //fail(error);
+      console.log("\n exception "+error);
+     // toast.error(error.message);
+    });
+};
+
+const getAluminiChommageStats = (critere, succ, fail) => {
+  axios
+    .get(`/api/employement/getStatChommage/${critere}`)
+    .then((res) => {
+      toast.success(res.data.Message);
+
+      // Perform any necessary operations with the response data
+      succ(res.data.data); // Pass the response data to the success callback
+    })
+    .catch((error) => {
+      //fail(error);
+      console.log("\n exception "+error);
+      toast.error(error.message);
+    });
+};
+
+
 
 export default {
     GetAllAlumini,
-    validateAluminiInscription
+    validateAluminiInscription,
+    getAluminiStats,
+    getAluminiChommageStats
 };
