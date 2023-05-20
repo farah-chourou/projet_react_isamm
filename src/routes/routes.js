@@ -19,16 +19,22 @@ import EventIcon from "@mui/icons-material/Event";
 import BookIcon from "@mui/icons-material/Book";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
+import WorkIcon from '@mui/icons-material/Work';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 // ------------------------- ROLES --------------------------------
 import { roles, permissions } from "../custom/roles";
 import ChangePwd from "../pages/dashboard/changerMdp/ChangerMdp";
 import ManageEvents from "../pages/dashboard/ManageEvents/ManageEvents";
-import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
+
 import DetailsEvent from "../pages/dashboard/ManageEvents/DetailsEvent";
 import AcountsPage from "../pages/dashboard/AcountStudents/AcountsPage";
 import EventDetail from "../pages/dashboard/MainPage/Event/EventDetail";
 import CVStudent from "../pages/dashboard/ManageStudents/CVStudent";
 import ManageAdmins from "../pages/dashboard/ManageAdmins/ManageAdmins";
+import GestionAlumini from "../pages/dashboard/GestionAlumini/GestionAlumini";
 
 import StudentManageMyPFE from "../pages/dashboard/Projet_Stage_PFE/StudentMyPFE/StudentManageMyPFE";
 import StudentManageMyStage from "../pages/dashboard/Projet_Stage_PFE/StudentMyStage/StudentManageMyStage";
@@ -41,6 +47,11 @@ import ResApprovePFA from "../pages/dashboard/Projet_Stage_PFE/ResponsablePFA/Re
 import AdminPFA from "../pages/dashboard/Projet_Stage_PFE/AdminPFA/AdminPFA";
 import StudentPFA from "../pages/dashboard/Projet_Stage_PFE/StudentPFA/StudentPFA";
 import ManagePromotion from "../pages/dashboard/ManagePromotion/ManagePromotion";
+import StatsComponent from "../pages/dashboard/stats/StatsComponent";
+import RecruitmentScreen from "../pages/dashboard/Recrutement/RecruitmentScreen";
+import OfferListScreen from "../pages/dashboard/Offers/OffersScreen";
+import PublicOffers from "../pages/dashboard/Offers/PublicOffers";
+import RecruitmentListScreen from "../pages/dashboard/Recrutement/RecruitmentListScreen";
 const not_logged = {
   routes: [
     { path: "/login", route: "login", Component: Login },
@@ -296,6 +307,79 @@ const dashboard = {
       title: "Compte Public",
       Icon: MeetingRoomIcon,
       role: [roles.STUDENT, roles.ALUMINIE],
+      perm_name: permissions.all,
+      in_nav: true,
+    }
+    ,
+    {
+      main: "/dash",
+      path: "/validateAlumini",
+      route: "validateAlumini",
+
+      Component: GestionAlumini,
+      title: "Gestion Alumini",
+      Icon: ManageAccountsIcon,
+      role: [roles.ADMIN, roles.SUPERADMIN],
+      perm_name: permissions.all,
+      in_nav: true,
+    },
+    {
+      main: "/dash",
+      path: "/statAlumini",
+      route: "statAlumini",
+
+      Component: StatsComponent,
+      title: "Statistiques Alumini",
+      Icon: BarChartIcon,
+      role: [roles.ADMIN, roles.SUPERADMIN],
+      perm_name: permissions.all,
+      in_nav: true,
+    },
+    {
+      main: "/dash",
+      path: "/RecrutementForm",
+      route: "RecrutementForm",
+
+      Component: RecruitmentScreen,
+      title: "Condidature",
+      Icon: WorkIcon,
+      role: [roles.ALUMINIE],
+      perm_name: permissions.all,
+      in_nav: true,
+    },
+    {
+      main: "/dash",
+      path: "/offersAlumini",
+      route: "offersAlumini",
+
+      Component: OfferListScreen,
+      title: "Mes offres",
+      Icon: LibraryBooksIcon,
+      role: [roles.ALUMINIE],
+      perm_name: permissions.all,
+      in_nav: true,
+    },
+    {
+      main: "/dash",
+      path: "/publicOffers",
+      route: "publicOffers",
+
+      Component: PublicOffers,
+      title: "Tout les offres",
+      Icon: LibraryBooksIcon,
+      role: [roles.ALL],
+      perm_name: permissions.all,
+      in_nav: true,
+    },
+    {
+      main: "/dash",
+      path: "/RecrutementManage",
+      route: "RecrutementManage",
+
+      Component: RecruitmentListScreen,
+      title: "Voir les recrutements",
+      Icon: WorkIcon,
+      role: [roles.SUPERADMIN],
       perm_name: permissions.all,
       in_nav: true,
     },

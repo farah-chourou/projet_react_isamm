@@ -41,7 +41,7 @@ export default function ChangePwd() {
       }
     };
     const fail = (error) => {};
-    AcountService.UpdatePassword(body, succ, fail);
+     AcountService.UpdatePassword(body,succ,fail);
   };
 
   return (
