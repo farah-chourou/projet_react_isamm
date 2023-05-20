@@ -314,7 +314,7 @@ const dashboard = {
       route: "RecrutementForm",
 
       Component: RecruitmentScreen,
-      title: "Recrutement",
+      title: "Condidature",
       Icon: WorkIcon,
       role: [roles.ALUMINIE],
       perm_name: permissions.all,
@@ -350,8 +350,8 @@ const dashboard = {
       route: "RecrutementManage",
 
       Component: RecruitmentListScreen,
-      title: "Gestion des recrutements",
-      Icon: LibraryBooksIcon,
+      title: "Voir les recrutements",
+      Icon: WorkIcon,
       role: [roles.SUPERADMIN],
       perm_name: permissions.all,
       in_nav: true,
