@@ -40,7 +40,6 @@ function UpdateClass() {
     diplome: "",
   });
   const [error, setError] = useState("");
-  const [errorConfirm, setErrorConfirm] = useState("");
   const [validate, setvalidate] = useState("");
 
   const handleChange = (e) => {
@@ -55,10 +54,11 @@ function UpdateClass() {
   };
 
   useEffect(() => {
+    console.log(today);
     if (
       (user.role === roles.STUDENT || user.role === roles.ALUMINIE) &&
       user.isUpdated === false &&
-      getMonth(today) === 3
+      getMonth(today) + 1 >= 9
     ) {
       setOpen(true);
     }

@@ -100,6 +100,7 @@ function ManageTeachers() {
               onClick={openAdd}
               startIcon={<PersonAddAlt1Icon />}
               variant="contained"
+              data-test="addTeacherButton"
             >
               Ajouter Enseignant
             </Button>
@@ -113,6 +114,7 @@ function ManageTeachers() {
             sx={{ minWidth: 1000 }}
             size="small"
             aria-label="a dense table"
+            data-test="table"
           >
             <TableHead>
               <TableRow>
@@ -171,12 +173,18 @@ function ManageTeachers() {
                     </TableCell>
                     <TableCell align="center">
                       <Tooltip title="Modifier">
-                        <IconButton onClick={() => openUpdate(item)}>
+                        <IconButton
+                          onClick={() => openUpdate(item)}
+                          data-test={`updateButton-${item.phoneNumber}`}
+                        >
                           <EditIcon />
                         </IconButton>
                       </Tooltip>
                       <Tooltip title="Supprimer">
-                        <IconButton onClick={() => openDelete(item)}>
+                        <IconButton
+                          onClick={() => openDelete(item)}
+                          data-test={`deleteButton-${item.phoneNumber}`}
+                        >
                           <DeleteIcon />
                         </IconButton>
                       </Tooltip>

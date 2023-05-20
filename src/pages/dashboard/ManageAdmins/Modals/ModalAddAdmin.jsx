@@ -86,7 +86,7 @@ function ModalAddAdmin({ popup, handleClose }) {
       title={"Nouveau Adminstrateur"}
     >
       <form onSubmit={(e) => handleSubmit(e)}>
-        <DialogContent dividers>
+        <DialogContent dividers data-test="modal">
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -168,6 +168,7 @@ function ModalAddAdmin({ popup, handleClose }) {
                 onChange={handleChange}
                 value={Admin.sex}
                 required
+                id="genre-select"
               >
                 <MenuItem value="MEN">MEN</MenuItem>
                 <MenuItem value="WOMEN">WOMEN</MenuItem>
@@ -176,6 +177,7 @@ function ModalAddAdmin({ popup, handleClose }) {
             <Grid item xs={12} sm={6}>
               <Autocomplete
                 size="small"
+                id="permission-select"
                 multiple
                 options={permessions}
                 disableCloseOnSelect
@@ -198,7 +200,12 @@ function ModalAddAdmin({ popup, handleClose }) {
           <Button autoFocus variant="outlined" onClick={handleClose}>
             Annuler
           </Button>
-          <Button autoFocus variant="contained" type="submit">
+          <Button
+            autoFocus
+            variant="contained"
+            type="submit"
+            data-test="buttonAddadmin"
+          >
             Ajouter
           </Button>
         </DialogActions>

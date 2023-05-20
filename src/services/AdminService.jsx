@@ -6,9 +6,11 @@ const API_URL_All = "/api/user/";
 const GetAllAdmins = () => {
   return axios.get(`${API_URL}getAll`);
 };
-const GetAdminById = (_id) => {
+{
+  /*const GetAdminById = (_id) => {
   return axios.get(`${API_URL}getOne/${_id}`);
-};
+};*/
+}
 const AddAdmin = (info) => {
   return axios.post(`${API_URL}create`, info);
 };
@@ -23,5 +25,4 @@ export default {
   AddAdmin,
   DeleteAdmin,
   UpdateAdmin,
-  GetAdminById,
 };

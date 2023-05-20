@@ -14,7 +14,6 @@ import Tooltip from "@mui/material/Tooltip";
 import H1 from "../../../components/Texts/H1";
 import Chip from "../../../components/Chip/Chip";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
-import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import EventService from "../../../services/EventService";
 
 import { fDate } from "../../../functions/formatTime";

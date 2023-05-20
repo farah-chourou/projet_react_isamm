@@ -101,6 +101,7 @@ function ManageAdmins() {
               onClick={openAdd}
               startIcon={<AddCircleOutlineOutlinedIcon />}
               variant="contained"
+              data-test="addadminButton"
             >
               Ajouter Administrateur
             </Button>
@@ -115,6 +116,7 @@ function ManageAdmins() {
             size="small"
             stickyHeader
             aria-label="sticky table"
+            data-test="table"
           >
             <TableHead>
               <TableRow>
@@ -165,12 +167,18 @@ function ManageAdmins() {
                     </TableCell>
                     <TableCell align="center">
                       <Tooltip title="Modifier">
-                        <IconButton onClick={() => openUpdate(item)}>
+                        <IconButton
+                          onClick={() => openUpdate(item)}
+                          data-test={`updateButton-${item.phoneNumber}`}
+                        >
                           <EditIcon />
                         </IconButton>
                       </Tooltip>
                       <Tooltip title="Supprimer">
-                        <IconButton onClick={() => openDelete(item)}>
+                        <IconButton
+                          onClick={() => openDelete(item)}
+                          data-test={`deleteButton-${item.phoneNumber}`}
+                        >
                           <DeleteIcon />
                         </IconButton>
                       </Tooltip>

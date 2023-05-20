@@ -181,7 +181,12 @@ function ModalEditTeacher({ popup, handleClose, handleEditTeacher }) {
           <Button autoFocus variant="outlined" onClick={handleClose}>
             Annuler
           </Button>
-          <Button autoFocus variant="contained" type="submit">
+          <Button
+            autoFocus
+            variant="contained"
+            type="submit"
+            data-test="buttonEditTeacher"
+          >
             Modifier
           </Button>
         </DialogActions>
