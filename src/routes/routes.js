@@ -22,8 +22,8 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import WorkIcon from '@mui/icons-material/Work';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+/* import BarChartIcon from '@mui/icons-material/BarChart';
+ */import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 // ------------------------- ROLES --------------------------------
 import { roles, permissions } from "../custom/roles";
 import ChangePwd from "../pages/dashboard/changerMdp/ChangerMdp";
