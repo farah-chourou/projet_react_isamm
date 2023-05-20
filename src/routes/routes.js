@@ -17,11 +17,16 @@ import CoPresentIcon from "@mui/icons-material/CoPresent";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import EventIcon from "@mui/icons-material/Event";
 import BookIcon from "@mui/icons-material/Book";
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
+import WorkIcon from '@mui/icons-material/Work';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 // ------------------------- ROLES --------------------------------
 import { roles, permissions } from "../custom/roles";
 import ChangePwd from "../pages/dashboard/changerMdp/ChangerMdp";
 import ManageEvents from "../pages/dashboard/ManageEvents/ManageEvents";
-import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
+
 import DetailsEvent from "../pages/dashboard/ManageEvents/DetailsEvent";
 import AcountsPage from "../pages/dashboard/AcountStudents/AcountsPage";
 import EventDetail from "../pages/dashboard/MainPage/Event/EventDetail";
@@ -39,6 +44,9 @@ import AdminPFA from "../pages/dashboard/Projet_Stage_PFE/AdminPFA/AdminPFA";
 import StudentPFA from "../pages/dashboard/Projet_Stage_PFE/StudentPFA/StudentPFA";
 import StatsComponent from "../pages/dashboard/stats/StatsComponent";
 import RecruitmentScreen from "../pages/dashboard/Recrutement/RecruitmentScreen";
+import OfferListScreen from "../pages/dashboard/Offers/OffersScreen";
+import PublicOffers from "../pages/dashboard/Offers/PublicOffers";
+import RecruitmentListScreen from "../pages/dashboard/Recrutement/RecruitmentListScreen";
 const not_logged = {
   routes: [
     { path: "/login", route: "login", Component: Login },
@@ -283,7 +291,7 @@ const dashboard = {
 
       Component: GestionAlumini,
       title: "Gestion Alumini",
-      Icon: SupervisorAccountIcon,
+      Icon: ManageAccountsIcon,
       role: [roles.ADMIN, roles.SUPERADMIN],
       perm_name: permissions.all,
       in_nav: true,
@@ -295,7 +303,7 @@ const dashboard = {
 
       Component: StatsComponent,
       title: "Statistiques Alumini",
-      Icon: SupervisorAccountIcon,
+      Icon: BarChartIcon,
       role: [roles.ADMIN, roles.SUPERADMIN],
       perm_name: permissions.all,
       in_nav: true,
@@ -306,9 +314,45 @@ const dashboard = {
       route: "RecrutementForm",
 
       Component: RecruitmentScreen,
-      title: "Recrutement Form",
-      Icon: SupervisorAccountIcon,
+      title: "Recrutement",
+      Icon: WorkIcon,
       role: [roles.ALUMINIE],
+      perm_name: permissions.all,
+      in_nav: true,
+    },
+    {
+      main: "/dash",
+      path: "/offersAlumini",
+      route: "offersAlumini",
+
+      Component: OfferListScreen,
+      title: "Mes offres",
+      Icon: LibraryBooksIcon,
+      role: [roles.ALUMINIE],
+      perm_name: permissions.all,
+      in_nav: true,
+    },
+    {
+      main: "/dash",
+      path: "/publicOffers",
+      route: "publicOffers",
+
+      Component: PublicOffers,
+      title: "Tout les offres",
+      Icon: LibraryBooksIcon,
+      role: [roles.ALL],
+      perm_name: permissions.all,
+      in_nav: true,
+    },
+    {
+      main: "/dash",
+      path: "/RecrutementManage",
+      route: "RecrutementManage",
+
+      Component: RecruitmentListScreen,
+      title: "Gestion des recrutements",
+      Icon: LibraryBooksIcon,
+      role: [roles.SUPERADMIN],
       perm_name: permissions.all,
       in_nav: true,
     },
