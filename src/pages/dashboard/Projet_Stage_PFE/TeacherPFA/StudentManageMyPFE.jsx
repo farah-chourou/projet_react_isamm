@@ -31,8 +31,6 @@ const init_project = {
   student: { firstName: "", lastName: "" },
   technologies: [""],
   promotion: "",
-  startDate: new Date(),
-  endDate: new Date(),
 };
 
 const MakeAvatarProj = ({ title = "" }) => {
@@ -129,12 +127,13 @@ function StudentManageMyPFE() {
           }}
           startIcon={<BookIcon />}
           variant="contained"
+          data-test="addpfaButton"
         >
           Ajouter PFA
         </Button>
       </div>
       <div className={styles.body}>
-        <Table sx={{ minWidth: 1000 }}>
+        <Table sx={{ minWidth: 1000 }} data-test="table">
           <TableHead>
             <TableRow>
               <TableCell>Projet</TableCell>
@@ -178,15 +177,18 @@ function StudentManageMyPFE() {
                   <VisibilityIcon
                     className={styles.action_icon}
                     onClick={() => openPopup("show", row)}
+                    data-test="showpfaButton"
                   />
                   <>
                     <EditIcon
                       className={styles.action_icon}
                       onClick={() => openPopup("update", row)}
+                      data-test="updatepfaButton"
                     />
                     <DeleteIcon
                       className={styles.action_icon}
                       onClick={() => openPopup("delete", row)}
+                      data-test="deletepfaButton"
                     />
                   </>
                 </TableCell>

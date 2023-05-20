@@ -57,6 +57,11 @@ function ShowMyStage({ popup, handleClose }) {
           </div>
 
           <div className={styles.part2}>
+            <h4>Pays : </h4>
+            <h5>{value.pays || "tunis"}</h5>
+          </div>
+
+          <div className={styles.part2}>
             <h4>Promotion : </h4>
             <h5>{value.promotion}</h5>
           </div>

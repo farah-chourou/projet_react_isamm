@@ -58,7 +58,7 @@ function ShowMyPFA({ popup, handleClose }) {
       handleClose={handleClose}
       title={`PFA :  ${value.title}`}
     >
-      <DialogContent dividers>
+      <DialogContent dividers data-test="show">
         <div className={styles.show}>
           <div className={styles.part1}>
             <div className={styles.avatar}>
@@ -67,7 +67,7 @@ function ShowMyPFA({ popup, handleClose }) {
             <h3>{value.title}</h3>
           </div>
 
-          {value.students.length > 0 && (
+          {value.students?.length > 0 && (
             <div className={styles.part1}>
               <h2>
                 Etudiant :{" "}
@@ -81,16 +81,6 @@ function ShowMyPFA({ popup, handleClose }) {
           <div className={styles.part2}>
             <h4>Promotion : </h4>
             <h5>{value.promotion}</h5>
-          </div>
-
-          <div className={styles.part2}>
-            <h4>Date de début : </h4>
-            <h5>{makeDate(value.startDate)}</h5>
-          </div>
-
-          <div className={styles.part2}>
-            <h4>Date de fin : </h4>
-            <h5>{makeDate(value.endDate)}</h5>
           </div>
 
           <div className={styles.part2}>
@@ -119,7 +109,12 @@ function ShowMyPFA({ popup, handleClose }) {
         </div>
       </DialogContent>
       <DialogActions>
-        <Button autoFocus variant="outlined" onClick={handleClose}>
+        <Button
+          autoFocus
+          variant="outlined"
+          onClick={handleClose}
+          data-test="showbutton"
+        >
           Quitter
         </Button>
       </DialogActions>

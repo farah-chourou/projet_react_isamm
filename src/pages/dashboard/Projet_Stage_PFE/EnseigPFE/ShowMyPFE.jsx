@@ -68,7 +68,7 @@ function ShowPFE({ popup, handleClose }) {
             <h3>{value.title}</h3>
           </div>
 
-          {value.students.length > 0 && (
+          {value.students?.length > 0 && (
             <div className={styles.part1}>
               <h2>
                 Etudiant :{" "}
@@ -82,6 +82,11 @@ function ShowPFE({ popup, handleClose }) {
           <div className={styles.part2}>
             <h4>Societe : </h4>
             <h5>{value.societe}</h5>
+          </div>
+
+          <div className={styles.part2}>
+            <h4>Pays : </h4>
+            <h5>{value.pays || "tunis"}</h5>
           </div>
 
           <div className={styles.part2}>

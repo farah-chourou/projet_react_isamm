@@ -31,6 +31,7 @@ function AddStage({ popup, handleClose }) {
     societe: "",
     type: "STAGE",
     promotion: "",
+    pays: "",
     startDate: new Date(),
     endDate: new Date(),
   });
@@ -134,6 +135,17 @@ function AddStage({ popup, handleClose }) {
                     value={form.societe}
                   />
                 )}
+              />
+            </Grid>
+
+            <Grid item xl={12} lg={12} md={12}>
+              <TextField
+                fullWidth
+                className={styles.textField}
+                label="Pays"
+                name="pays"
+                value={form.pays}
+                onChange={handle_change}
               />
             </Grid>
 

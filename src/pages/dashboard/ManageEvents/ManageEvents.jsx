@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import Button from "@mui/material/Button";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
-import TextField from "@mui/material/TextField";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -10,11 +9,13 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
+import EventNoteIcon from "@mui/icons-material/EventNote";
 
 import H1 from "../../../components/Texts/H1";
 import Chip from "../../../components/Chip/Chip";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import EventService from "../../../services/EventService";
+import PromoServ from "../../../services/Promotion.service";
 
 import { fDate } from "../../../functions/formatTime";
 
@@ -29,10 +30,17 @@ import ModalEditEvent from "./Modals/ModalEditEvent";
 import ModalDeleteEvent from "./Modals/ModalDeleteEvent";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
+import Select from "../../../components/Inputs/Select";
+import { isADMIN, isSUPERADMIN, isTEACHER } from "../../../custom/roles";
+import { UserContext } from "../../../store/Contexts";
+
 function ManageEvents() {
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const [Events, setEvents] = useState([]);
   const [List, setList] = useState(false);
+  const [promotion, setpromotion] = useState("");
+  const [promos, setPromos] = useState([]);
 
   const [popup, setPopup] = useState({
     open: false,
@@ -64,6 +72,11 @@ function ManageEvents() {
   };
 
   useEffect(() => {
+    const fail = () => {};
+    PromoServ.GetAllPromotions(setPromos, fail);
+  }, []);
+
+  useEffect(() => {
     EventService.GetAllEvents()
       .then((response) => {
         setEvents(response.data.data);
@@ -72,6 +85,17 @@ function ManageEvents() {
         console.log(error);
       });
   }, []);
+
+  const ChangeYear = () => {
+    EventService.GetAllEvents(promotion)
+      .then((response) => {
+        setEvents(response.data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const handleDeleteEvent = (_id) => {
     const filteredEvents = Events.filter((Events) => Events._id !== _id);
     setEvents(filteredEvents);
@@ -89,7 +113,7 @@ function ManageEvents() {
   return (
     <div>
       <div>
-        <Grid container alignItems="center">
+        <Grid container spacing={2} alignItems="center">
           <Grid item xs={6} md={6} lg={6}>
             <H1>Gestion Des Evénenements </H1>
           </Grid>
@@ -103,24 +127,38 @@ function ManageEvents() {
               Ajouter Evénenement
             </Button>
           </Grid>
-          <Grid item xs={6} md={6} lg={6}></Grid>
-          {/* <Grid item xs={6} md={6} lg={6} container justifyContent="flex-end">
+
+          <Grid item xs={4} md={4} lg={4} container>
+            <Select
+              value={promotion}
+              label="Promotion"
+              name="promotion"
+              onChange={(e) => {
+                setpromotion(e.target.value);
+              }}
+              items={[
+                {
+                  name: "Tout Les Promotions",
+                  value: "None",
+                },
+                ...promos.map((prom) => ({
+                  name: prom.title,
+                  value: prom.title,
+                })),
+              ]}
+            />
+          </Grid>
+          <Grid item xs={3} md={3} lg={3} container>
             <Button
-              sx={{ margin: 1 }}
-              startIcon={<FormatListBulletedIcon />}
-              variant="outlined"
-              onClick={() => setList(true)}
+              style={{ height: "100%" }}
+              onClick={ChangeYear}
+              startIcon={<EventNoteIcon />}
+              variant="contained"
+              data-test="addEventButton"
             >
-              Liste
-            </Button>{" "}
-            <Button
-              sx={{ margin: 1 }}
-              startIcon={<CalendarMonthIcon />}
-              variant="outlined"
-            >
-              Calendrier
+              Basculer
             </Button>
-  </Grid>*/}
+          </Grid>
         </Grid>
       </div>
       <div>
@@ -171,22 +209,27 @@ function ManageEvents() {
                     <TableCell>{item.location}</TableCell>
                     <TableCell>{item.description}</TableCell>
                     <TableCell align="center">
-                      <Tooltip title="Modifier">
-                        <IconButton
-                          onClick={() => openUpdate(item)}
-                          data-test={`updateButton-${item.eventName}`}
-                        >
-                          <EditIcon />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title="Supprimer">
-                        <IconButton
-                          onClick={() => openDelete(item)}
-                          data-test={`deleteButton-${item.eventName}`}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </Tooltip>
+                      {(isADMIN(user) || isSUPERADMIN(user)) && (
+                        <Tooltip title="Modifier">
+                          <IconButton
+                            onClick={() => openUpdate(item)}
+                            data-test={`updateButton-${item.eventName}`}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                        </Tooltip>
+                      )}
+
+                      {(isADMIN(user) || isSUPERADMIN(user)) && (
+                        <Tooltip title="Supprimer">
+                          <IconButton
+                            onClick={() => openDelete(item)}
+                            data-test={`deleteButton-${item.eventName}`}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </Tooltip>
+                      )}
                       <Tooltip title="Voir">
                         <IconButton
                           onClick={(_id) => handleNavigateDetail(item._id)}

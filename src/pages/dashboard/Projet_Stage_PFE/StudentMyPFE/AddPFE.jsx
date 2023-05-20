@@ -30,6 +30,7 @@ function AddPFE({ popup, handleClose }) {
     technologies: [],
     societe: "",
     type: "PFE",
+    pays: "",
     promotion: "",
     startDate: new Date(),
     endDate: new Date(),
@@ -70,6 +71,12 @@ function AddPFE({ popup, handleClose }) {
 
     ProjetServ.GetSocietes()
       .then((resp) => {
+        console.log(resp.data.data);
+        console.log(resp.data.data);
+        console.log(resp.data.data);
+        console.log(resp.data.data);
+        console.log(resp.data.data);
+        console.log(resp.data.data);
         setSocietes(resp.data.data);
       })
       .catch((error) => {
@@ -140,6 +147,17 @@ function AddPFE({ popup, handleClose }) {
             </Grid>
 
             <Grid item xl={12} lg={12} md={12}>
+              <TextField
+                fullWidth
+                className={styles.textField}
+                label="Pays"
+                name="pays"
+                value={form.pays}
+                onChange={handle_change}
+              />
+            </Grid>
+
+            <Grid item xl={12} lg={12} md={12}>
               <Select
                 className={styles.textField}
                 value={form.promotion}
@@ -178,7 +196,7 @@ function AddPFE({ popup, handleClose }) {
             <Grid item xl={12} lg={12} md={12}>
               <TextField
                 fullWidth
-                type="email"
+                type="text"
                 className={styles.textField}
                 label="Description"
                 name="description"

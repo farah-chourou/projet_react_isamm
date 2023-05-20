@@ -31,8 +31,6 @@ const init_project = {
   student: { firstName: "", lastName: "" },
   technologies: [""],
   promotion: "",
-  startDate: new Date(),
-  endDate: new Date(),
 };
 
 const MakeAvatarProj = ({ title = "" }) => {
@@ -108,6 +106,18 @@ function StudentPFA() {
   useEffect(() => {
     GetData();
   }, []);
+
+  /*useEffect(()=>{
+    if(projects.length){
+      let is_allowed=true;
+      projects.forEach((proj)=>{
+        if(proj?.students?.length){
+
+        }
+      })
+    }
+  },[projects])*/
+
   if (user?.niveau !== "2") {
     return (
       <div>

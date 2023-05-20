@@ -17,6 +17,8 @@ import CoPresentIcon from "@mui/icons-material/CoPresent";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import EventIcon from "@mui/icons-material/Event";
 import BookIcon from "@mui/icons-material/Book";
+import BarChartIcon from "@mui/icons-material/BarChart";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 // ------------------------- ROLES --------------------------------
 import { roles, permissions } from "../custom/roles";
 import ChangePwd from "../pages/dashboard/changerMdp/ChangerMdp";
@@ -33,9 +35,12 @@ import StudentManageMyStage from "../pages/dashboard/Projet_Stage_PFE/StudentMyS
 import TeacherPFA from "../pages/dashboard/Projet_Stage_PFE/TeacherPFA/StudentManageMyPFE";
 import EnseigManagePFE from "../pages/dashboard/Projet_Stage_PFE/EnseigPFE/EnseigManagePFE";
 import AdminManageProject from "../pages/dashboard/Projet_Stage_PFE/AdminProjects/AdminManageProject";
+import StatistiquePfe from "../pages/dashboard/StatistiquePfe/StatistiquePfe";
+
 import ResApprovePFA from "../pages/dashboard/Projet_Stage_PFE/ResponsablePFA/RespManagePFA";
 import AdminPFA from "../pages/dashboard/Projet_Stage_PFE/AdminPFA/AdminPFA";
 import StudentPFA from "../pages/dashboard/Projet_Stage_PFE/StudentPFA/StudentPFA";
+import ManagePromotion from "../pages/dashboard/ManagePromotion/ManagePromotion";
 const not_logged = {
   routes: [
     { path: "/login", route: "login", Component: Login },
@@ -135,7 +140,7 @@ const dashboard = {
       Component: ManageEvents,
       title: "Gest Evénement",
       Icon: EventIcon,
-      role: [roles.ADMIN, roles.SUPERADMIN],
+      role: [roles.ADMIN, roles.SUPERADMIN, roles.TEACHER],
       perm_name: permissions.event,
       in_nav: true,
     },
@@ -214,7 +219,7 @@ const dashboard = {
       title: "Gest Mon PFA",
       Icon: BookIcon,
       role: [roles.TEACHER],
-      perm_name: permissions.none,
+      perm_name: permissions.project,
       in_nav: true,
     },
     {
@@ -224,8 +229,19 @@ const dashboard = {
       Component: AdminManageProject,
       title: "Gest PFE/Stage",
       Icon: BookIcon,
-      role: [roles.SUPERADMIN, roles.RESPONSIBLE],
-      perm_name: permissions.none,
+      role: [roles.SUPERADMIN, roles.ADMIN],
+      perm_name: permissions.project,
+      in_nav: true,
+    },
+    {
+      main: "/dash",
+      path: "/pfe_stats",
+      Component: StatistiquePfe,
+      title: "Statistis PFE",
+      route: "pfe_stats",
+      Icon: BarChartIcon,
+      role: [roles.SUPERADMIN, roles.ADMIN],
+      perm_name: permissions.project,
       in_nav: true,
     },
     {
@@ -235,8 +251,8 @@ const dashboard = {
       Component: ResApprovePFA,
       title: "Approve PFA",
       Icon: BookIcon,
-      role: [roles.SUPERADMIN, roles.RESPONSIBLE],
-      perm_name: permissions.none,
+      role: [roles.RESPONSIBLE],
+      perm_name: permissions.project,
       in_nav: true,
     },
     {
@@ -247,7 +263,18 @@ const dashboard = {
       title: "List PFA",
       Icon: BookIcon,
       role: [roles.ADMIN, roles.SUPERADMIN],
-      perm_name: permissions.none,
+      perm_name: permissions.project,
+      in_nav: true,
+    },
+    {
+      main: "/dash",
+      path: "/saisons",
+      route: "saisons",
+      Component: ManagePromotion,
+      title: "Gest Saisons",
+      Icon: CalendarMonthIcon,
+      role: [roles.ADMIN, roles.SUPERADMIN],
+      perm_name: permissions.saison,
       in_nav: true,
     },
     {

@@ -7,7 +7,6 @@ import Button from "@mui/material/Button";
 import Avatar from "../../../../components/Avatar/Avatar";
 import styles from "./styles.module.scss";
 import Chip from "../../../../components/Chip/Chip";
-import { makeDate } from "../../../../functions/Dates.functions";
 
 const MakeAvatarProj = ({ title = "" }) => {
   const [first, second] = title.split(" ");
@@ -69,16 +68,6 @@ function ShowPFA({ popup, handleClose }) {
           <div className={styles.part2}>
             <h4>Promotion : </h4>
             <h5>{value.promotion}</h5>
-          </div>
-
-          <div className={styles.part2}>
-            <h4>Date de début : </h4>
-            <h5>{makeDate(value.startDate)}</h5>
-          </div>
-
-          <div className={styles.part2}>
-            <h4>Date de fin : </h4>
-            <h5>{makeDate(value.endDate)}</h5>
           </div>
 
           <div className={styles.part2}>
