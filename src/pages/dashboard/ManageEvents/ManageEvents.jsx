@@ -154,7 +154,6 @@ function ManageEvents() {
               onClick={ChangeYear}
               startIcon={<EventNoteIcon />}
               variant="contained"
-              data-test="addEventButton"
             >
               Basculer
             </Button>

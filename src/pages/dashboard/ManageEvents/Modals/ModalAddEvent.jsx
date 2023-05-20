@@ -76,7 +76,7 @@ function ModalAddEvent({ popup, handleClose }) {
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
-                id="demo-simple-select"
+                id="type-select"
                 name="eventType"
                 variant="filled"
                 size="small"

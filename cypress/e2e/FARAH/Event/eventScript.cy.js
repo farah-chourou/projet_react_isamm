@@ -20,7 +20,7 @@ describe("Event Script", () => {
       cy.getByData("addEventButton").click();
       cy.getByData("modal").should("be.visible");
       cy.getByName("eventName").type(eventData.eventName);
-      cy.get("#demo-simple-select").click();
+      cy.get("#type-select").click();
       cy.get('.MuiList-root > [tabindex="0"]').click();
       cy.getByName("eventDateDebut").typeDate(eventData.eventDateDebut);
       cy.getByName("eventDateFin").typeDate(eventData.eventDateFin);
@@ -39,7 +39,7 @@ describe("Event Script", () => {
       cy.getByData("addEventButton").click();
       cy.getByData("modal").should("be.visible");
       cy.getByName("eventName").type(eventData.eventName);
-      cy.get("#demo-simple-select").click();
+      cy.get("#type-select").click();
       cy.get('.MuiList-root > [tabindex="0"]').click();
       cy.getByName("eventDateDebut").typeDate(eventData.eventDateDebut);
       cy.getByName("eventDateFin").typeDate(eventData.eventDateFin);
