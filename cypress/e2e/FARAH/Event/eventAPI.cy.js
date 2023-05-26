@@ -28,7 +28,7 @@ describe("CRUD EVENT", () => {
   });
 
   describe("CRUD EVENT WITH CONNEXION AS SUPERADMIN", () => {
-    before(() => {
+    beforeEach(() => {
       cy.connect_as_superadmin().then((resp) => (token = `Bearer ${resp}`));
       cy.fixture("event.json").then((data) => {
         eventData = data.event;
@@ -36,8 +36,6 @@ describe("CRUD EVENT", () => {
       cy.fixture("event.json").then((data) => {
         eventDataUpdated = data.eventUpdated;
       });
-
-      cy.wait(5000);
     });
     it("Should Add Event", () => {
       cy.request({

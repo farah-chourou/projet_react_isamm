@@ -174,6 +174,7 @@ function ManageStudents() {
             sx={{ minWidth: 1000 }}
             size="small"
             aria-label="a dense table"
+            data-test="table"
           >
             <TableHead>
               <TableRow
@@ -212,6 +213,7 @@ function ManageStudents() {
                     />
                     {isTEACHER(user) && (
                       <ArticleIcon
+                        data-test={`cvButton-${row.email}`}
                         className={styles.action_icon}
                         onClick={() => {
                           handleNavigateDetail(row._id);
