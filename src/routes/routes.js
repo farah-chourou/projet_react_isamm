@@ -230,7 +230,7 @@ const dashboard = {
       title: "Gest Mon PFA",
       Icon: BookIcon,
       role: [roles.TEACHER],
-      perm_name: permissions.project,
+      perm_name: permissions.all,
       in_nav: true,
     },
     {
@@ -263,7 +263,7 @@ const dashboard = {
       title: "Approve PFA",
       Icon: BookIcon,
       role: [roles.RESPONSIBLE],
-      perm_name: permissions.project,
+      perm_name: permissions.all,
       in_nav: true,
     },
     {

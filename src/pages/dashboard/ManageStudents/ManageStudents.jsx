@@ -147,28 +147,7 @@ function ManageStudents() {
           </Grid>
         )}
       </div>
-      <div className={styles.filter}>
-        <TextField
-          label="Student Name"
-          variant="standard"
-          className={styles.filt_tf}
-        />
-        <TextField
-          label="Level"
-          variant="standard"
-          className={styles.filt_tf}
-        />
-        <TextField
-          label="Class"
-          variant="standard"
-          className={styles.filt_tf}
-        />
-        <TextField
-          label="Class Num"
-          variant="standard"
-          className={styles.filt_tf}
-        />
-      </div>
+
       <div className={styles.body}>
         <TableContainer sx={{ marginTop: 5 }}>
           <Table

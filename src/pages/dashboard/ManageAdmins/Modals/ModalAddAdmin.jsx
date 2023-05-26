@@ -29,7 +29,6 @@ const permessions = [
   "user",
   "event",
   "participation",
-  "project",
   "technologie",
   "saison",
   "PFE",

@@ -3,6 +3,8 @@
 
 describe("admin Script", () => {
   describe("CONNECT AS TEACHER", () => {
+    let data;
+
     beforeEach(() => {
       cy.clearToken();
       cy.connect_as_teacher();
