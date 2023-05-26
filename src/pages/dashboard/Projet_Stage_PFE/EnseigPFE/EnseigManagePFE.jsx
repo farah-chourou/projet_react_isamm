@@ -211,6 +211,10 @@ function EnseigManagePFE() {
                     <CheckCircleIcon
                       className={styles.action_icon}
                       onClick={() => openPopup("choisir", row)}
+                      data-test={`btn-choose-${row.title
+                        .toLocaleLowerCase()
+                        .split(" ")
+                        .join("-")}`}
                     />
                   )}
                 </TableCell>

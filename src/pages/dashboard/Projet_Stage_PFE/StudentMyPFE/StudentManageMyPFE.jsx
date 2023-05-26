@@ -141,6 +141,7 @@ function StudentManageMyPFE() {
           }}
           startIcon={<BookIcon />}
           variant="contained"
+          data-test="add-pfe"
         >
           Ajouter PFE
         </Button>

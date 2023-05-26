@@ -39,7 +39,7 @@ function ApproveByAdmin({ popup, handleClose }) {
       handleClose={handleClose}
       title={`Choisir PFE : ${value.title}`}
     >
-      <DialogContent dividers>
+      <DialogContent dividers data-test="modal">
         <Typography variant="h5" component="h1" align="center">
           Es-tu sûr de valider <strong>{value.title}</strong>
         </Typography>
@@ -47,6 +47,7 @@ function ApproveByAdmin({ popup, handleClose }) {
           fullWidth
           className={styles.textField}
           label="Note"
+          name="note"
           value={note}
           onChange={(e) => {
             setnote(e.target.value);
@@ -63,6 +64,7 @@ function ApproveByAdmin({ popup, handleClose }) {
           color="primary"
           onClick={ChoisirPfe}
           disabled={loading}
+          data-test="Valider"
         >
           Valider
         </Button>

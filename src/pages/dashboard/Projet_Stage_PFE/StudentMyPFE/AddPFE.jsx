@@ -71,12 +71,6 @@ function AddPFE({ popup, handleClose }) {
 
     ProjetServ.GetSocietes()
       .then((resp) => {
-        console.log(resp.data.data);
-        console.log(resp.data.data);
-        console.log(resp.data.data);
-        console.log(resp.data.data);
-        console.log(resp.data.data);
-        console.log(resp.data.data);
         setSocietes(resp.data.data);
       })
       .catch((error) => {
@@ -92,6 +86,7 @@ function AddPFE({ popup, handleClose }) {
         callback();
         handleClose();
         setLoading(false);
+        toast.success("PFE created successfully");
       })
       .catch((error) => {
         setLoading(false);
@@ -106,7 +101,7 @@ function AddPFE({ popup, handleClose }) {
       title={"Ajouter un nouvel PFE"}
       width="md"
     >
-      <DialogContent dividers>
+      <DialogContent dividers data-test="modal">
         <div className={styles.card}>
           <Typography variant="h5" component="h1">
             Informations Générales
@@ -163,6 +158,7 @@ function AddPFE({ popup, handleClose }) {
                 value={form.promotion}
                 label="Promotion"
                 name="promotion"
+                dataTest="promotion"
                 onChange={handle_change}
                 items={promos.map((prom) => ({
                   name: prom.title,
@@ -201,6 +197,7 @@ function AddPFE({ popup, handleClose }) {
                 label="Description"
                 name="description"
                 value={form.description}
+                data-test="description"
                 onChange={handle_change}
                 multiline
                 rows={4}
@@ -228,6 +225,7 @@ function AddPFE({ popup, handleClose }) {
                               handle_change_tech(key, e.target.value);
                             }}
                             value={value}
+                            data-test={`tech-${key}`}
                           />
                         )}
                       />
@@ -242,6 +240,7 @@ function AddPFE({ popup, handleClose }) {
                       <Button
                         autoFocus
                         variant="contained"
+                        data-test={`del-tech-${key}`}
                         fullWidth={true}
                         onClick={() => {
                           handle_del_tech(key);
@@ -259,6 +258,7 @@ function AddPFE({ popup, handleClose }) {
                 autoFocus
                 variant="contained"
                 fullWidth={true}
+                data-test="add-tech"
                 onClick={handle_add_tech}
               >
                 Ajouter Tech
@@ -268,7 +268,12 @@ function AddPFE({ popup, handleClose }) {
         </div>
       </DialogContent>
       <DialogActions>
-        <Button autoFocus variant="outlined" onClick={handleClose}>
+        <Button
+          autoFocus
+          variant="outlined"
+          data-test="Annuler"
+          onClick={handleClose}
+        >
           Annuler
         </Button>
         <Button
@@ -276,6 +281,7 @@ function AddPFE({ popup, handleClose }) {
           variant="contained"
           onClick={handleSubmit}
           disabled={loading}
+          data-test="Ajouter"
         >
           Ajouter
         </Button>

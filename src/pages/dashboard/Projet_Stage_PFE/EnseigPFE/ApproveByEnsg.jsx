@@ -31,7 +31,7 @@ function ApproveByEnsg({ popup, handleClose }) {
       handleClose={handleClose}
       title={`Choisir PFE : ${value.title}`}
     >
-      <DialogContent dividers>
+      <DialogContent dividers data-test="modal">
         <Typography variant="h5" component="h1" align="center">
           Es-tu sûr de choisir <strong>{value.title}</strong>
         </Typography>
@@ -46,6 +46,7 @@ function ApproveByEnsg({ popup, handleClose }) {
           color="primary"
           onClick={ChoisirPfe}
           disabled={loading}
+          data-test="choisir"
         >
           Choisir
         </Button>

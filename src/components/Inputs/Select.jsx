@@ -13,6 +13,7 @@ export default function BasicSelect({
   className,
   items = [],
   disabled = false,
+  dataTest = "",
 }) {
   return (
     <FormControl fullWidth className={className}>
@@ -25,10 +26,11 @@ export default function BasicSelect({
         name={name}
         onChange={onChange}
         disabled={disabled}
+        data-test={dataTest}
       >
         {items.map((item, key) => {
           return (
-            <MenuItem key={key} value={item.value}>
+            <MenuItem data-test={`option-${key}`} key={key} value={item.value}>
               {item.name}
             </MenuItem>
           );

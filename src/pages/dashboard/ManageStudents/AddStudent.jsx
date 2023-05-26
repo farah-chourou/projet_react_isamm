@@ -67,7 +67,7 @@ function Add_Update({ popup, handleClose }) {
       title={"Ajouter un nouvel étudiant"}
       width="md"
     >
-      <DialogContent dividers>
+      <DialogContent dividers data-test="modal">
         <div className={styles.card}>
           <Typography variant="h5" component="h1">
             Informations Générales
@@ -79,6 +79,7 @@ function Add_Update({ popup, handleClose }) {
                 className={styles.textField}
                 label="Nom"
                 name="firstName"
+                data-test="firstName"
                 value={form.firstName}
                 onChange={handle_change}
               />
@@ -135,6 +136,7 @@ function Add_Update({ popup, handleClose }) {
                 label="Genre"
                 name="sex"
                 onChange={handle_change}
+                dataTest="genre"
                 items={[
                   { name: "Masculin", value: "MEN" },
                   { name: "Féminin", value: "WOMEN" },
@@ -153,6 +155,7 @@ function Add_Update({ popup, handleClose }) {
                 value={form.promotion}
                 label="Promotion"
                 name="promotion"
+                dataTest="promotion"
                 onChange={handle_change}
                 items={promos.map((prom) => ({
                   name: prom.title,
@@ -166,6 +169,7 @@ function Add_Update({ popup, handleClose }) {
                 value={form.classe}
                 label="Classe"
                 name="classe"
+                dataTest="classe"
                 onChange={handle_change}
                 items={classes.map((cls) => ({
                   name: cls.name,
@@ -179,6 +183,7 @@ function Add_Update({ popup, handleClose }) {
                 value={form.niveau}
                 label="Niveau"
                 name="niveau"
+                dataTest="niveau"
                 onChange={handle_change}
                 items={levels.map((level) => ({
                   name: level.value === 1 ? "1-ére" : `${level.value}-éme`,
@@ -192,6 +197,7 @@ function Add_Update({ popup, handleClose }) {
                 value={form.numero_classe}
                 label="Numero de Classe"
                 name="numero_classe"
+                dataTest="numero_classe"
                 onChange={handle_change}
                 items={nums.map((num) => ({
                   name: num,
@@ -211,6 +217,7 @@ function Add_Update({ popup, handleClose }) {
           variant="contained"
           onClick={handleSubmit}
           disabled={loading}
+          data-test="add-btn"
         >
           Ajouter
         </Button>

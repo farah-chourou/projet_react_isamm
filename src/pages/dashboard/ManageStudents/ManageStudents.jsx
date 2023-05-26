@@ -130,6 +130,7 @@ function ManageStudents() {
               }}
               startIcon={<PersonAddAlt1Icon />}
               variant="contained"
+              data-test="addStudentButton"
             >
               Ajouter Etudiant
             </Button>
