@@ -44,8 +44,6 @@ describe("CRUD EVENT", () => {
       cy.request({
         method: "POST",
         url: `${API_URL}create_pfa`,
-        // `http://localhost:8080/api/project/create_pfa`,
-        // `${API_URL}create_pfa`,
         body: pfaData,
         headers: {
           Authorization: token,

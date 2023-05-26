@@ -242,7 +242,7 @@ function ShowCv({ popup, handleClose, handleThemeChange, isDarkTheme }) {
       handleClose={handleClose}
       title={`Cv User : ${value.firstName} ${value.lastName}`}
     >
-      <DialogContent dividers>
+      <DialogContent dividers data-test="show">
         <h3>Bio</h3>
         <Grid container spacing={1}>
           <Grid item xs={8}>
@@ -300,6 +300,7 @@ function ShowCv({ popup, handleClose, handleThemeChange, isDarkTheme }) {
                   value={exp?.description}
                   onChange={(e) => handleExpChange(e, index)}
                   disabled={isDiplome}
+                  data-test={`desc-${index}`}
                 />
               </Grid>
               <Grid item xl={12} lg={8} md={12}>
@@ -311,6 +312,7 @@ function ShowCv({ popup, handleClose, handleThemeChange, isDarkTheme }) {
                   value={exp.emplacement}
                   onChange={(e) => handleExpChange(e, index)}
                   disabled={isDiplome}
+                  data-test={`empl-${index}`}
                 />
               </Grid>
               <Grid item xl={12} lg={8} md={12}>
@@ -323,6 +325,7 @@ function ShowCv({ popup, handleClose, handleThemeChange, isDarkTheme }) {
                   value={makeDate3(exp.startDate)}
                   onChange={(e) => handleExpChange(e, index)}
                   disabled={isDiplome}
+                  data-test={`stardate-${index}`}
                 />
               </Grid>
               <Grid item xl={12} lg={8} md={12}>
@@ -335,6 +338,7 @@ function ShowCv({ popup, handleClose, handleThemeChange, isDarkTheme }) {
                   value={makeDate3(exp.endDate)}
                   onChange={(e) => handleExpChange(e, index)}
                   disabled={isDiplome}
+                  data-test={`enddate-${index}`}
                 />
               </Grid>
               <Grid item xl={12} lg={8} md={12}>
@@ -346,6 +350,7 @@ function ShowCv({ popup, handleClose, handleThemeChange, isDarkTheme }) {
                   value={exp.title}
                   onChange={(e) => handleExpChange(e, index)}
                   disabled={isDiplome}
+                  data-test={`titre-${index}`}
                 />
               </Grid>
               <Grid item xl={12} lg={8} md={12}>
@@ -354,6 +359,7 @@ function ShowCv({ popup, handleClose, handleThemeChange, isDarkTheme }) {
                   variant="outlined"
                   onClick={() => handleRemoveExperience(index)}
                   disabled={isDiplome}
+                  data-test={`supp-${index}`}
                 >
                   Supprimer Expérience
                 </Button>

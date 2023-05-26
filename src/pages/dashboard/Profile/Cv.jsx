@@ -70,7 +70,9 @@ function Cv() {
         className="rounded shadow-lg m-1"
         style={sx}
       >
-        <Button onClick={handleClick}>{cv.style}-Theme</Button>
+        <Button onClick={handleClick} data-test="style">
+          {cv.style}-Theme
+        </Button>
         {/* Your other Grid components */}
         <Grid
           className="pt-4 rounded"

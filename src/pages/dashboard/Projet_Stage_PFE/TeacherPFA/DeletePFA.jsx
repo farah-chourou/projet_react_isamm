@@ -37,12 +37,7 @@ function DeletePFA({ popup, handleClose }) {
         </Typography>
       </DialogContent>
       <DialogActions>
-        <Button
-          autoFocus
-          variant="outlined"
-          onClick={handleClose}
-          data-test="confirmDeleteButtonpfa"
-        >
+        <Button autoFocus variant="outlined" onClick={handleClose}>
           Annuler
         </Button>
         <Button
@@ -51,6 +46,7 @@ function DeletePFA({ popup, handleClose }) {
           color="error"
           onClick={DeleteProject}
           disabled={loading}
+          data-test="confirmDeleteButtonpfa"
         >
           Supprimer
         </Button>
