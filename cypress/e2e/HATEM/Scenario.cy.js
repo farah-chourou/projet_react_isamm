@@ -224,4 +224,52 @@ describe("Student Manage + PFE Script", () => {
       ).should("not.exist");
     });
   });
+
+  describe("Student Delete PFE", () => {
+    beforeEach(() => {
+      cy.fixture("student.json").then((data) => {
+        studentData = data.student;
+        cy.clearToken();
+        cy.connect_with_phone(studentData.phoneNumber);
+      });
+
+      cy.fixture("pfe.json").then((data) => {
+        pfeData = data.pfe;
+      });
+
+      cy.visit("/dash/student_my_pfes");
+    });
+
+    it("Delete PFE", () => {
+      cy.location("pathname").should("eq", "/dash/student_my_pfes");
+      cy.getByData(
+        `btn-delete-${pfeData.title.toLocaleLowerCase().split(" ").join("-")}`
+      ).click();
+      cy.getByData("modal").should("be.visible");
+      cy.getByData("delete").click();
+    });
+  });
+
+  describe("Admin Delete Student", () => {
+    beforeEach(() => {
+      cy.fixture("student.json").then((data) => {
+        studentData = data.student;
+        cy.clearToken();
+        cy.connect_as_superadmin();
+      });
+
+      cy.fixture("pfe.json").then((data) => {
+        pfeData = data.pfe;
+      });
+
+      cy.visit("/dash/gest_students");
+    });
+
+    it("Delete Student", () => {
+      cy.location("pathname").should("eq", "/dash/gest_students");
+      cy.getByData(`btn-delete-${studentData.phoneNumber}`).click();
+      cy.getByData("modal").should("be.visible");
+      cy.getByData("delete").click();
+    });
+  });
 });

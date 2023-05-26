@@ -31,7 +31,7 @@ function DeletePFE({ popup, handleClose }) {
       handleClose={handleClose}
       title={`Supprimer PFE : ${value.title}`}
     >
-      <DialogContent dividers>
+      <DialogContent dividers data-test="modal">
         <Typography variant="h5" component="h1" align="center">
           Es-tu sûr de supprimer {value.firstName} {value.lastName}
         </Typography>
@@ -46,6 +46,7 @@ function DeletePFE({ popup, handleClose }) {
           color="error"
           onClick={DeleteProject}
           disabled={loading}
+          data-test="delete"
         >
           Supprimer
         </Button>

@@ -32,7 +32,7 @@ function Delete({ popup, handleClose }) {
       handleClose={handleClose}
       title={`Supprimer :  ${value.firstName} ${value.lastName}`}
     >
-      <DialogContent dividers>
+      <DialogContent dividers data-test="modal">
         <Typography variant="h5" component="h1" align="center">
           Es-tu sûr de supprimer {value.firstName} {value.lastName}
         </Typography>
@@ -47,6 +47,7 @@ function Delete({ popup, handleClose }) {
           color="error"
           onClick={DeleteStudent}
           disabled={loading}
+          data-test="delete"
         >
           Supprimer
         </Button>
