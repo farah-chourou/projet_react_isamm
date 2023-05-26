@@ -141,6 +141,7 @@ function StudentManageMyPFE() {
           }}
           startIcon={<BookIcon />}
           variant="contained"
+          data-test="add-pfe"
         >
           Ajouter PFE
         </Button>
@@ -199,6 +200,10 @@ function StudentManageMyPFE() {
                     <DeleteIcon
                       className={styles.action_icon}
                       onClick={() => openPopup("delete", row)}
+                      data-test={`btn-delete-${row.title
+                        .toLocaleLowerCase()
+                        .split(" ")
+                        .join("-")}`}
                     />
                   </>
                 </TableCell>

@@ -130,6 +130,7 @@ function ManageStudents() {
               }}
               startIcon={<PersonAddAlt1Icon />}
               variant="contained"
+              data-test="addStudentButton"
             >
               Ajouter Etudiant
             </Button>
@@ -229,6 +230,7 @@ function ManageStudents() {
                         <DeleteIcon
                           className={styles.action_icon}
                           onClick={() => openPopup("delete", row)}
+                          data-test={`btn-delete-${row.phoneNumber}`}
                         />
                       </>
                     )}

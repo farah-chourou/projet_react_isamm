@@ -4,6 +4,22 @@
 /**********************    LOGIN COMMANDS *******************/
 import { format } from "date-fns";
 
+Cypress.Commands.add("connect_with_phone", (phone) => {
+  cy.request({
+    method: "POST",
+    url: Cypress.env("urlBackend") + "/user/login",
+    body: {
+      userName: phone,
+      password: phone,
+    },
+  }).then((resp) => {
+    console.log(resp);
+    window.localStorage.setItem("isamm_token", resp.body.data.token);
+    window.localStorage.setItem("isamm_ref_token", resp.body.data.refreshToken);
+    return resp.body.data.token;
+  });
+});
+
 Cypress.Commands.add("connect_as_superadmin", () => {
   cy.clearToken();
   cy.request({
@@ -36,6 +52,7 @@ Cypress.Commands.add("connect_as_admin", () => {
     return resp.body.data.token;
   });
 });
+
 Cypress.Commands.add("connect_as_teacher", () => {
   cy.request({
     method: "POST",
