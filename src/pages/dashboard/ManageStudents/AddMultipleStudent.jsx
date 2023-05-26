@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { FileUploader } from "react-drag-drop-files";
+import { Button, Box } from "@mui/material";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 import Dialog from "../../../components/Popup/Popup";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
-import Button from "@mui/material/Button";
 import styles from "./styles.module.scss";
 import Typography from "@mui/material/Typography";
 import StudentServ from "../../../services/Student.service";
@@ -47,21 +47,31 @@ function AddMultipleStudent({ popup, handleClose }) {
       width="md"
     >
       <DialogContent dividers>
-        <div className={styles.card}>
-          <Typography variant="h5" component="h1">
-            Importer le fichier ICI
-          </Typography>
-        </div>
-        <div style={{ marginLeft: 25 }}>
-          <input type="file" onChange={handleChangeImage} />
-        </div>
-        {/*<FileUploader
-          multiple={true}
-          handleChange={handleChangeImage}
-          name="file"
-          types={fileTypes}
-        />
-  <p>{File ? `File name: ${File[0].name}` : "no files uploaded yet"}</p>{" "}*/}
+        <div className={styles.card}></div>
+
+        <Box sx={{ marginLeft: 2 }}>
+          <input
+            accept=".xls, .xlsx"
+            id="upload-button"
+            type="file"
+            style={{ display: "none" }}
+            onChange={handleChangeImage}
+          />
+          <label htmlFor="upload-button">
+            <Button
+              variant="contained"
+              component="span"
+              startIcon={<CloudUploadIcon />}
+            >
+              Importer le ficihier ici
+            </Button>
+          </label>
+          {File && (
+            <Typography variant="body1" sx={{ marginTop: 1 }}>
+              {File.name}
+            </Typography>
+          )}
+        </Box>
       </DialogContent>
       <DialogActions>
         <Button autoFocus variant="outlined" onClick={handleClose}>

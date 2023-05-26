@@ -113,13 +113,13 @@ function EventDetail() {
               <Box display="flex" alignItems="center">
                 <AccessTimeIcon color="primary" fontSize="small" />{" "}
                 <Typography variant="subtitle1" component="p">
-                  &nbsp; Durée: {Event.duration} heures
+                  &nbsp; <b> Durée:</b> {Event.duration} heures
                 </Typography>
               </Box>
               <Box display="flex" alignItems="center">
                 <PersonIcon color="primary" fontSize="small" />{" "}
                 <Typography variant="subtitle1" component="p">
-                  &nbsp; Organiser Par: {Event.organizedBy}
+                  &nbsp; <b>Organiser Par: </b> {Event.organizedBy}
                 </Typography>
               </Box>
               {/* <Box display="flex" alignItems="center">
@@ -128,6 +128,9 @@ function EventDetail() {
         &nbsp; 20 interssé
         </Typography>
           </Box>*/}
+              <Typography variant="subtitle1" component="p" mt={2}>
+                <b> Plus d'information: </b>
+              </Typography>
               <Typography variant="body1" component="p">
                 {Event.description}
               </Typography>

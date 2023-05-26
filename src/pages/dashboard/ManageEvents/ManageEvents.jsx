@@ -18,6 +18,7 @@ import EventService from "../../../services/EventService";
 import PromoServ from "../../../services/Promotion.service";
 
 import { fDate } from "../../../functions/formatTime";
+import styles from "../../../App.scss";
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
@@ -33,6 +34,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import Select from "../../../components/Inputs/Select";
 import { isADMIN, isSUPERADMIN, isTEACHER } from "../../../custom/roles";
 import { UserContext } from "../../../store/Contexts";
+import Loading from "../../../components/Loading/Loading";
+import LoadingPetit from "../../../components/Loading/LoadingPetit";
 
 function ManageEvents() {
   const { user } = useContext(UserContext);
@@ -57,7 +60,7 @@ function ManageEvents() {
   const openShow = (row) => {
     setPopup({ open: true, type: "show", value: row });
   };
-
+  const [Loading, setLoading] = useState(true);
   const openDelete = (row) => {
     setPopup({
       open: true,
@@ -80,9 +83,11 @@ function ManageEvents() {
     EventService.GetAllEvents()
       .then((response) => {
         setEvents(response.data.data);
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
+        setLoading(false);
       });
   }, []);
 
@@ -150,7 +155,6 @@ function ManageEvents() {
           </Grid>
           <Grid item xs={3} md={3} lg={3} container>
             <Button
-              style={{ height: "100%" }}
               onClick={ChangeYear}
               startIcon={<EventNoteIcon />}
               variant="contained"
@@ -177,70 +181,95 @@ function ManageEvents() {
                 <TableCell>Date De Fin </TableCell>
                 <TableCell> Type d'événement</TableCell>
                 <TableCell>location</TableCell>
-                <TableCell>Description</TableCell>
                 <TableCell align="center">Actions</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
-              {Events &&
-                Events.map((item, index) => (
-                  <TableRow
-                    hover
-                    key={item._id}
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                      cursor: "pointer",
-                    }}
-                  >
-                    <TableCell>
-                      <> {index + 1}</>
-                    </TableCell>
-                    <TableCell>{item.eventName}</TableCell>{" "}
-                    <TableCell>{fDate(item.eventDateDebut)}</TableCell>{" "}
-                    <TableCell>
-                      {item.eventDateFin ? (
-                        fDate(item.eventDateFin)
-                      ) : (
-                        <Typography color="textSecondary"> Néant </Typography>
-                      )}{" "}
-                    </TableCell>
-                    <TableCell>{item.eventType}</TableCell>
-                    <TableCell>{item.location}</TableCell>
-                    <TableCell>{item.description}</TableCell>
-                    <TableCell align="center">
-                      {(isADMIN(user) || isSUPERADMIN(user)) && (
-                        <Tooltip title="Modifier">
-                          <IconButton
-                            onClick={() => openUpdate(item)}
-                            data-test={`updateButton-${item.eventName}`}
-                          >
-                            <EditIcon />
-                          </IconButton>
-                        </Tooltip>
-                      )}
+            {Loading ? (
+              <TableBody>
+                <LoadingPetit />
+              </TableBody>
+            ) : (
+              <TableBody>
+                {Events &&
+                  Events.map((item, index) => (
+                    <TableRow
+                      hover
+                      key={item._id}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                        cursor: "pointer",
+                      }}
+                    >
+                      <TableCell>
+                        <> {index + 1}</>
+                      </TableCell>
+                      <TableCell>{item.eventName}</TableCell>{" "}
+                      <TableCell>{fDate(item.eventDateDebut)}</TableCell>{" "}
+                      <TableCell>
+                        {item.eventDateFin ? (
+                          fDate(item.eventDateFin)
+                        ) : (
+                          <Typography color="textSecondary"> Néant </Typography>
+                        )}{" "}
+                      </TableCell>
+                      <TableCell>
+                        {" "}
+                        {item.eventType === "JPO" ? (
+                          <Chip
+                            label={item.eventType}
+                            color="error"
+                            className={styles.chip}
+                          />
+                        ) : item.eventType === "Formation" ? (
+                          <Chip
+                            label={item.eventType}
+                            color="warning"
+                            className={styles.chip}
+                          />
+                        ) : (
+                          <Chip
+                            label={item.eventType}
+                            color="primary"
+                            className={styles.chip}
+                          />
+                        )}
+                      </TableCell>
+                      <TableCell>{item.location}</TableCell>
+                      <TableCell align="center">
+                        {(isADMIN(user) || isSUPERADMIN(user)) && (
+                          <Tooltip title="Modifier">
+                            <IconButton
+                              onClick={() => openUpdate(item)}
+                              data-test={`updateButton-${item.eventName}`}
+                            >
+                              <EditIcon sx={{ color: "#4580F0" }} />
+                            </IconButton>
+                          </Tooltip>
+                        )}
 
-                      {(isADMIN(user) || isSUPERADMIN(user)) && (
-                        <Tooltip title="Supprimer">
+                        {(isADMIN(user) || isSUPERADMIN(user)) && (
+                          <Tooltip title="Supprimer">
+                            <IconButton
+                              onClick={() => openDelete(item)}
+                              data-test={`deleteButton-${item.eventName}`}
+                            >
+                              <DeleteIcon sx={{ color: "#4580F0" }} />
+                            </IconButton>
+                          </Tooltip>
+                        )}
+                        <Tooltip title="Voir">
                           <IconButton
-                            onClick={() => openDelete(item)}
-                            data-test={`deleteButton-${item.eventName}`}
+                            onClick={(_id) => handleNavigateDetail(item._id)}
+                            data-test={`viewButton-${item.eventName}`}
                           >
-                            <DeleteIcon />
+                            <VisibilityIcon sx={{ color: "#4580F0" }} />
                           </IconButton>
                         </Tooltip>
-                      )}
-                      <Tooltip title="Voir">
-                        <IconButton
-                          onClick={(_id) => handleNavigateDetail(item._id)}
-                          data-test={`viewButton-${item.eventName}`}
-                        >
-                          <VisibilityIcon />
-                        </IconButton>
-                      </Tooltip>
-                    </TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            )}
           </Table>
         </TableContainer>
       </div>

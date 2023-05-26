@@ -31,8 +31,13 @@ const permessions = [
   "participation",
   "project",
   "technologie",
-  "cv",
   "saison",
+  "PFE",
+  "PFA",
+  "offer",
+  "recruitment",
+  "statisticChomage",
+  "validateAluminie",
 ];
 function ModalAddAdmin({ popup, handleClose }) {
   const { open, value } = popup;

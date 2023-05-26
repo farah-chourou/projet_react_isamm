@@ -13,6 +13,7 @@ import PublicOffIcon from "@mui/icons-material/PublicOff";
 import EditStateAccount from "./EditStateAccount";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { isALUMINIE, isSTUDENT } from "../../../custom/roles";
+import { roles } from "../../../custom/roles";
 
 // firstName, lastName, phoneNumber, birthDate, sex
 function Profile() {
@@ -78,7 +79,9 @@ function Profile() {
             </Grid>
             <Grid item xs={6} md={6} lg={6} container justifyContent="flex-end">
               <>
-                {user?.isPublic === true ? (
+                {(user.role === roles.STUDENT ||
+                  user.role === roles.ALUMINIE) &&
+                user?.isPublic === true ? (
                   <Button
                     startIcon={<PublicIcon />}
                     variant="contained"
@@ -89,7 +92,9 @@ function Profile() {
                   >
                     Compte Public
                   </Button>
-                ) : (
+                ) : (user.role === roles.STUDENT ||
+                    user.role === roles.ALUMINIE) &&
+                  user?.isPublic === false ? (
                   <Button
                     startIcon={<PublicOffIcon />}
                     variant="contained"
@@ -100,6 +105,8 @@ function Profile() {
                   >
                     Compte Privé
                   </Button>
+                ) : (
+                  ""
                 )}
               </>{" "}
             </Grid>

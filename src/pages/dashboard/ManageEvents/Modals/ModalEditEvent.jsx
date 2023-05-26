@@ -30,6 +30,8 @@ function ModalEditEvent({ popup, handleClose, handleEditEvent }) {
     eventDateFin: "",
     eventType: "",
     description: "",
+    organizedBy: "",
+
     location: "",
   });
   const handleChange = (e) => {
@@ -59,6 +61,7 @@ function ModalEditEvent({ popup, handleClose, handleEditEvent }) {
       eventType: value.eventType,
       description: value.description,
       location: value.location,
+      organizedBy: value.organizedBy,
     });
 
     if (value.eventDateFin === "") {
@@ -133,9 +136,27 @@ function ModalEditEvent({ popup, handleClose, handleEditEvent }) {
                 control={<Checkbox defaultChecked />}
                 label="Durée 1 jour"
                 checked={isChecked}
-                onChange={(event) => setIsChecked(event.target.checked)}
+                onChange={(event) => {
+                  setIsChecked(event.target.checked);
+                  setEvent((prevEvent) => ({
+                    ...prevEvent,
+                    eventDateFin: null,
+                  }));
+                }}
               />
             </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="organisateur"
+                name="organizedBy"
+                variant="filled"
+                size="small"
+                required
+                onChange={handleChange}
+                value={Event.organizedBy}
+              />
+            </Grid>{" "}
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth

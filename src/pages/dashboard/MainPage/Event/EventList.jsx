@@ -17,6 +17,7 @@ import "swiper/css/pagination";
 import { FreeMode, Pagination } from "swiper";
 import ParticipationService from "../../../../services/ParticipationService";
 import Loading from "../../../../layouts/Loading";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 function EventList() {
   const navigate = useNavigate();
@@ -82,21 +83,21 @@ function EventList() {
                     marginLeft: 2,
                   }}
                 >
-                  <Typography variant="subtitle1">
+                  <Typography variant="subtitle1" color="primary">
                     {fDate(item.eventDateDebut)}
                   </Typography>
 
-                  <Typography variant="h6">{item.eventName}</Typography>
-                  <Typography variant="caption">{item.description}</Typography>
-                </Box>
-                <Box sx={{ marginLeft: 3 }}>
-                  <Button
-                    startIcon={<StarBorderIcon />}
-                    variant="outlined"
-                    size="small"
+                  <Typography variant="h8">
+                    {" "}
+                    <b>{item.eventName} </b>
+                  </Typography>
+                  <Typography
+                    variant="subtitle2"
+                    color="gray"
+                    sx={{ marginTop: 1 }}
                   >
-                    intéressé
-                  </Button>
+                    <LocationOnIcon fontSize="20" /> {item.location}
+                  </Typography>
                 </Box>
               </Box>
             </SwiperSlide>

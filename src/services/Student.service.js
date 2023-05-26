@@ -37,12 +37,13 @@ const CreateMultipleStudent = (data, succ, fail) => {
     .then((res) => {
       console.log(res);
       toast.success("Etudiants ont été créé");
+
       succ();
     })
     .catch((error) => {
       fail(error);
       console.log(error.response);
-      toast.error(error.response.data.Message);
+      toast.error("Etudiants deja existe");
     });
 };
 const UpdateStudent = (data, succ, fail) => {

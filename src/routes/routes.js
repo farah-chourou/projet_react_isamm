@@ -19,11 +19,11 @@ import EventIcon from "@mui/icons-material/Event";
 import BookIcon from "@mui/icons-material/Book";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
-import WorkIcon from '@mui/icons-material/Work';
+import WorkIcon from "@mui/icons-material/Work";
 /* import BarChartIcon from '@mui/icons-material/BarChart';
- */import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+ */ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 // ------------------------- ROLES --------------------------------
 import { roles, permissions } from "../custom/roles";
 import ChangePwd from "../pages/dashboard/changerMdp/ChangerMdp";
@@ -241,7 +241,7 @@ const dashboard = {
       title: "Gest PFE/Stage",
       Icon: BookIcon,
       role: [roles.SUPERADMIN, roles.ADMIN],
-      perm_name: permissions.project,
+      perm_name: permissions.PFE,
       in_nav: true,
     },
     {
@@ -252,7 +252,7 @@ const dashboard = {
       route: "pfe_stats",
       Icon: BarChartIcon,
       role: [roles.SUPERADMIN, roles.ADMIN],
-      perm_name: permissions.project,
+      perm_name: permissions.PFE,
       in_nav: true,
     },
     {
@@ -274,7 +274,7 @@ const dashboard = {
       title: "List PFA",
       Icon: BookIcon,
       role: [roles.ADMIN, roles.SUPERADMIN],
-      perm_name: permissions.project,
+      perm_name: permissions.PFA,
       in_nav: true,
     },
     {
@@ -309,8 +309,7 @@ const dashboard = {
       role: [roles.STUDENT, roles.ALUMINIE],
       perm_name: permissions.all,
       in_nav: true,
-    }
-    ,
+    },
     {
       main: "/dash",
       path: "/validateAlumini",
@@ -320,7 +319,7 @@ const dashboard = {
       title: "Gestion Alumini",
       Icon: ManageAccountsIcon,
       role: [roles.ADMIN, roles.SUPERADMIN],
-      perm_name: permissions.all,
+      perm_name: permissions.validateAluminie,
       in_nav: true,
     },
     {
@@ -332,7 +331,7 @@ const dashboard = {
       title: "Statistiques Alumini",
       Icon: BarChartIcon,
       role: [roles.ADMIN, roles.SUPERADMIN],
-      perm_name: permissions.all,
+      perm_name: permissions.statisticChomage,
       in_nav: true,
     },
     {
@@ -368,7 +367,7 @@ const dashboard = {
       title: "Tout les offres",
       Icon: LibraryBooksIcon,
       role: [roles.ALL],
-      perm_name: permissions.all,
+      perm_name: permissions.offer,
       in_nav: true,
     },
     {
@@ -380,7 +379,7 @@ const dashboard = {
       title: "Voir les recrutements",
       Icon: WorkIcon,
       role: [roles.SUPERADMIN],
-      perm_name: permissions.all,
+      perm_name: permissions.recruitment,
       in_nav: true,
     },
   ],

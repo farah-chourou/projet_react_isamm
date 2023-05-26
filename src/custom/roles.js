@@ -26,6 +26,10 @@ const permissions = {
   recruitment: "recruitment",
   offer: "offer",
   none: "none",
+  PFA: "PFA",
+  PFE: "PFE",
+  statisticChomage: "statisticChomage",
+  validateAluminie: "validateAluminie",
 };
 
 const isAll = () => {

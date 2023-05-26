@@ -29,9 +29,8 @@ function AcountsPage() {
   const GetDataStudents = () => {
     StudentServ.GetAllPublicAccount(
       (data) => {
-        const startIndex = (currentPage - 1) * pageSize;
-        const endIndex = startIndex + pageSize;
-        setStudents(data.allpublicStrudents.slice(startIndex, endIndex));
+        const filteredStudents = filterStudents(data.allpublicStrudents); // Appliquer le filtre
+        setStudents(filteredStudents);
       },
       (error) => {
         console.log(error);
@@ -42,10 +41,8 @@ function AcountsPage() {
   const GetDataAluminies = () => {
     StudentServ.GetAllPublicAccount(
       (data) => {
-        const startIndex = (currentPage - 1) * pageSize;
-        const endIndex = startIndex + pageSize;
-        console.log(data);
-        setStudents(data.allpublicAluminies.slice(startIndex, endIndex));
+        const filteredStudents = filterStudents(data.allpublicAluminies); // Appliquer le filtre
+        setStudents(filteredStudents);
       },
       (error) => {
         console.log(error);
@@ -114,10 +111,10 @@ function AcountsPage() {
                   label="Compte"
                   onChange={handleChange}
                 >
-                  <MenuItem value="actuel">
+                  <MenuItem value="actuel" onClick={() => setSearchQuery("")}>
                     Compte public des actuels étudiants
                   </MenuItem>
-                  <MenuItem value="aluminie">
+                  <MenuItem value="aluminie" onClick={() => setSearchQuery("")}>
                     Compte public des étudiants en alumine.
                   </MenuItem>
                 </Select>
@@ -128,67 +125,64 @@ function AcountsPage() {
       </div>
 
       <Grid container spacing={3}>
-        {filterStudents(Students).map(
-          (
-            item,
-            index // filter students based on search query
-          ) => (
-            <Grid item lg={4} md={6} xs={6} key={index}>
-              {" "}
+        {filterStudents(
+          Students.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+        ).map((item, index) => (
+          <Grid item lg={4} md={6} xs={6} key={index}>
+            {" "}
+            <Box
+              onClick={() => handleNavigateDetail(item._id)}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                padding: 2,
+                boxShadow: "0px 4px 8px rgba(38, 38, 38, 0.2)",
+                borderRadius: 4,
+                maxWidth: 350,
+                margin: "auto",
+                cursor: "pointer",
+                transition: "all 0.3s ease-in-out",
+                filter: "brightness(100%)",
+                position: "relative", // add position relative
+                "&::before": {
+                  // create a pseudo-element before the box
+                  content: '""',
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: "8%", // adjust the height of the gradient
+                  background: "linear-gradient(to bottom, #4580F0, #005bea)", // add the gradient colors
+                  opacity: 0.9,
+                  borderRadius: ["4px 4px 0px 0px", "4px 4px 0px 0px"],
+                },
+                "&:hover": {
+                  transform: "scale(1.05)",
+                  filter: "brightness(120%)",
+                },
+              }}
+            >
               <Box
-                onClick={() => handleNavigateDetail(item._id)}
                 sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  padding: 2,
-                  boxShadow: "0px 4px 8px rgba(38, 38, 38, 0.2)",
-                  borderRadius: 4,
-                  maxWidth: 350,
-                  margin: "auto",
-                  cursor: "pointer",
-                  transition: "all 0.3s ease-in-out",
-                  filter: "brightness(100%)",
-                  position: "relative", // add position relative
-                  "&::before": {
-                    // create a pseudo-element before the box
-                    content: '""',
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    height: "8%", // adjust the height of the gradient
-                    background: "linear-gradient(to bottom, #4580F0, #005bea)", // add the gradient colors
-                    opacity: 0.9,
-                    borderRadius: ["4px 4px 0px 0px", "4px 4px 0px 0px"],
-                  },
-                  "&:hover": {
-                    transform: "scale(1.05)",
-                    filter: "brightness(120%)",
-                  },
+                  marginRight: 2,
                 }}
               >
-                <Box
-                  sx={{
-                    marginRight: 2,
-                  }}
-                >
-                  <img
-                    width={64}
-                    height={64}
-                    style={{ borderRadius: "50%" }}
-                    src={item.profilImage}
-                  />
-                </Box>
-                <Box>
-                  <Typography variant="h6">
-                    {item.firstName} {item.lastName}
-                  </Typography>
-                  <Typography variant="subtitle2">{item.email}</Typography>
-                </Box>
-              </Box>{" "}
-            </Grid>
-          )
-        )}
+                <img
+                  width={64}
+                  height={64}
+                  style={{ borderRadius: "50%" }}
+                  src={item.profilImage}
+                />
+              </Box>
+              <Box>
+                <Typography variant="h6">
+                  {item.firstName} {item.lastName}
+                </Typography>
+                <Typography variant="subtitle2">{item.email}</Typography>
+              </Box>
+            </Box>{" "}
+          </Grid>
+        ))}
       </Grid>
       <Box sx={{ position: "sticky", bottom: 0, background: "white" }}>
         <Stack
