@@ -28,7 +28,7 @@ describe("CRUD EVENT", () => {
   describe("CRUD PFA WITH CONNEXION", () => {
     beforeEach(() => {
       cy.connect_as_teacher().then((resp) => {
-        token = `Bearer ${resp.body.data.token}`;
+        token = `Bearer ${resp}`;
         console.log(token);
       });
       cy.fixture("pfa.json").then((data) => {
