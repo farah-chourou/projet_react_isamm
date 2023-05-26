@@ -51,13 +51,6 @@ describe("Pfa page", () => {
     cy.getByData("modal").should("not.exist");
   });
 
-  //   it("View Details Event ", () => {
-  //     cy.getByData("table").should("contain", eventData.location);
-  //     cy.get(`[data-test="viewButton-${eventData.eventName}"]`).click();
-  //     cy.location("pathname").should("contain", "/GestionDesEvenement/details");
-  //     cy.contains(eventData.eventName).should("be.visible");
-  //   });
-
   it("Delete pfa Successfully", () => {
     cy.contains(pfaData.title).should("exist");
     cy.getByData("deletepfaButton").last().click();

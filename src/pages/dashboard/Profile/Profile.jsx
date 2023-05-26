@@ -169,6 +169,7 @@ function Profile() {
             autoFocus
             variant="outlined"
             onClick={() => openPopup("show", user)}
+            data-test="showcv"
           >
             Afficher Cv
           </Button>

@@ -85,6 +85,21 @@ Cypress.Commands.add("connect_as_student", () => {
   });
 });
 
+Cypress.Commands.add("connect_as_student_diplomed", () => {
+  cy.request({
+    method: "POST",
+    url: Cypress.env("urlBackend") + "/user/login",
+    body: {
+      userName: "11223344",
+      password: "11223344",
+    },
+  }).then((resp) => {
+    console.log(resp);
+    window.localStorage.setItem("isamm_token", resp.body.data.token);
+    window.localStorage.setItem("isamm_ref_token", resp.body.data.refreshToken);
+  });
+});
+
 Cypress.Commands.add("connect_as_aluminie", () => {
   cy.request({
     method: "POST",
