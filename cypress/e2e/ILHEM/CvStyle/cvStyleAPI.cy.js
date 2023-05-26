@@ -3,7 +3,7 @@ describe("Get CV", () => {
   let token;
   beforeEach(() => {
     cy.connect_as_student().then((resp) => {
-      token = `Bearer ${resp.body.data.token}`;
+      token = `Bearer ${resp}`;
       console.log(token);
     });
   });
