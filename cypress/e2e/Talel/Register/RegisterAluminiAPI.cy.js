@@ -11,7 +11,7 @@ describe("RegisterAluminie API", () => {
       password: "password123",
       firstName: "Alimini1",
       lastName: "test",
-      phoneNumber: "1234567890",
+      phoneNumber: (Math.random(99)*100000000).toFixed(0),
       sex: "MEN",
       birthDate: "1990-01-01",
       promotion: "2022-2023",
