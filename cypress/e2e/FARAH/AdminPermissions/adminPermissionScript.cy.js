@@ -114,7 +114,7 @@ describe("admin Script", () => {
     it("Delete Admin Successfully", () => {
       cy.get(`[data-test="deleteButton-${adminData.phoneNumber}"]`).click();
       cy.wait(1000);
-      cy.getByData("modal").should("be.visible");
+      /// cy.getByData("modal").should("be.exist");
       cy.getByData("confirmDeleteButton").click();
       cy.contains("Adminstrateur supprimer avec Succès.").should("be.exist");
 

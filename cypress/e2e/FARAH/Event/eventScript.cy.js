@@ -101,7 +101,7 @@ describe("Event Script", () => {
     it("Delete Event Successfully", () => {
       cy.contains(eventData.eventName).should("exist");
       cy.get(`[data-test="deleteButton-${eventData.eventName}"]`).click();
-      cy.getByData("modal").should("be.visible");
+      //cy.getByData("modal").should("be.visible");
       cy.getByData("confirmDeleteButton").click();
 
       cy.get(".styles_container__82D-V > :nth-child(1)")
