@@ -1,33 +1,39 @@
-describe("RecruitmentScreen", () => {
+
+
+  describe("RecruitmentScreen", () => {
     beforeEach(() => {
-        cy.clearToken();
-        cy.connect_as_superadmin();
-      cy.visit("/dash/RecrutementForm");
-    });
- 
-    it("should create a recruitment request", () => {
-        cy.intercept("POST", "/api/recruitment", { // Replace with your API endpoint
-          statusCode: 200,
-          body: {
-            // Mock response body
-            message: "Recruitment request created successfully",
-          },
-        }).as("createRecruitmentRequest");
-      
-      
-        cy.get("select[data-cy='type-select']").select("Expert");
-        cy.get("select[data-cy='type-select']").should("have.value", "Expert");
-
-
-        cy.get('[data-cy="skills-input"]').type("Skill 1{enter}"); // Add a skill
-        cy.get('[data-cy="description-input"]').type("This is a recruitment request description"); // Add a description
-        cy.get('[data-cy="submit-button"]').click(); // Submit the form
-      
-        cy.wait("@createRecruitmentRequest").then(() => {
-          // Assert on the success message or any other expected behavior
-          cy.contains("Recruitment request created successfully");
-        });
+      cy.clearToken();
+      cy.connect_as_aluminie();
+    cy.visit("/dash/RecrutementForm");
       });
+  
+
       
+      it("should submit the form for temporary  with valid data", () => {
+        // Fill in the form fields without adding any skills
+        cy.getByData("selectType").click();
+        cy.getByData('Temporary')
+        .click();
+        cy.getByData('compt').type("React js{enter} Node Js{enter} Cypress{enter}");
+        cy.get("#description").type("Full Stack js expert applying for vacation");
+      
+        // Submit the form
+        cy.get("form").submit();
+      
+        // Assert that the error message is displayed (replace with your own assertions)
+      });
+      it("should submit the form for Expert  with valid data", () => {
+        // Fill in the form fields without adding any skills
+        cy.getByData("selectType").click();
+        cy.getByData('Expert')
+        .click();
+        cy.getByData('compt').type("React js{enter} Node Js{enter} Cypress{enter}");
+        cy.get("#description").type("Full Stack js expert applying for expert contract");
+      
+        // Submit the form
+        cy.get("form").submit();
+      
+        // Assert that the error message is displayed (replace with your own assertions)
+      });
   });
   
