@@ -106,6 +106,7 @@ describe("teacher Script", () => {
 
     it("Delete Teacher Successfully", () => {
       cy.get(`[data-test="deleteButton-${teacherData.phoneNumber}"]`).click();
+      cy.wait(1000);
       cy.getByData("modal").should("be.visible");
       cy.getByData("confirmDeleteButton").click();
       cy.contains("Enseignant supprimer avec Succès.").should("be.exist");
