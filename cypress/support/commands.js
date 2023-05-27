@@ -37,6 +37,23 @@ Cypress.Commands.add("connect_as_superadmin", () => {
   });
 });
 
+Cypress.Commands.add("connect_as_alumini", () => {
+  cy.clearToken();
+  cy.request({
+    method: "POST",
+    url: Cypress.env("urlBackend") + "/user/login",
+    body: {
+      userName: "50635155",
+      password: "50635155",
+    },
+  }).then((resp) => {
+    console.log(resp.body.data.token);
+    window.localStorage.setItem("isamm_token", resp.body.data.token);
+    window.localStorage.setItem("isamm_ref_token", resp.body.data.refreshToken);
+    return resp.body.data.token;
+  });
+});
+
 Cypress.Commands.add("connect_as_admin", () => {
   cy.request({
     method: "POST",
@@ -105,8 +122,8 @@ Cypress.Commands.add("connect_as_aluminie", () => {
     method: "POST",
     url: Cypress.env("urlBackend") + "/user/login",
     body: {
-      userName: "58217570",
-      password: "58217570",
+      userName: "50635155",
+      password: "50635155",
     },
   }).then((resp) => {
     console.log(resp);
@@ -165,3 +182,25 @@ Cypress.Commands.add(
     cy.wrap(subject).type(formattedDate);
   }
 );
+
+
+Cypress.Commands.add("typeDateFormat", 
+/* { prevSubject: "element" }, (subject, date) => {
+  const formattedDate = Cypress.moment(date).format("DD/MM/YYYY");
+  cy.wrap(subject).type(formattedDate);
+} */
+{ prevSubject: "element" },
+  (subject, date) => {
+    const formattedDate = format(new Date(date), "dd/MM/yyyy");
+    cy.wrap(subject).type(formattedDate);
+  }
+
+
+);
+
+Cypress.Commands.add("selectYearInDatePicker", { prevSubject: "element" }, (subject, year) => {
+  cy.wrap(subject).click(); // Click on the date picker to open it
+  cy.get(".MuiYearCalendar-root").contains(year).click(); // Find and click the desired year
+});
+
+

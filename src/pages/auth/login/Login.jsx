@@ -86,6 +86,7 @@ function Login() {
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CustomizedDialogs
           open={showPopup}
+          data-testId="popup-validation"
           title={"ACOUNT VALIDATION PENDING"}
           children={
             <Grid container justifyContent={"center"} direction={"column"}>

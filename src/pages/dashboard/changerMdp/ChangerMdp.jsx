@@ -37,7 +37,7 @@ export default function ChangePwd() {
       if (logout) {
         setUser(null);
       } else {
-        setUser(user);
+       // setUser(user);
       }
     };
     const fail = (error) => {};

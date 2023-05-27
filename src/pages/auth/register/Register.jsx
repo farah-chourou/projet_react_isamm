@@ -63,6 +63,8 @@ function Register() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     if (data.get("email") == "") setErrorEmail(true);
+    if(selectedDiplome==null)setErrorDip(true);
+    if(promotion==null||promotion=="")setErrorProm(true);
     if (isEmail(data.get("email"))) setFormatEmail(true);
     /* if(data.get("password")=="")
     setErrorPwd(true) */
@@ -74,11 +76,11 @@ function Register() {
     if (data.get("firstName") == "") setErrorNom(true);
     if (data.get("lastName") == "") setErrorPreNom(true);
     if (data.get("Ntel") == "") setErrorNtel(true);
-
+  if(dateNaissance==null)setErrorDateNaiss(true)
     //if all data is valid
     if(!errorDateNaiss&&!errorDip&&!errorEmail&&
       !errorNom&&!errorPreNom&&!errorNtel&&!errorPwd
-      &&!errorProm
+      &&!errorProm&&dateNaissance!=null
       )
     {
       const succ = (user) => {
@@ -142,9 +144,10 @@ function Register() {
   const [errorDip, setErrorDip] = useState(false);
   const [errorProm, setErrorProm] = useState(false);
   const [errorDateNaiss, setErrorDateNaiss] = useState(false);
-  const [dateNaissance, setDateNaissance] = useState(new Date());
+  const [dateNaissance, setDateNaissance] = useState(null);
   const [promotion, setPromotion] = useState("");
   const [verifyPwdError, setVerifyPwdError] = useState("");
+  const [selectedDiplome, setSelectedDiplome] = useState(null);
 
   return (
     <ThemeProvider theme={theme}>
@@ -270,7 +273,7 @@ function Register() {
                      //value={dateNaissance}
                     />
                   </LocalizationProvider>
-                  {errorDateNaiss && (
+                  {errorDateNaiss==true && (
                     <FormHelperText>{"Sélectionner Date Naissancee"}</FormHelperText>
                   )}
                 </Grid>
@@ -280,15 +283,18 @@ function Register() {
                     select
                     name="diplome"
                     label="Diplome"
-                    defaultValue={diplomes[0].value}
+                    defaultValue={"_________________________"}
                     //helperText="Please select your currency"
                     error={errorDip}
-                    helperText={errorDip ? "Sélectionner diplome." : ""}
+                    helperText={errorDip||selectedDiplome==null ? "Sélectionner diplome." : ""}
+                    sx={{ width: 300 }} 
+                    data-testid="diplome-field" // Add data-testid attribute
+
                   >
                     {diplomes.map((option) => (
                       <MenuItem
-                        //onClick={setSelectedDiplome(option.value)}
-                        key={option.value}
+                      onClick={() => setSelectedDiplome(option.value)} // Use a callback function here
+                      key={option.value}
                         value={option.value}
                       >
                         {option.value}
@@ -298,7 +304,8 @@ function Register() {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <LocalizationProvider 
+                   dateAdapter={AdapterDayjs}>
                     <DatePicker
                       onChange={(e) => {
                         console.log(`${e.$y}-${e.$y + 1}`);
@@ -306,6 +313,8 @@ function Register() {
                       }}
                       label="Promotion"
                       views={["year"]}
+                      data-testid="promotion-datepicker" // Add data-testid attribute
+
                     />
                   </LocalizationProvider>
                   {errorProm && (

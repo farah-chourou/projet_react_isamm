@@ -97,6 +97,7 @@ const RecruitmentScreen = () => {
                 <FormControl fullWidth>
                   <InputLabel id="type-label">Type</InputLabel>
                   <Select
+                    data-test="selectType"
                     labelId="type-label"
                     id="type"
                     name="type"
@@ -107,8 +108,13 @@ const RecruitmentScreen = () => {
                         "data-cy": "type-select", // Add data-cy attribute
                       }}
                   >
-                    <MenuItem value="Temporary">Temporaire</MenuItem>
-                    <MenuItem value="Expert">Expert</MenuItem>
+                    <MenuItem value="Temporary" 
+                    data-test="Temporary"
+                    >Temporaire</MenuItem>
+                    <MenuItem value="Expert"
+                       data-test="Expert"
+
+                    >Expert</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
@@ -142,6 +148,7 @@ const RecruitmentScreen = () => {
                   renderInput={(params) => (
                     <TextField
                       {...params}
+                      data-test="compt"
                       placeholder="Entrez une compétence et appuyez sur Entrée"
                  
                     />
